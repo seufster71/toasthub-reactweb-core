@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-const Link = ({name, label, onChange, linkClass}) => {
+const Link = ({name, label, onClick, linkClass}) => {
   let linkClassImpl = "";
   if (linkClass != null) {
     linkClassImpl = linkClass;
@@ -11,7 +11,7 @@ const Link = ({name, label, onChange, linkClass}) => {
     <div className="form-group">
       <div className="col-lg-12">
         <div className="text-center">
-          <a className={linkClassImpl}>{label}</a>
+          <a className={linkClassImpl} onClick={onClick} >{label}</a>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@ const Link = ({name, label, onChange, linkClass}) => {
 Link.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
-  onChange: PropTypes.func,
+  onClick: PropTypes.func,
   linkClass: PropTypes.string
 };
 

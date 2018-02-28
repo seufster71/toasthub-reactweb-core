@@ -8,9 +8,7 @@ const Button = ({name, value, onClick, className}) => {
   }
 
   return (
-    <div className={wrapperClass}>
-        <input type="submit" name={name} id={name} className={className} value={value} onClick={onClick}/>
-    </div>
+    <input type="submit" name={name} id={name} className={className} value={value} onClick={onClick}/>
   );
 };
 

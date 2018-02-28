@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 
-class StatusContainer extends Component {
+class StatusView extends Component {
     constructor(props) {
       super(props);
     }
@@ -17,16 +17,25 @@ class StatusContainer extends Component {
       let items = [];
       if (this.props.error != null ) {
         for (let i = 0; i < this.props.error.length; i++) {
-          items.push(<div className="alert alert-danger" role="alert">
+          items.push(<div key={'error'+i} className="alert alert-danger" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"/>
             <span className="sr-only">Error:</span>
             {this.props.error[i].message}
             </div>);
         }
-      } else if (this.props.info != null) {
-        items.push(<div>Got info</div>);
-      } else if (this.props.warn != null) {
-        items.push(<div>Got warn</div>);
+      } else {
+        if (this.props.info != null) {
+          for (let i = 0; i < this.props.info.length; i++) {
+            items.push(<div key={'info-'+i} id={'info-'+i} className="alert alert-success" role="alert">
+              {this.props.info[i].message}</div>);
+          }
+        }
+        if (this.props.warn != null) {
+          for (let i = 0; i < this.props.warn.length; i++) {
+            items.push(<div key={'warn-'+i} id={'warn-'+i} className="alert alert-warning" role="alert">
+              {this.props.warn[i].message}</div>);
+          }
+        }
       }
       return (
         <div> {items} </div>
@@ -36,7 +45,7 @@ class StatusContainer extends Component {
 
 }
 
-StatusContainer.propTypes = {
+StatusView.propTypes = {
   appGlobal: PropTypes.object,
   error: PropTypes.array,
   info: PropTypes.array,
@@ -49,4 +58,4 @@ function mapStateToProps(state, ownProps) {
 }
 
 
-export default connect(mapStateToProps)(StatusContainer);
+export default connect(mapStateToProps)(StatusView);

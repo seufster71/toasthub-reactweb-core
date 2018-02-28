@@ -6,19 +6,26 @@ import CheckBox from '../common/CheckBox';
 import Link from '../common/Link';
 import PasswordMeter from '../common/PasswordMeter';
 
-export default function Login({view, errorMap, loginFields, loginTexts, loginLabels, onChangeLogin,
-  registrationFields, registrationTexts, registrationLabels, onChangeRegistration, fieldChangeEvent,
+export default function Login({view, errorMap, fields, texts, labels, onChangeLogin,
+  onChangeRegistration, fieldChangeEvent, onForgotPassword,
   fieldBlurEvent, buttonClick}) {
 
   let items = [];
+  let headers = [];
   let formId = "login-form";
   let loginActive = "";
   let regActive = "";
+  let forgotActive = "";
+  let loginTexts = texts.LOGIN_FORM;
+  let registrationTexts = texts.REGISTRATION_FORM;
+  let forgotTexts = texts.FORGOTPASSWORD_FORM;
   if (view === 'login') {
     loginActive = "active";
     // LOGIN_FORM
     // fields
-    for (var i = 0; i < loginFields.length; i++) {
+    let loginFields = fields.LOGIN_FORM;
+    let loginLabels = labels.LOGIN_FORM;
+    for (let i = 0; i < loginFields.length; i++) {
       if (loginFields[i].fieldType === "TXT") {
         items.push(<TextInput
           key={'LOGIN_FORM-'+loginFields[i].name}
@@ -30,7 +37,7 @@ export default function Login({view, errorMap, loginFields, loginTexts, loginLab
       }
     }
     // buttons
-    for (var l = 0; l < loginLabels.length; l++) {
+    for (let l = 0; l < loginLabels.length; l++) {
       if (loginLabels[l].rendered) {
         items.push(<Button
           key={loginLabels[l].name}
@@ -41,19 +48,59 @@ export default function Login({view, errorMap, loginFields, loginTexts, loginLab
           className="form-control"/>);
       }
     }
+
     // Forgot Password
     items.push(<Link
       key={loginTexts.LOGIN_FORM_FORGOT_PASSWORD.name}
       id={loginTexts.LOGIN_FORM_FORGOT_PASSWORD.name}
       name={loginTexts.LOGIN_FORM_FORGOT_PASSWORD.name}
-      label={loginTexts.LOGIN_FORM_FORGOT_PASSWORD.value}/>);
+      label={loginTexts.LOGIN_FORM_FORGOT_PASSWORD.value}
+      onClick={onForgotPassword}/>);
 
+    headers.push(<div key={loginTexts.LOGIN_FORM_HEADER.name} className="col-xs-6"><a href="#" className={loginActive} onClick={onChangeLogin} id={loginTexts.LOGIN_FORM_HEADER.name}>{loginTexts.LOGIN_FORM_HEADER.value}</a></div>);
+    headers.push(<div key={registrationTexts.REGISTRATION_FORM_HEADER.name} className="col-xs-6"><a href="#" className={regActive} onClick={onChangeRegistration}  id={registrationTexts.REGISTRATION_FORM_HEADER.name}>{registrationTexts.REGISTRATION_FORM_HEADER.value}</a></div>);
+  } else if (view === 'forgotPassword') {
+    // FORGOT_PASSWORD_FORM
+    forgotActive = "active";
+    // fields test
+    let forgotFields = fields.FORGOTPASSWORD_FORM;
+    let forgotLabels = labels.FORGOTPASSWORD_FORM;
+    if (forgotFields != null && forgotLabels != null) {
+      for (let i = 0; i < forgotFields.length; i++) {
+        if (forgotFields[i].fieldType === "TXT") {
+          items.push(<TextInput
+            key={'FORGOTPASSWORD_FORM-'+forgotFields[i].name}
+            id={'FORGOTPASSWORD_FORM-'+forgotFields[i].name}
+            name={'FORGOTPASSWORD_FORM-'+forgotFields[i].name}
+            placeHolder={forgotFields[i].label}
+            inputType={forgotFields[i].htmlType}
+            onBlur={fieldBlurEvent}/>);
+        }
+      }
+      // buttons
+      for (let l = 0; l < forgotLabels.length; l++) {
+        if (forgotLabels[l].rendered) {
+          items.push(<Button
+            key={forgotLabels[l].name}
+            id={forgotLabels[l].name}
+            name={forgotLabels[l].name}
+            value={forgotLabels[l].value}
+            onClick={buttonClick}
+            className="form-control"/>);
+        }
+      }
+    }
+    headers.push(<div key={loginTexts.LOGIN_FORM_HEADER.name} className="col-xs-6"><a href="#" className={loginActive} onClick={onChangeLogin} id={loginTexts.LOGIN_FORM_HEADER.name}>{loginTexts.LOGIN_FORM_HEADER.value}</a></div>);
+    headers.push(<div key={forgotTexts.FORGOTPASSWORD_FORM_HEADER.name} className="col-xs-6"><a href="#" className={forgotActive} onClick={onChangeLogin} id={forgotTexts.FORGOTPASSWORD_FORM_HEADER.name}>{forgotTexts.FORGOTPASSWORD_FORM_HEADER.value}</a></div>);
   } else {
     // REGISTRATION_FORM
     // fields
     regActive = "active";
     formId = "registration-form";
-    for (var f = 0; f < registrationFields.length; f++) {
+    let registrationFields = fields.REGISTRATION_FORM;
+
+    let registrationLabels = labels.REGISTRATION_FORM;
+    for (let f = 0; f < registrationFields.length; f++) {
       if (registrationFields[f].fieldType === "TXT") {
         items.push(<TextInput
           key={'REGISTRATION_FORM-'+registrationFields[f].name}
@@ -106,7 +153,7 @@ export default function Login({view, errorMap, loginFields, loginTexts, loginLab
       }
     }
     // buttons
-    for (var g = 0; g < registrationLabels.length; g++) {
+    for (let g = 0; g < registrationLabels.length; g++) {
       if (registrationLabels[g].rendered) {
         items.push(<Button
           key={registrationLabels[g].name}
@@ -117,6 +164,9 @@ export default function Login({view, errorMap, loginFields, loginTexts, loginLab
           className="form-control"/>);
       }
     }
+    headers.push(<div key={loginTexts.LOGIN_FORM_HEADER.name} className="col-xs-6"><a href="#" className={loginActive} onClick={onChangeLogin} id={loginTexts.LOGIN_FORM_HEADER.name}>{loginTexts.LOGIN_FORM_HEADER.value}</a></div>);
+    headers.push(<div key={registrationTexts.REGISTRATION_FORM_HEADER.name} className="col-xs-6"><a href="#" className={regActive} onClick={onChangeRegistration}  id={registrationTexts.REGISTRATION_FORM_HEADER.name}>{registrationTexts.REGISTRATION_FORM_HEADER.value}</a></div>);
+
   }
 
   return (
@@ -127,8 +177,7 @@ export default function Login({view, errorMap, loginFields, loginTexts, loginLab
             <div className="panel panel-login">
               <div className="panel-heading">
                 <div className="row">
-                  <div className="col-xs-6"><a href="#" className={loginActive} onClick={onChangeLogin} id={loginTexts.LOGIN_FORM_HEADER.name}>{loginTexts.LOGIN_FORM_HEADER.value}</a></div>
-                  <div className="col-xs-6"><a href="#" className={regActive} onClick={onChangeRegistration} id="Reg-link">Registration</a></div>
+                  {headers}
                 </div>
               </div>
             </div>
@@ -136,10 +185,9 @@ export default function Login({view, errorMap, loginFields, loginTexts, loginLab
             <div className="panel-body panel-body-login">
               <div className="row">
                 <div className="col-lg-12">
-                  <div id={formId} >
+                  <form id={formId} >
                     {items}
-
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -154,14 +202,12 @@ export default function Login({view, errorMap, loginFields, loginTexts, loginLab
 Login.propTypes = {
   view: PropTypes.string.isRequired,
   errorMap: PropTypes.object,
-	loginFields: PropTypes.array.isRequired,
-  loginTexts: PropTypes.object,
-  loginLabels: PropTypes.array,
-  registrationFields: PropTypes.array.isRequired,
-  registrationTexts: PropTypes.object,
-  registrationLabels: PropTypes.array,
+	fields: PropTypes.object.isRequired,
+  texts: PropTypes.object,
+  labels: PropTypes.object,
   onChangeLogin: PropTypes.func,
   onChangeRegistration: PropTypes.func,
+  onForgotPassword: PropTypes.func,
   fieldChangeEvent: PropTypes.func,
   fieldBlurEvent: PropTypes.func,
   buttonClick: PropTypes.func
