@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-//hectors note: trying something headerName
-// import { Navbar, Nav, NavItem } from "react-bootstrap";
+//hectors note: making the menu work when collapsed
+import { Navbar, Nav, NavItem } from "react-bootstrap";
 
 export default function NavbarMenu(props) {
   let menuItems = [];
@@ -15,7 +15,8 @@ export default function NavbarMenu(props) {
       children = addSubMenu(menuRight[i].children);
     }
     menuItems.push(
-      <li key={menuRight[i].menuId}>
+      // <li key={menuRight[i].menuId}>
+      <NavItem key={menuRight[i].menuId}>
         <a
           id={menuRight[i].code}
           className="page-scroll"
@@ -25,18 +26,18 @@ export default function NavbarMenu(props) {
           {innerHTML}
         </a>
         {children}
-      </li>
+      </NavItem>
+      // /* </li> */
     );
   }
 
   return (
-    // <Nav id="bs-example-navbar-collapse-1">
-    //   <NavItem>{menuItems}</NavItem>
-    // </Nav>
-
-    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul className="nav navbar-nav navbar-right">{menuItems}</ul>
-    </div>
+    // <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    //   <ul className="nav navbar-nav navbar-right">{menuItems}</ul>
+    // </div>
+    <Navbar.Collapse>
+      <Nav pullRight>{menuItems}</Nav>
+    </Navbar.Collapse>
   );
 }
 
