@@ -16,18 +16,26 @@ export default function NavbarMenu(props) {
     }
     menuItems.push(
       // <li key={menuRight[i].menuId}>
-      <NavItem key={menuRight[i].menuId}>
-        <a
-          id={menuRight[i].code}
-          className="page-scroll"
-          href={"#" + menuRight[i].code}
-          onClick={props.navClick}
-        >
-          {innerHTML}
-        </a>
-        {children}
-      </NavItem>
+      //   <a
+      //     id={menuRight[i].code}
+      //     className="page-scroll"
+      //     href={"#" + menuRight[i].code}
+      //     onClick={props.navClick}
+      //   >
+      //     {innerHTML}
+      //   </a>
+      //   {children}
       // /* </li> */
+
+      <NavItem
+        key={menuRight[i].menuId}
+        id={menuRight[i].code}
+        className="page-scroll"
+        href={"#" + menuRight[i].code}
+        onClick={props.navClick}
+      >
+        {innerHTML}
+      </NavItem>
     );
   }
 
