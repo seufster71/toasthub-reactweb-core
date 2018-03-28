@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextInput from '../common/TextInput';
-import Button from '../common/Button';
-import CheckBox from '../common/CheckBox';
-import Link from '../common/Link';
-import PasswordMeter from '../common/PasswordMeter';
+import TextInput from '../common/text-input';
+import Button from '../common/button';
+import CheckBox from '../common/checkBox';
+import Link from '../common/link';
+import PasswordMeter from '../common/passwordMeter';
 
-export default function Login({view, errorMap, fields, texts, labels, onChangeLogin,
-  onChangeRegistration, fieldChangeEvent, onForgotPassword,
+export default function Login({currentState, fields, texts, labels, onChangeLogin,
+  onChangeRegistration, fieldChangeEvent, onForgotPassword, handleChange,
   fieldBlurEvent, buttonClick}) {
 
   let items = [];
@@ -19,7 +19,7 @@ export default function Login({view, errorMap, fields, texts, labels, onChangeLo
   let loginTexts = texts.LOGIN_FORM;
   let registrationTexts = texts.REGISTRATION_FORM;
   let forgotTexts = texts.FORGOTPASSWORD_FORM;
-  if (view === 'login') {
+  if (currentState.view === 'login') {
     loginActive = "active";
     // LOGIN_FORM
     // fields
@@ -33,7 +33,8 @@ export default function Login({view, errorMap, fields, texts, labels, onChangeLo
           name={'LOGIN_FORM-'+loginFields[i].name}
           placeHolder={loginFields[i].label}
           inputType={loginFields[i].htmlType}
-          onBlur={fieldBlurEvent}/>);
+          onChange={handleChange('LOGIN_FORM-'+loginFields[i].name)}
+          onBlur={fieldBlurEvent('LOGIN_FORM-'+loginFields[i].name)}/>);
       }
     }
     // buttons
@@ -44,7 +45,7 @@ export default function Login({view, errorMap, fields, texts, labels, onChangeLo
           id={loginLabels[l].name}
           name={loginLabels[l].name}
           value={loginLabels[l].value}
-          onClick={buttonClick}
+          onClick={buttonClick(loginLabels[l].name)}
           className="form-control"/>);
       }
     }
@@ -59,7 +60,7 @@ export default function Login({view, errorMap, fields, texts, labels, onChangeLo
 
     headers.push(<div key={loginTexts.LOGIN_FORM_HEADER.name} className="col-xs-6"><a href="#" className={loginActive} onClick={onChangeLogin} id={loginTexts.LOGIN_FORM_HEADER.name}>{loginTexts.LOGIN_FORM_HEADER.value}</a></div>);
     headers.push(<div key={registrationTexts.REGISTRATION_FORM_HEADER.name} className="col-xs-6"><a href="#" className={regActive} onClick={onChangeRegistration}  id={registrationTexts.REGISTRATION_FORM_HEADER.name}>{registrationTexts.REGISTRATION_FORM_HEADER.value}</a></div>);
-  } else if (view === 'forgotPassword') {
+  } else if (currentState.view === 'forgotPassword') {
     // FORGOT_PASSWORD_FORM
     forgotActive = "active";
     // fields test
@@ -108,29 +109,29 @@ export default function Login({view, errorMap, fields, texts, labels, onChangeLo
           name={'REGISTRATION_FORM-'+registrationFields[f].name}
           placeHolder={registrationFields[f].label}
           inputType={registrationFields[f].htmlType}
-          error={errorMap[registrationFields[f].name]}
+          error={currentState.errorMap[registrationFields[f].name]}
           onBlur={fieldBlurEvent}/>);
       }
       if (registrationFields[f].htmlType === "password") {
         if (registrationFields[f].optionalParams == null) {
           let alphaCheckCss = "text-success";
-          if (errorMap.REGISTRATION_FORM_ALPHA_CHECK != null && errorMap.REGISTRATION_FORM_ALPHA_CHECK === "ERROR"){
+          if (currentState.errorMap.REGISTRATION_FORM_ALPHA_CHECK != null && currentState.errorMap.REGISTRATION_FORM_ALPHA_CHECK === "ERROR"){
             alphaCheckCss = "text-danger";
           }
           let capitalCheckCss = "text-success";
-          if (errorMap.REGISTRATION_FORM_CAPITAL_CHECK != null && errorMap.REGISTRATION_FORM_CAPITAL_CHECK === "ERROR"){
+          if (currentState.errorMap.REGISTRATION_FORM_CAPITAL_CHECK != null && currentState.errorMap.REGISTRATION_FORM_CAPITAL_CHECK === "ERROR"){
             capitalCheckCss = "text-danger";
           }
           let numberCheckCss = "text-success";
-          if (errorMap.REGISTRATION_FORM_NUMBER_CHECK != null && errorMap.REGISTRATION_FORM_NUMBER_CHECK === "ERROR"){
+          if (currentState.errorMap.REGISTRATION_FORM_NUMBER_CHECK != null && currentState.errorMap.REGISTRATION_FORM_NUMBER_CHECK === "ERROR"){
             numberCheckCss = "text-danger";
           }
           let specialCheckCss = "text-success";
-          if (errorMap.REGISTRATION_FORM_SPECIAL_CHECK != null && errorMap.REGISTRATION_FORM_SPECIAL_CHECK === "ERROR"){
+          if (currentState.errorMap.REGISTRATION_FORM_SPECIAL_CHECK != null && currentState.errorMap.REGISTRATION_FORM_SPECIAL_CHECK === "ERROR"){
             specialCheckCss = "text-danger";
           }
           let countCheckCss = "text-success";
-          if (errorMap.REGISTRATION_FORM_COUNT_CHECK != null && errorMap.REGISTRATION_FORM_COUNT_CHECK === "ERROR"){
+          if (currentState.errorMap.REGISTRATION_FORM_COUNT_CHECK != null && currentState.errorMap.REGISTRATION_FORM_COUNT_CHECK === "ERROR"){
             countCheckCss = "text-danger";
           }
           // show password requirements
@@ -200,7 +201,7 @@ export default function Login({view, errorMap, fields, texts, labels, onChangeLo
 }
 
 Login.propTypes = {
-  view: PropTypes.string.isRequired,
+  currentState: PropTypes.object.isRequired,
   errorMap: PropTypes.object,
 	fields: PropTypes.object.isRequired,
   texts: PropTypes.object,
@@ -210,5 +211,6 @@ Login.propTypes = {
   onForgotPassword: PropTypes.func,
   fieldChangeEvent: PropTypes.func,
   fieldBlurEvent: PropTypes.func,
+  handleChange: PropTypes.func,
   buttonClick: PropTypes.func
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import NavbarHeader from "./NavbarHeader.js";
-import NavbarMenu from "./NavbarMenu.js";
+import NavbarHeader from "./navbar-header.js";
+import NavbarMenu from "./navbar-menu.js";
 //hectors note: making the menu work when collapsed
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 
