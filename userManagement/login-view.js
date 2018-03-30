@@ -75,7 +75,8 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
             name={'FORGOTPASSWORD_FORM-'+forgotFields[i].name}
             placeHolder={forgotFields[i].label}
             inputType={forgotFields[i].htmlType}
-            onBlur={fieldBlurEvent}/>);
+            onChange={handleChange('FORGOTPASSWORD_FORM-'+forgotFields[i].name)}
+            onBlur={fieldBlurEvent('FORGOTPASSWORD_FORM-'+forgotFields[i].name)}/>);
         }
       }
       // buttons
@@ -86,7 +87,7 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
             id={forgotLabels[l].name}
             name={forgotLabels[l].name}
             value={forgotLabels[l].value}
-            onClick={buttonClick}
+            onClick={buttonClick(forgotLabels[l].value)}
             className="form-control"/>);
         }
       }
@@ -110,7 +111,8 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
           placeHolder={registrationFields[f].label}
           inputType={registrationFields[f].htmlType}
           error={currentState.errorMap[registrationFields[f].name]}
-          onBlur={fieldBlurEvent}/>);
+          onChange={handleChange('REGISTRATION_FORM-'+registrationFields[f].name)}
+          onBlur={fieldBlurEvent('REGISTRATION_FORM-'+registrationFields[f].name)}/>);
       }
       if (registrationFields[f].htmlType === "password") {
         if (registrationFields[f].optionalParams == null) {
@@ -161,7 +163,7 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
           id={registrationLabels[g].name}
           name={registrationLabels[g].name}
           value={registrationLabels[g].value}
-          onClick={buttonClick}
+          onClick={buttonClick(registrationLabels[g].value)}
           className="form-control"/>);
       }
     }

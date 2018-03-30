@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import * as statusActions from '../../core/status/status-actions';
+import {bindActionCreators} from 'redux';
 
 import {connect} from 'react-redux';
 
@@ -7,12 +9,16 @@ import {connect} from 'react-redux';
 class StatusView extends Component {
     constructor(props) {
       super(props);
+      this.clearStatus = this.clearStatus.bind(this);
     }
 
     componentDidUpdate() {
       window.scrollTo(0,0);
     }
 
+    clearStatus() {
+      this.props.actions.clearStatus();
+    }
     render() {
       let items = [];
       if (this.props.error != null ) {
@@ -36,6 +42,9 @@ class StatusView extends Component {
               {this.props.warn[i].message}</div>);
           }
         }
+        if (this.props.warn != null || this.props.info != null) {
+          setTimeout(() => {this.clearStatus();},3000);
+        }
       }
       return (
         <div> {items} </div>
@@ -50,12 +59,16 @@ StatusView.propTypes = {
   error: PropTypes.array,
   info: PropTypes.array,
   warn: PropTypes.array,
-  lang: PropTypes.string
+  lang: PropTypes.string,
+  actions: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
   return {lang:state.appPrefs.lang, appGlobal:state.appPrefs.appGlobal, error:state.status.error, info:state.status.info, warn:state.status.warn};
 }
 
+function mapDispatchToProps(dispatch) {
+  return { actions:bindActionCreators(statusActions,dispatch) };
+}
 
-export default connect(mapStateToProps)(StatusView);
+export default connect(mapStateToProps,mapDispatchToProps)(StatusView);
