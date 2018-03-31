@@ -2,41 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import NavbarHeader from "./navbar-header.js";
 import NavbarMenu from "./navbar-menu.js";
-//hectors note: making the menu work when collapsed
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 
-export default function Navigation(props) {
+export default function NavigationView(props) {
+  //className="navbar navbar-Public navbar-custom navbar-fixed-top affix"
   return (
-    // <nav
-    //   id="mainNav"
-    //   className="navbar navbar-Public navbar-custom navbar-fixed-top affix"
-    // >
-    //   <div className="container">
-    //     <NavbarHeader headerName={props.appPrefs.headerName} />
-    //     <NavbarMenu
-    //       menus={props.menus}
-    //       menuName={props.menuName}
-    //       navClick={props.navClick}
-    //     />
-    //   </div>
-    // </nav>
-
-    <Navbar
-      inverse
-      collapseOnSelect
-      className="navbar navbar-Public navbar-custom navbar-fixed-top affix"
-    >
+    <Navbar inverse collapseOnSelect fixedTop >
       <NavbarHeader headerName={props.appPrefs.headerName} />
-      <NavbarMenu
-        menus={props.menus}
-        menuName={props.menuName}
-        navClick={props.navClick}
-      />
+      <NavbarMenu menus={props.menus} menuName={props.menuName} navClick={props.navClick} />
     </Navbar>
   );
 }
 
-Navigation.propTypes = {
+NavigationView.propTypes = {
   appPrefs: PropTypes.object.isRequired,
   menus: PropTypes.object.isRequired,
   menuName: PropTypes.string.isRequired,
