@@ -1,22 +1,65 @@
-import React from "react";
-import PropTypes from "prop-types";
-import NavbarHeader from "./navbar-header.js";
-import NavbarMenu from "./navbar-menu.js";
-import { Navbar, Nav, NavItem } from "react-bootstrap";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
+import { IndexLinkContainer, LinkContainer } from "react-router-bootstrap";
+
 
 export default function NavigationView(props) {
-  //className="navbar navbar-Public navbar-custom navbar-fixed-top affix"
-  return (
-    <Navbar inverse collapseOnSelect fixedTop >
-      <NavbarHeader headerName={props.appPrefs.headerName} />
-      <NavbarMenu menus={props.menus} menuName={props.menuName} navClick={props.navClick} />
-    </Navbar>
-  );
+
+    let items = [];
+    let topMenus = props.menus;
+
+    if (topMenus != null) {
+      for (let m = 0; m < topMenus.length; m++) {
+        if (topMenus[m].values[0].rendered) {
+          let children = [];
+          if (topMenus[m].children != null) {
+            let childList = topMenus[m].children;
+            for (let c = 0; c < childList.length; c++) {
+              if (childList[c].values[0].rendered) {
+                children.push(
+                  <LinkContainer key={topMenus[m].code+"-"+childList[c].menuId} to={childList[c].values[0].href}>
+                   <MenuItem >{childList[c].values[0].value}</MenuItem>
+                  </LinkContainer>
+                );
+              }
+            }
+          }
+          if (children.length > 0) {
+            items.push(
+              <NavDropdown key={topMenus[m].menuId} title={<span><i className="fa fa-bars" /> <span className="navText">{topMenus[m].values[0].value}</span></span>} id={topMenus[m].code} >
+                {children}
+              </NavDropdown>
+            );
+          } else {
+            items.push(
+              <LinkContainer key={topMenus[m].menuId} to={topMenus[m].values[0].href}>
+                 <NavItem><i className="fa fa-bars" /><span className="navText"> {topMenus[m].values[0].value}</span>
+                 </NavItem>
+              </LinkContainer>
+            );
+          }
+        }
+      }
+    }
+    return (
+      <Navbar inverse collapseOnSelect fixedTop className="navbar-custom">
+        <Navbar.Header className="page-scroll">
+          <Navbar.Brand className="page-scroll">
+            <a href="#page-top" className="desktop-only">{props.appPrefs.headerName}</a>
+          </Navbar.Brand>
+        </Navbar.Header>
+        <Navbar>
+          <Nav pullRight>{items}</Nav>
+        </Navbar>
+      </Navbar>
+    );
 }
 
-NavigationView.propTypes = {
-  appPrefs: PropTypes.object.isRequired,
-  menus: PropTypes.object.isRequired,
-  menuName: PropTypes.string.isRequired,
-  navClick: PropTypes.func.isRequired
-};
+
+  NavigationView.propTypes = {
+    appPrefs: PropTypes.object,
+    menus: PropTypes.array,
+    activeTab: PropTypes.string,
+    changeTab: PropTypes.func
+  };
