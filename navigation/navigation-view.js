@@ -4,10 +4,10 @@ import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
 import { IndexLinkContainer, LinkContainer } from "react-router-bootstrap";
 
 
-export default function NavigationView(props) {
+export default function NavigationView({menus,appPrefs,activeTab,changeTab,backToTab}) {
 
     let items = [];
-    let topMenus = props.menus;
+    let topMenus = menus;
 
     if (topMenus != null) {
       for (let m = 0; m < topMenus.length; m++) {
@@ -42,11 +42,15 @@ export default function NavigationView(props) {
         }
       }
     }
+    let headerName = "Toasthub";
+    if (appPrefs != null && appPrefs.headerName != "") {
+      headerName = appPrefs.headerName;
+    }
     return (
       <Navbar inverse collapseOnSelect fixedTop className="navbar-custom">
         <Navbar.Header className="page-scroll">
           <Navbar.Brand className="page-scroll">
-            <a href="#page-top" className="desktop-only">{props.appPrefs.headerName}</a>
+            <a href="#page-top" className="desktop-only">{headerName}</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Navbar>
@@ -61,5 +65,6 @@ export default function NavigationView(props) {
     appPrefs: PropTypes.object,
     menus: PropTypes.array,
     activeTab: PropTypes.string,
-    changeTab: PropTypes.func
+    changeTab: PropTypes.func,
+    backToTab: PropTypes.string
   };
