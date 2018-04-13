@@ -2,15 +2,19 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
 import { IndexLinkContainer, LinkContainer } from "react-router-bootstrap";
+import utils from '../../core/common/utils';
 
 
-export default function NavigationView({menus,appPrefs,activeTab,changeTab,backToTab}) {
+export default function NavigationView({menus,appPrefs,permissions,activeTab,changeTab,backToTab}) {
 
     let items = [];
     let topMenus = menus;
 
     if (topMenus != null) {
       for (let m = 0; m < topMenus.length; m++) {
+        if (utils.hasPermission(permissions,topMenus[m].permissionCode)) {
+          continue;
+        }
         if (topMenus[m].values[0].rendered) {
           let children = [];
           if (topMenus[m].children != null) {
@@ -63,6 +67,7 @@ export default function NavigationView({menus,appPrefs,activeTab,changeTab,backT
 
   NavigationView.propTypes = {
     appPrefs: PropTypes.object,
+    permissions: PropTypes.object,
     menus: PropTypes.array,
     activeTab: PropTypes.string,
     changeTab: PropTypes.func,
