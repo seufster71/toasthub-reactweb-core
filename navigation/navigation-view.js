@@ -12,7 +12,7 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
 
     if (topMenus != null) {
       for (let m = 0; m < topMenus.length; m++) {
-        if (utils.hasPermission(permissions,topMenus[m].permissionCode)) {
+        if (!utils.hasPermission(permissions,topMenus[m].permissionCode)) {
           continue;
         }
         if (topMenus[m].values[0].rendered) {
