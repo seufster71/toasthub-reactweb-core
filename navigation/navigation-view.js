@@ -12,7 +12,7 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
 
     if (topMenus != null) {
       for (let m = 0; m < topMenus.length; m++) {
-        if (!utils.hasPermission(permissions,topMenus[m].permissionCode)) {
+        if (permissions != null && !utils.hasPermission(permissions,topMenus[m].permissionCode,"R")) {
           continue;
         }
         if (topMenus[m].values[0].rendered) {
@@ -20,6 +20,9 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
           if (topMenus[m].children != null) {
             let childList = topMenus[m].children;
             for (let c = 0; c < childList.length; c++) {
+              if (permissions != null && !utils.hasPermission(permissions,childList[c].permissionCode,"R")) {
+                continue;
+              }
               if (childList[c].values[0].rendered) {
                 children.push(
                   <LinkContainer key={topMenus[m].code+"-"+childList[c].menuId} to={childList[c].values[0].href}>
