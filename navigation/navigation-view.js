@@ -58,15 +58,13 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
       headerName = appPrefs.headerName;
     }
     return (
-      <Navbar collapseOnSelect fixedTop className="navbar-custom">
+      <Navbar collapseOnSelect fixedTop fluid className="navbar-custom">
         <Navbar.Header className="page-scroll">
           <Navbar.Brand className="page-scroll">
             <a href="#page-top" className="desktop-only">{headerName}</a>
           </Navbar.Brand>
         </Navbar.Header>
-        <Navbar>
-          <Nav pullRight>{items}</Nav>
-        </Navbar>
+        <Nav pullRight>{items}</Nav>
       </Navbar>
     );
 }
