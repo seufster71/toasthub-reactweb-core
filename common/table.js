@@ -28,6 +28,10 @@ const Table = ({items, columns, onClick}) => {
             value = items[i][opt.field];
           } else if (opt.fieldML != null) {
             value = items[i][opt.fieldML].defaultText;
+          } else if (opt.fieldBool != null) {
+            if (items[i][opt.fieldBool] == true) {
+              value = "Active";
+            }
           }
           cells.push(
             <td key={columns[c].id}>{value}</td>
