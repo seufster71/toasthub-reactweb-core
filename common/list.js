@@ -4,15 +4,16 @@ import ShowEntries from './show-entries';
 import Search from './search';
 import Pagination from './pagination';
 
-const Table = ({containerState, header, items, itemCount, columns, appPrefs, pageStart, pageLimit,
+const List = ({containerState, header, items, itemCount, columns, appPrefs, pageStart, pageLimit,
   onPageLimitChange, onSearchClick, onSearchChange, onPaginationClick, onFilterClick}) => {
-  let tableHeader = "";
-  let tableRows = [];
+  let listRows = [];
+  let children = true;
 
   if (columns != null && columns.length > 0) {
-    let tableHeaders = [];
-    //  tableHeaders.push(<th key={0} scope="col">#</th>);
-
+    let headerCell = [];
+      if (children == true){
+        headerCell.push(<div key={0} scope="col"/>);
+      }
     for (let c = 0; c < columns.length; c++) {
       let sortOption = <i className="fa fa-unsorted" onClick={onFilterClick(columns[c].name)} />;
       if (containerState != null && containerState.orderCriteria != null) {
@@ -28,14 +29,14 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, pag
         }
       }
 
-      tableHeaders.push(<th key={columns[c].id} scope="col">{columns[c].value} {sortOption}</th>);
+      headerCell.push(<div key={columns[c].id} scope="col">{columns[c].value} {sortOption}</div>);
     }
-    tableHeader = <thead><tr>{tableHeaders}</tr></thead>;
+    listRows.push(<li>{headerCell}</li>);
   }
   if (items != null && items.length > 0) {
     for (let i = 0; i < items.length; i++) {
       let cells = [];
-      //cells.push(<th key={0} scope="row">{i + 1}</th>);
+      cells.push(<div key={0} scope="row"><i className="fa fa-chevron-right" onClick={onFilterClick(items[i].name)} /></div>);
       for (let c = 0; c < columns.length; c++) {
         if (columns[c].optionalParams != null) {
           let opt = JSON.parse(columns[c].optionalParams);
@@ -49,23 +50,17 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, pag
               value = "Active";
             }
           }
-          cells.push(
-            <td key={columns[c].id}>{value}</td>
-          );
+          cells.push(<div key={columns[c].id}>{value}</div>);
         } else {
-          cells.push(
-            <td key={columns[c].id}/>
-          );
+          cells.push(<div key={columns[c].id}/>);
         }
       }
-      tableRows.push(
-        <tr key={items[i].id} >{cells}</tr>
-      );
+      listRows.push(<li key={items[i].id} >{cells}</li>);
     }
   } else {
-    tableRows.push(<tr key="1"><td id={appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.name}> {appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.value}</td></tr>);
+    listRows.push(<li key="1"><div id={appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.name}> {appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.value}</div></li>);
   }
-  let tableBody = <tbody>{tableRows}</tbody>;
+
 
   return (
       <div className="col-md-12 col-sm-12 col-xs-12">
@@ -84,10 +79,9 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, pag
               <ShowEntries name={containerState.pageName+"_PAGELIMIT"} appPrefs={appPrefs} onPageLimitChange={onPageLimitChange}/>
               <Search name={containerState.pageName+"_SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
             </div>
-            <table className="table table-striped">
-              {tableHeader}
-              {tableBody}
-            </table>
+            <ul className="list-table table-striped">
+              {listRows}
+            </ul>
             <Pagination currentSegment={containerState[containerState.pageName+"_PAGINATION"]} appPrefs={appPrefs} itemCount={itemCount} pageStart={pageStart} pageLimit={pageLimit} onClick={onPaginationClick}/>
           </div>
         </div>
@@ -111,7 +105,7 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, pag
   );
 };
 
-Table.propTypes = {
+List.propTypes = {
   containerState: PropTypes.object,
   header: PropTypes.object,
   items: PropTypes.array,
@@ -127,4 +121,4 @@ Table.propTypes = {
   onFilterClick: PropTypes.func
 };
 
-export default Table;
+export default List;

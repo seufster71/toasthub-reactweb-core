@@ -16,7 +16,7 @@ const TextInput = ({name, label, onChange, onBlur, placeHolder, value, error, in
 
   return (
     <div className={wrapperClass}>
-      <input type={inputType} className="form-control" autoCapitalize="off" onChange={onChange} onBlur={onBlur} id={name} name={name} placeholder={placeHolder}/>
+      <input type={inputType} id={name} name={name} className="form-control" autoCapitalize="off" onChange={onChange} onBlur={onBlur}  placeholder={placeHolder}/>
       {errorFeedBack}
       {errorLabel}
     </div>
