@@ -11,20 +11,16 @@ const List = ({containerState, header, items, itemCount, columns, appPrefs, page
       <div className="col-md-12 col-sm-12 col-xs-12">
         <div className="x_panel">
           <div className="x_title">
-            {header.value}
+            {header}
             <ul className="navbar-right panel_toolbox">
               <li><a className="collapse-link"><i className="fa fa-filter" onClick={onFilterClick()}/></a>
               </li>
-              <li><a className="collapse-link"><i className="fa fa-wrench"/></a>
+              <li><a className="collapse-link"><i className="fa fa-plus"/></a>
               </li>
             </ul>
           </div>
           <div className="x_content">
-            <div className="row">
-              <ShowEntries name={containerState.pageName+"_PAGELIMIT"} appPrefs={appPrefs} onPageLimitChange={onPageLimitChange}/>
-              <Search name={containerState.pageName+"_SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
-            </div>
-            <ul className="list-group">
+            <ul className="list-group list-unstyled list-group-striped">
               {items}
             </ul>
             <Pagination currentSegment={containerState[containerState.pageName+"_PAGINATION"]} appPrefs={appPrefs} itemCount={itemCount} pageStart={pageStart} pageLimit={pageLimit} onClick={onPaginationClick}/>
