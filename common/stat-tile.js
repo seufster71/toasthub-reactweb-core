@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Charts from 'react-chartjs-2';
 
-const StatTile = ({value, desc, data, option, background}) => {
+const StatTile = ({value, desc, data, background}) => {
 
   let tileStyle = {
     display: 'flex',
@@ -14,6 +14,27 @@ const StatTile = ({value, desc, data, option, background}) => {
     tileStyle.background = background;
   }
 
+  let option = {
+    scales: {
+      xAxes: [{
+        display: false,
+        gridLines: {
+              display:false,
+          },
+      }],
+      yAxes: [{
+        display: false,
+        gridLines: {
+              display:false,
+          },
+      }]
+    },
+    legend: {
+          display: false
+       }
+  }
+
+  let type = 'bar';
 
   return (
     <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
@@ -24,7 +45,7 @@ const StatTile = ({value, desc, data, option, background}) => {
         </div>
         <div className="status-tile" style={{marginLeft: 'auto', marginTop: '10px', width:'50%'}}>
           <Charts
-            type= 'bar'
+            type= {type}
             data= {data}
             options={option}
            />
@@ -38,7 +59,7 @@ StatTile.propTypes = {
   value: PropTypes.string.isRequired,
   desc: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
-  option: PropTypes.object.isRequired
+  background: PropTypes.string,
 };
 
 export default StatTile;
