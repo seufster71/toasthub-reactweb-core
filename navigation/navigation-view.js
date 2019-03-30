@@ -5,7 +5,7 @@ import { IndexLinkContainer, LinkContainer } from "react-router-bootstrap";
 import utils from '../../core/common/utils';
 
 
-export default function NavigationView({menus,appPrefs,permissions,activeTab,changeTab,backToTab}) {
+export default function NavigationView({menus,appPrefs,permissions,activeTab,changeTab,backToTab,headerToolTip}) {
 
     let items = [];
     let topMenus = menus;
@@ -34,15 +34,18 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
           }
           if (children.length > 0) {
             items.push(
-              <NavDropdown key={topMenus[m].menuId} title={<span><img src="/img/hamburger_green.png" height="25" width="25"/> <span className="navText">{topMenus[m].values[0].value}</span></span>} id={topMenus[m].code} >
+              <NavDropdown key={topMenus[m].menuId} title={<span><img src="/img/hamburger_green.png" height="20" width="20"/> <span className="navText">{topMenus[m].values[0].value}</span></span>} id={topMenus[m].code} >
                 {children}
               </NavDropdown>
             );
           } else {
-            let image = <img src={"/img/"+topMenus[m].values[0].image+".png"} height="25" width="25" />;
-            if (activeTab === topMenus[m].values[0].href) {
-              image = <img src={"/img/"+topMenus[m].values[0].image+".png"} height="25" width="25" />;
-            }
+        	let image = "";
+          	if (topMenus[m].values[0].image != null) {
+  	            image = <img src={"/img/"+topMenus[m].values[0].image+"_outline.png"} height="20" width="20" />;
+  	            if (activeTab === topMenus[m].values[0].href) {
+  	              image = <img src={"/img/"+topMenus[m].values[0].image+".png"} height="25" width="25" />;
+  	            }
+  	        }
             items.push(
               <LinkContainer key={topMenus[m].menuId} to={topMenus[m].values[0].href}>
                  <NavItem>{image}<span className="navText"> {topMenus[m].values[0].value}</span>
@@ -53,15 +56,18 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
         }
       }
     }
-    let headerName = "Toasthub";
+    let headerName = "";
     if (appPrefs != null && appPrefs.headerName != "") {
       headerName = appPrefs.headerName;
+    }
+    if (headerToolTip == null || headerToolTip == "") {
+    	headerToolTip = "Environment undetermined";
     }
     return (
       <Navbar collapseOnSelect fixedTop fluid className="navbar-custom">
         <Navbar.Header className="page-scroll">
           <Navbar.Brand className="page-scroll">
-            <a href="#page-top" className="desktop-only">{headerName}</a>
+            <a href="#page-top" data-toggle="tooltip" data-placement="bottom" title={headerToolTip} className="desktop-only" >{headerName}</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav pullRight>{items}</Nav>
@@ -76,5 +82,6 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
     menus: PropTypes.array,
     activeTab: PropTypes.string,
     changeTab: PropTypes.func,
-    backToTab: PropTypes.string
+    backToTab: PropTypes.string,
+    headerToolTip: PropTypes.string
   };

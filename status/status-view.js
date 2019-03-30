@@ -26,28 +26,28 @@ class StatusView extends Component {
           items.push(<div key={'error'+i} className="alert alert-danger" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"/>
             <span className="sr-only">Error:</span>
-            {this.props.error[i].message}
+            {this.props.error[i]}
             </div>);
         }
       } else {
         if (this.props.info != null) {
           for (let i = 0; i < this.props.info.length; i++) {
             items.push(<div key={'info-'+i} id={'info-'+i} className="alert alert-success" role="alert">
-              {this.props.info[i].message}</div>);
+              {this.props.info[i]}</div>);
           }
         }
         if (this.props.warn != null) {
           for (let i = 0; i < this.props.warn.length; i++) {
             items.push(<div key={'warn-'+i} id={'warn-'+i} className="alert alert-warning" role="alert">
-              {this.props.warn[i].message}</div>);
+              {this.props.warn[i]}</div>);
           }
         }
         if (this.props.warn != null || this.props.info != null) {
-          setTimeout(() => {this.clearStatus();},3000);
+          setTimeout(() => {this.clearStatus();},5000);
         }
       }
       return (
-        <div> {items} </div>
+        <div className="toastHub-status"> {items} </div>
       );
 
     }

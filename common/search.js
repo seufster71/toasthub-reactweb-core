@@ -7,7 +7,7 @@ import Button from './button';
 const Search = ({name, label, onChange, onClick, onBlur, placeHolder, value, error, buttonClassName}) => {
   let wrapperClass = 'form-group';
   if (buttonClassName == null) {
-    buttonClassName = "form-control btn";
+    buttonClassName = "form-control btn toasthub-btn-primary";
   }
   return (
     <div className="col-sm-6">

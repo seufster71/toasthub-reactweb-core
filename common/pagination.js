@@ -4,26 +4,39 @@ import TextInput from './text-input';
 import Button from './button';
 
 
-const Pagination = ({currentSegment, appPrefs, itemCount, pageStart, pageLimit, onClick, buttonClassName}) => {
-  let wrapperClass = 'form-group';
-  if (buttonClassName == null) {
-    buttonClassName = "form-control btn";
-  }
-  if (itemCount < pageLimit) {
-    pageLimit = itemCount;
-  }
-  let showEntries = appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_SHOW_ENTRIES.value;
-  showEntries = showEntries.replace('{pageStart}',pageStart + 1);
-  showEntries = showEntries.replace('{pageLimit}',pageLimit);
-  showEntries = showEntries.replace('{itemCount}',itemCount);
-
-  let clickThrough = [];
-  let segments = itemCount/pageLimit;
-  if (currentSegment == null) {
-    currentSegment = 1;
-  }
-  // previous
-  clickThrough.push(<li key="GLOBAL_PAGE_PAGING_PREV" className="paginate_button previous disabled" id="datatable_previous"><a href="#" aria-controls="datatable" onClick={onClick("prev")} tabIndex="0">{appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_PREV.value}</a></li>);
+const Pagination = ({id, currentSegment, appPrefs, itemCount, listStart, listLimit, onClick, buttonClassName}) => {
+	let wrapperClass = 'form-group';
+	if (buttonClassName == null) {
+		buttonClassName = "form-control btn";
+	}
+	if (itemCount < pageLimit) {
+		pageLimit = itemCount;
+	  }
+	  let showEntries = appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_SHOW_ENTRIES.value;
+	  showEntries = showEntries.replace('{listStart}',listStart + 1);
+	  if (listStart + listLimit > itemCount) {
+		  showEntries = showEntries.replace('{listLimit}',itemCount);
+	  } else {
+		  showEntries = showEntries.replace('{listLimit}',listStart + listLimit);
+	  }
+	  showEntries = showEntries.replace('{itemCount}',itemCount);
+	
+	  let clickThrough = [];
+	  let segments = itemCount/listLimit;
+	  if (currentSegment == null) {
+	    currentSegment = 1;
+	  }
+	  let range = Math.floor(currentSegment/15.1);
+	  
+	  // previous
+	  let start = 1;
+	  if (range > 0){
+		start = 15 * range + 1
+		let prev = 15 * range;
+		clickThrough.push(<li key="GLOBAL_PAGE_PAGING_PREV" className="paginate_button previous" id="datatable_previous" onClick={onClick(prev,id)}><span>{appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_PREV.value}</span></li>);
+	  }
+	  range = range + 1;
+  
   // numbers
   let segmentClass = "paginate_button active";
   for (let c = 1; c <= segments; c++) {
@@ -32,11 +45,16 @@ const Pagination = ({currentSegment, appPrefs, itemCount, pageStart, pageLimit, 
     } else {
       segmentClass = "paginate_button";
     }
-    clickThrough.push(<li key={c} className={segmentClass} onClick={onClick(c)}><span >{c}</span></li>);
+    if (c <= 15 * range) {
+    	clickThrough.push(<li key={c} className={segmentClass} onClick={onClick(c,id)}><span >{c}</span></li>);
+    } else {
+		next = c;
+		break;
+	}
   }
   // next
-  if (segments > 7) {
-    clickThrough.push(<li key="GLOBAL_PAGE_PAGING_NEXT" className="paginate_button next" id="datatable_next"><a href="#" aria-controls="datatable" onClick={onClick("next")} tabIndex="0">{appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_NEXT.value}</a></li>);
+  if (segments > 15 * range) {
+    clickThrough.push(<li key="GLOBAL_PAGE_PAGING_NEXT" className="paginate_button next" id="datatable_next" onClick={onClick(next,id)}><span>{appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_NEXT.value}</span></li>);
   }
 
   if (segments <= 1){
