@@ -34,12 +34,12 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
           }
           if (children.length > 0) {
             items.push(
-              <NavDropdown key={topMenus[m].menuId} title={<span><img src="/img/hamburger_blue_outline.png" height="20" width="20"/> <span className="navText">{topMenus[m].values[0].value}</span></span>} id={topMenus[m].code} >
+              <NavDropdown key={topMenus[m].menuId} title={<span><img src="/img/hamburger_green.png" height="25" width="25"/> <span className="navText">{topMenus[m].values[0].value}</span></span>} id={topMenus[m].code} >
                 {children}
               </NavDropdown>
             );
           } else {
-            let image = <img src={"/img/"+topMenus[m].values[0].image+"_outline.png"} height="20" width="20" />;
+            let image = <img src={"/img/"+topMenus[m].values[0].image+".png"} height="25" width="25" />;
             if (activeTab === topMenus[m].values[0].href) {
               image = <img src={"/img/"+topMenus[m].values[0].image+".png"} height="25" width="25" />;
             }
