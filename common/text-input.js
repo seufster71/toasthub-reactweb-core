@@ -8,7 +8,7 @@ const TextInput = ({name, label, placeHolder, value, errors, inputType, min, max
   if (inputType == null || inputType.length == 0){
     inputType = "text";
   }
-  if (error && error.length > 0) {
+  if (errors && errors.length > 0) {
     wrapperClass += " " + 'has-error has-feedback';
     errorFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
     errorLabel = <label id={name + "-error"} className="control-label has-error" htmlFor={name}>{errors[name]}</label>;
@@ -32,7 +32,7 @@ TextInput.propTypes = {
   label: PropTypes.string,
   placeHolder: PropTypes.string,
   value: PropTypes.string,
-  error: PropTypes.string,
+  errors: PropTypes.string,
   inputType: PropTypes.string,
   min: PropTypes.string,
   max: PropTypes.string,
