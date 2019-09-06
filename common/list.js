@@ -5,9 +5,14 @@ import Search from './search';
 import Pagination from './pagination';
 
 const List = ({containerState, header, items, itemCount, columns, appPrefs, pageStart, pageLimit,
-  onPageLimitChange, onSearchClick, onSearchChange, onPaginationClick, onFilterClick}) => {
+	onPageLimitChange, onSearchClick, onSearchChange, onPaginationClick, onFilterClick, striped}) => {
 
-  return (
+	let classListGroup = "list-group list-unstyled";	
+	if (striped == true) {
+		classListGroup = "list-group list-unstyled list-group-striped";
+	}
+	 
+	return (
       <div className="col-md-12 col-sm-12 col-xs-12">
         <div className="x_panel">
           <div className="x_title">
@@ -20,14 +25,14 @@ const List = ({containerState, header, items, itemCount, columns, appPrefs, page
             </ul>
           </div>
           <div className="x_content">
-            <ul className="list-group list-unstyled list-group-striped">
+            <ul className={classListGroup}>
               {items}
             </ul>
             <Pagination currentSegment={containerState[containerState.pageName+"_PAGINATION"]} appPrefs={appPrefs} itemCount={itemCount} pageStart={pageStart} pageLimit={pageLimit} onClick={onPaginationClick}/>
           </div>
         </div>
       </div>
-  );
+	);
 };
 
 List.propTypes = {
@@ -43,7 +48,8 @@ List.propTypes = {
   onSearchChange: PropTypes.func,
   onSearchClick: PropTypes.func,
   onPaginationClick: PropTypes.func,
-  onFilterClick: PropTypes.func
+  onFilterClick: PropTypes.func,
+  striped: PropTypes.bool
 };
 
 export default List;

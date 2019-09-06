@@ -9,33 +9,33 @@ const Pagination = ({id, currentSegment, appPrefs, itemCount, listStart, listLim
 	if (buttonClassName == null) {
 		buttonClassName = "form-control btn";
 	}
-	if (itemCount < pageLimit) {
-		pageLimit = itemCount;
-	  }
-	  let showEntries = appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_SHOW_ENTRIES.value;
-	  showEntries = showEntries.replace('{listStart}',listStart + 1);
-	  if (listStart + listLimit > itemCount) {
-		  showEntries = showEntries.replace('{listLimit}',itemCount);
-	  } else {
-		  showEntries = showEntries.replace('{listLimit}',listStart + listLimit);
-	  }
-	  showEntries = showEntries.replace('{itemCount}',itemCount);
+	if (itemCount < listLimit) {
+		listLimit = itemCount;
+	}
+	let showEntries = appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_SHOW_ENTRIES.value;
+	showEntries = showEntries.replace('{pageStart}',listStart + 1);
+	if (listStart + listLimit > itemCount) {
+		  showEntries = showEntries.replace('{pageLimit}',itemCount);
+	} else {
+		  showEntries = showEntries.replace('{pageLimit}',listStart + listLimit);
+	}
+	showEntries = showEntries.replace('{itemCount}',itemCount);
 	
-	  let clickThrough = [];
-	  let segments = itemCount/listLimit;
-	  if (currentSegment == null) {
+	let clickThrough = [];
+	let segments = itemCount/listLimit;
+	if (currentSegment == null) {
 	    currentSegment = 1;
-	  }
-	  let range = Math.floor(currentSegment/15.1);
+	}
+	let range = Math.floor(currentSegment/15.1);
 	  
-	  // previous
-	  let start = 1;
-	  if (range > 0){
+	// previous
+	let start = 1;
+	if (range > 0){
 		start = 15 * range + 1
 		let prev = 15 * range;
 		clickThrough.push(<li key="GLOBAL_PAGE_PAGING_PREV" className="paginate_button previous" id="datatable_previous" onClick={onClick(prev,id)}><span>{appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_PREV.value}</span></li>);
-	  }
-	  range = range + 1;
+	}
+	range = range + 1;
   
   // numbers
   let segmentClass = "paginate_button active";
@@ -84,13 +84,13 @@ const Pagination = ({id, currentSegment, appPrefs, itemCount, listStart, listLim
 };
 
 Pagination.propTypes = {
-currentSegment: PropTypes.number,
-appPrefs: PropTypes.object,
-itemCount: PropTypes.number,
-pageStart: PropTypes.number,
-pageLimit: PropTypes.number,
-onClick: PropTypes.func,
-buttonClassName: PropTypes.string
+	currentSegment: PropTypes.number,
+	appPrefs: PropTypes.object,
+	itemCount: PropTypes.number,
+	listStart: PropTypes.number,
+	listLimit: PropTypes.number,
+	onClick: PropTypes.func,
+	buttonClassName: PropTypes.string
 };
 
 export default Pagination;

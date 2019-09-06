@@ -25,9 +25,9 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
               }
               if (childList[c].values[0].rendered) {
                 children.push(
-                  <LinkContainer key={topMenus[m].code+"-"+childList[c].menuId} to={childList[c].values[0].href}>
-                   <MenuItem >{childList[c].values[0].value}</MenuItem>
-                  </LinkContainer>
+                  <IndexLinkContainer key={topMenus[m].code+"-"+childList[c].menuId} to={childList[c].values[0].href}>
+                  	<MenuItem >{childList[c].values[0].value}</MenuItem>
+                  </IndexLinkContainer>
                 );
               }
             }
@@ -47,10 +47,10 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
   	            }
   	        }
             items.push(
-              <LinkContainer key={topMenus[m].menuId} to={topMenus[m].values[0].href}>
+              <IndexLinkContainer key={topMenus[m].menuId} to={topMenus[m].values[0].href}>
                  <NavItem>{image}<span className="navText"> {topMenus[m].values[0].value}</span>
                  </NavItem>
-              </LinkContainer>
+              </IndexLinkContainer>
             );
           }
         }
