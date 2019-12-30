@@ -5,7 +5,7 @@ import Search from './search';
 import Pagination from './pagination';
 
 const Table = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit,
-	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onColumnSort, openEditModal, openDeleteModal}) => {
+	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onColumnSort, openEditModal, openDeleteModal, onModify, onDelete}) => {
 	let tableHeader = "";
 	let tableRows = [];
 
@@ -49,6 +49,17 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 					} else if (opt.fieldBool != null) {
 						if (items[i][opt.fieldBool] == true) {
 							value = "Active";
+						} else {
+							value = "Disabled";
+						}
+					} else if (opt.fieldIcon != null) {
+						for(let j = 0; j < opt.fieldIcon.length; j++) {
+							if (opt.fieldIcon[j].icon == "modify" && onModify != null) {
+								value = <i className="fa fa-pencil-square-o" onClick={onModify(items[i].id)}/>;
+							}
+							if (opt.fieldIcon[j].icon == "delete" && onDelete != null) {
+								value = <i className="fa fa-trash" onClick={onDelete(items[i].id)}/>;
+							}
 						}
 					}
 					cells.push(
@@ -75,7 +86,7 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 				<div className="x_title">
 					{header.value}
 					<ul className="navbar-right panel_toolbox">
-						<li><a className="collapse-link" onClick={openEditModal()}><i className="fa fa-plus" title="Add"/></a></li>
+						<li><i className="fa fa-plus" title="Add" onClick={onModify()}/></li>
 					</ul>
 				</div>
 				<div className="x_content">
@@ -125,7 +136,9 @@ Table.propTypes = {
 	onPaginationClick: PropTypes.func,
 	onColumnSort: PropTypes.func,
 	openEditModal: PropTypes.func,
-	openDeleteModal: PropTypes.func
+	openDeleteModal: PropTypes.func,
+	onModify: PropTypes.func,
+	onDelete: PropTypes.func
 };
 
 export default Table;
