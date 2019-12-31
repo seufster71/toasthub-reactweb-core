@@ -8,7 +8,7 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 	if (inputType == null || inputType.length == 0){
 		inputType = "text";
 	}
-	if (errors != null && errors[name] != "") {
+	if (errors != null && errors[name] != null && errors[name] != "") {
 		wrapperClass += " " + 'has-error has-feedback';
 		errorFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
 		errorLabel = <div id={name + "-error"} className="control-label has-error" >{errors[name]}</div>;
@@ -19,7 +19,7 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 	if (inputType == null || inputType.length == 0){
 		inputType = "text";
 	}
-	if (warns != null && warns[name] > 0) {
+	if (warns != null && warns[name] != null && warns[name] > 0) {
 		wrapperClass += " " + 'has-error has-feedback';
 		warnFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
 		warnLabel = <label id={name + "-warn"} className="control-label has-warn" htmlFor={name}>{warns[name]}</label>;
@@ -43,7 +43,7 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 	return (
 			<div className={wrapperClass}>
 				<label htmlFor={name}>{label}{req}</label>
-				<input type={inputType} id={name} name={name} min={min} max={max} className="form-control" autoCapitalize="off" onChange={onChange} onBlur={onBlur}  placeholder={placeHolder} value={value}/>
+				<input type={inputType} id={name} name={name} min={min} max={max} className="form-control" autoComplete="new-password" autoCapitalize="off" onChange={onChange} onBlur={onBlur}  placeholder={placeHolder} value={value}/>
 				{errorFeedBack}
 				{errorLabel}
 				{warnFeedBack}
