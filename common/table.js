@@ -5,7 +5,7 @@ import Search from './search';
 import Pagination from './pagination';
 
 const Table = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit,
-	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onColumnSort, openEditModal, openDeleteModal, onModify, onDelete}) => {
+	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onColumnSort, onHeader, onOption1, onOption2, onOption3, onOption4, onOption5, onOption6}) => {
 	let tableHeader = "";
 	let tableRows = [];
 
@@ -53,12 +53,25 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 							value = "Disabled";
 						}
 					} else if (opt.fieldIcon != null) {
+						value = [];
 						for(let j = 0; j < opt.fieldIcon.length; j++) {
-							if (opt.fieldIcon[j].icon == "modify" && onModify != null) {
-								value = <i className="fa fa-pencil-square-o" onClick={onModify(items[i].id)}/>;
+							if (opt.fieldIcon[j].icon == "option1" && onOption1 != null) {
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption1(items[i].id)} aria-hidden="true"/>);
 							}
-							if (opt.fieldIcon[j].icon == "delete" && onDelete != null) {
-								value = <i className="fa fa-trash" onClick={onDelete(items[i].id)}/>;
+							if (opt.fieldIcon[j].icon == "option2" && onOption2 != null) {
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption2(items[i].id)} aria-hidden="true"/>);
+							}
+							if (opt.fieldIcon[j].icon == "option3" && onOption3 != null) {
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption3(items[i].id)} aria-hidden="true"/>);
+							}
+							if (opt.fieldIcon[j].icon == "option4" && onOption4 != null) {
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption4(items[i].id)} aria-hidden="true"/>);
+							}
+							if (opt.fieldIcon[j].icon == "option5" && onOption5 != null) {
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption5(items[i].id)} aria-hidden="true"/>);
+							}
+							if (opt.fieldIcon[j].icon == "option6" && onOption6 != null) {
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption6(items[i].id)} aria-hidden="true"/>);
 							}
 						}
 					}
@@ -86,7 +99,7 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 				<div className="x_title">
 					{header.value}
 					<ul className="navbar-right panel_toolbox">
-						<li><i className="fa fa-plus" title="Add" onClick={onModify()}/></li>
+						<li><i className="fa fa-plus" title="Add" onClick={onHeader()}/></li>
 					</ul>
 				</div>
 				<div className="x_content">
@@ -135,10 +148,14 @@ Table.propTypes = {
 	onSearchClick: PropTypes.func,
 	onPaginationClick: PropTypes.func,
 	onColumnSort: PropTypes.func,
-	openEditModal: PropTypes.func,
-	openDeleteModal: PropTypes.func,
-	onModify: PropTypes.func,
-	onDelete: PropTypes.func
+	onHeader: PropTypes.func,
+	onOption1: PropTypes.func,
+	onOption2: PropTypes.func,
+	onOption3: PropTypes.func,
+	onOption4: PropTypes.func,
+	onOption5: PropTypes.func,
+	onOption6: PropTypes.func,
+	onEditRole: PropTypes.func
 };
 
 export default Table;
