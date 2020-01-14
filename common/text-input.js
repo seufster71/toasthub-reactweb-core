@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextInput = ({name, label, placeHolder, value, errors, warns, successes, inputType, min, max, required, onChange, onBlur}) => {
+const TextInput = ({name, label, placeHolder, value, errors, warns, successes, inputType, min, max, rendered, required, onChange, onBlur}) => {
 	let wrapperClass = 'form-group';
 	let errorLabel = '';
 	let errorFeedBack = '';
 	if (inputType == null || inputType.length == 0){
 		inputType = "text";
+	}
+	if (rendered == null || rendered.length == 0){
+		rendered = true;
 	}
 	if (errors != null && errors[name] != null && errors[name] != "") {
 		wrapperClass += " " + 'has-error has-feedback';
@@ -40,7 +43,15 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 	if ((typeof required === "boolean" && required) || (typeof required === "string" && required == "true")){
 		req = " *";
 	}
-	return (
+	if (typeof rendered === "string"){
+		if (rendered == "true") {
+			rendered = true;
+		} else {
+			rendered = false;
+		}
+	}
+	if (rendered) {
+		return (
 			<div className={wrapperClass}>
 				<label htmlFor={name}>{label}{req}</label>
 				<input type={inputType} id={name} name={name} min={min} max={max} className="form-control" autoComplete="new-password" autoCapitalize="off" onChange={onChange} onBlur={onBlur}  placeholder={placeHolder} value={value}/>
@@ -51,7 +62,10 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 				{successFeedBack}
 				{successLabel}
 			</div>
-	);
+		);
+	} else {
+		return (<div></div>);
+	}
 };
 
 TextInput.propTypes = {
@@ -65,6 +79,7 @@ TextInput.propTypes = {
 	inputType: PropTypes.string,
 	min: PropTypes.string,
 	max: PropTypes.string,
+	rendered: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	required: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	onChange: PropTypes.func,
 	onBlur: PropTypes.func,

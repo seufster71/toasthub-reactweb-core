@@ -44,7 +44,7 @@ const Switch = ({name, value, options, fieldName, label, onClick}) => {
 
 Switch.propTypes = {
 	name: PropTypes.string,
-	value: PropTypes.bool,
+	value: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	options: PropTypes.array,
 	fieldName: PropTypes.string,
 	label: PropTypes.string,

@@ -45,7 +45,22 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 					if (opt.field != null) {
 						value = items[i][opt.field];
 					} else if (opt.fieldML != null) {
-						value = items[i][opt.fieldML].defaultText;
+						if (items[i][opt.fieldML].langTexts != null && items[i][opt.fieldML].langTexts.length > 0){
+							let match = false;
+							for(let j = 0; j < items[i][opt.fieldML].langTexts.length; j++) {
+								if (items[i][opt.fieldML].langTexts[j].lang == appPrefs.lang) {
+									value = items[i][opt.fieldML].langTexts[j].text;
+									match = true;
+									break;
+								}
+							}
+							if (!match) {
+								value = items[i][opt.fieldML].defaultText;
+							}
+						} else {
+					    	value = items[i][opt.fieldML].defaultText;
+					    }
+
 					} else if (opt.fieldBool != null) {
 						if (items[i][opt.fieldBool] == true) {
 							value = "Active";
@@ -73,6 +88,28 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 							if (opt.fieldIcon[j].icon == "option6" && onOption6 != null) {
 								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption6(items[i].id)} aria-hidden="true"/>);
 							}
+						}
+					} else if (opt.fieldObj != null){
+						if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.field != null) {
+							value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.field];
+						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldML != null) {
+							if (items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts != null && items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length > 0){
+								let match = false;
+								for(let j = 0; j < items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length; j++) {
+									if (items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts[j].lang == appPrefs.lang) {
+										value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts[j].text;
+										match = true;
+										break;
+									}
+								}
+								if (!match) {
+									value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].defaultText;
+								}
+							} else {
+								value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].defaultText;
+							}
+						} else {
+							value = items[i][opt.fieldObj.field];
 						}
 					}
 					cells.push(
