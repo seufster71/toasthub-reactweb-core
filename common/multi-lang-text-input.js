@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import Input from './text-input';
 import Utils from '../../core/common/utils';
 
-const MultiLangTextInput = ({formField, inputFields, item, errors, warns, successes, onChange, appPrefs}) => {
-	let wrapperClass = 'form-group';
+const MultiLangTextInput = ({formField, inputFields, item, errors, warns, successes, onChange, appPrefs, wrapperClass}) => {
+	
+	if (wrapperClass == null) {
+		wrapperClass = 'form-group';
+	}
 	
 	let errorLabel = '';
 	let errorFeedBack = '';
@@ -82,6 +85,7 @@ MultiLangTextInput.propTypes = {
 	warns: PropTypes.object,
 	onChange: PropTypes.func,
 	appPrefs: PropTypes.object,
+	wrapperClass: PropTypes.string,
 };
 
 export default MultiLangTextInput;

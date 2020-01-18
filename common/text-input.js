@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextInput = ({name, label, placeHolder, value, errors, warns, successes, inputType, min, max, rendered, required, onChange, onBlur}) => {
-	let wrapperClass = 'form-group';
-	let errorLabel = '';
-	let errorFeedBack = '';
+const TextInput = ({name, label, placeHolder, value, errors, warns, successes, inputType, min, max, rendered, required, onChange, onBlur, wrapperClass}) => {
+	
+	if (wrapperClass == null) {
+		wrapperClass = 'form-group';
+	}
+	
 	if (inputType == null || inputType.length == 0){
 		inputType = "text";
 	}
-	if (rendered == null || rendered.length == 0){
-		rendered = true;
-	}
+	
+	let errorLabel = '';
+	let errorFeedBack = '';
 	if (errors != null && errors[name] != null && errors[name] != "") {
 		wrapperClass += " " + 'has-error has-feedback';
 		errorFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
@@ -19,9 +21,6 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 	
 	let warnLabel = '';
 	let warnFeedBack = '';
-	if (inputType == null || inputType.length == 0){
-		inputType = "text";
-	}
 	if (warns != null && warns[name] != null && warns[name] > 0) {
 		wrapperClass += " " + 'has-error has-feedback';
 		warnFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
@@ -30,9 +29,6 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 			
 	let successLabel = '';
 	let successFeedBack = '';
-	if (inputType == null || inputType.length == 0){
-		inputType = "text";
-	}
 	if (successes != null && successes[name] > 0) {
 		wrapperClass += " " + 'has-error has-feedback';
 		successFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
@@ -43,7 +39,10 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 	if ((typeof required === "boolean" && required) || (typeof required === "string" && required == "true")){
 		req = " *";
 	}
-	if (typeof rendered === "string"){
+	
+	if (rendered == null || rendered.length == 0){
+		rendered = true;
+	} else if (typeof rendered === "string"){
 		if (rendered == "true") {
 			rendered = true;
 		} else {
@@ -83,6 +82,7 @@ TextInput.propTypes = {
 	required: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	onChange: PropTypes.func,
 	onBlur: PropTypes.func,
+	wrapperClass: PropTypes.string
 };
 
 export default TextInput;
