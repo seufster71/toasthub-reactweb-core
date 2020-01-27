@@ -22,7 +22,7 @@ const Pagination = ({id, currentSegment, appPrefs, itemCount, listStart, listLim
 	showEntries = showEntries.replace('{itemCount}',itemCount);
 	
 	let clickThrough = [];
-	let segments = itemCount/listLimit;
+	let segments = Math.ceil(itemCount/listLimit);
 	if (currentSegment == null) {
 	    currentSegment = 1;
 	}

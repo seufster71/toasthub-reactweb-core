@@ -3,9 +3,15 @@ import PropTypes from 'prop-types';
 import ShowEntries from './show-entries';
 import Search from './search';
 import Pagination from './pagination';
+import moment from 'moment';
 
-const Table = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit,
+const Table = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit, parent,
 	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onColumnSort, onHeader, onOption1, onOption2, onOption3, onOption4, onOption5, onOption6}) => {
+		
+	let parentName = "";
+	if (parent != null) {
+		parentName = parent;
+	}
 	let tableHeader = "";
 	let tableRows = [];
 
@@ -15,6 +21,12 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 		//  tableHeaders.push(<th key={0} scope="col">#</th>);
 
 		for (let c = 0; c < columns.length; c++) {
+			if (columns[c].optionalParams != null) {
+				let opt = JSON.parse(columns[c].optionalParams);
+				if (opt.conditionParent != null && opt.conditionParent == "NotNull" && (parent == null || parent == "")) {
+					continue;
+				}
+			}
 			let sortOption = <i className="fa fa-unsorted" onClick={onColumnSort(columns[c].name)} />;
 			if (containerState != null && containerState.orderCriteria != null) {
 				let orderCriteria = containerState.orderCriteria;
@@ -42,6 +54,9 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 				if (columns[c].optionalParams != null) {
 					let opt = JSON.parse(columns[c].optionalParams);
 					let value = "";
+					if (opt.conditionParent != null && opt.conditionParent == "NotNull" && (parent == null || parent == "")) {
+						continue;
+					}
 					if (opt.field != null) {
 						value = items[i][opt.field];
 					} else if (opt.fieldML != null) {
@@ -71,27 +86,43 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 						value = [];
 						for(let j = 0; j < opt.fieldIcon.length; j++) {
 							if (opt.fieldIcon[j].icon == "option1" && onOption1 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption1(items[i].id)} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption1(items[i])} aria-hidden="true"/>);
 							}
 							if (opt.fieldIcon[j].icon == "option2" && onOption2 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption2(items[i].id)} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption2(items[i])} aria-hidden="true"/>);
 							}
 							if (opt.fieldIcon[j].icon == "option3" && onOption3 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption3(items[i].id)} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption3(items[i])} aria-hidden="true"/>);
 							}
 							if (opt.fieldIcon[j].icon == "option4" && onOption4 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption4(items[i].id)} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption4(items[i])} aria-hidden="true"/>);
 							}
 							if (opt.fieldIcon[j].icon == "option5" && onOption5 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption5(items[i].id)} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption5(items[i])} aria-hidden="true"/>);
 							}
 							if (opt.fieldIcon[j].icon == "option6" && onOption6 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption6(items[i].id)} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption6(items[i])} aria-hidden="true"/>);
 							}
 						}
 					} else if (opt.fieldObj != null){
 						if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.field != null) {
-							value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.field];
+							if (items[i][opt.fieldObj.field] != null) {
+								value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.field];
+							}
+						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldDate != null) {
+							if (items[i][opt.fieldObj.field] != null) {
+								value = new Intl.DateTimeFormat('en-US',{
+				            		year: 'numeric', month: 'numeric', day: 'numeric'
+				            	}).format(moment(items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldDate]).toDate());
+							}
+						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldBool != null) {
+							if (items[i][opt.fieldObj.field] != null) {
+								if (items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldBool] == true) {
+									value = "Active";
+								} else {
+									value = "Disabled";
+								}
+							}
 						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldML != null) {
 							if (items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts != null && items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length > 0){
 								let match = false;
@@ -134,7 +165,7 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 		<div className="col-md-12 col-sm-12 col-xs-12">
 			<div className="x_panel">
 				<div className="x_title">
-					{header.value}
+					{header}{parentName}
 					<ul className="navbar-right panel_toolbox">
 						<li><i className="fa fa-plus" title="Add" onClick={onHeader()}/></li>
 					</ul>
@@ -173,11 +204,12 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 
 Table.propTypes = {
 	containerState: PropTypes.object,
-	header: PropTypes.object,
+	header: PropTypes.string,
 	items: PropTypes.array,
 	itemCount: PropTypes.number,
 	listStart: PropTypes.number,
 	listLimit: PropTypes.number,
+	parent: PropTypes.string,
 	columns: PropTypes.array,
 	appPrefs: PropTypes.object,
 	onListLimitChange: PropTypes.func,

@@ -46,12 +46,14 @@ const SelectInput = ({name, label, defaultOption, value, errors, warns, successe
 		}
 	}
 	
+	let selectOptions = [];
 	for (let i = 0; i < options.length; i++) {
 		if (options[i].text == null && options[i].defaultText != null) {
 			options[i].text = options[i].defaultText;
 		} else if (options[i].text == null) {
 			options[i].text = "";
 		}
+		selectOptions.push(<option key={options[i].value} value={options[i].value}>{options[i].text}</option>);
 	}
 	
 	if (rendered) {
@@ -59,10 +61,7 @@ const SelectInput = ({name, label, defaultOption, value, errors, warns, successe
 			<div className={wrapperClass}>
 				<label htmlFor={name}>{label}{req}</label>
 				<select name={name} value={value} className="form-control" onChange={onChange}>
-					{options.map((option) => {
-						return <option key={option.value} value={option.value}>{option.text}</option>;
-						})
-					}
+					{selectOptions}
 				</select>
 				{errorFeedBack}
 				{errorLabel}
@@ -81,7 +80,7 @@ SelectInput.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	defaultOption: PropTypes.string,
-	value: PropTypes.string,
+	value: PropTypes.oneOfType([PropTypes.string,PropTypes.number]),
 	errors: PropTypes.object,
 	warns: PropTypes.object,
 	successes: PropTypes.object,
