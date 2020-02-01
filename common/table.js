@@ -27,15 +27,18 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 					continue;
 				}
 			}
-			let sortOption = <i className="fa fa-unsorted" onClick={onColumnSort(columns[c].name)} />;
-			if (containerState != null && containerState.orderCriteria != null) {
-				let orderCriteria = containerState.orderCriteria;
-				for(let o = 0; o < orderCriteria.length; o++) {
-					if (orderCriteria[o].orderColumn == columns[c].name) {
-						if (orderCriteria.orderDir == "DESC") {
-							sortOption = <i className="fa fa-sort-alpha-desc" onClick={onColumnSort(columns[c].name)} />;
-						} else {
-							sortOption = <i className="fa fa-sort-alpha-asc" onClick={onColumnSort(columns[c].name)} />;
+			let sortOption = "";
+			if (columns[c].value != "") {
+				sortOption = <i className="fa fa-unsorted" onClick={onColumnSort(columns[c].name)} />;
+				if (containerState != null && containerState.orderCriteria != null) {
+					let orderCriteria = containerState.orderCriteria;
+					for(let o = 0; o < orderCriteria.length; o++) {
+						if (orderCriteria[o].orderColumn == columns[c].name) {
+							if (orderCriteria.orderDir == "DESC") {
+								sortOption = <i className="fa fa-sort-alpha-desc" onClick={onColumnSort(columns[c].name)} />;
+							} else {
+								sortOption = <i className="fa fa-sort-alpha-asc" onClick={onColumnSort(columns[c].name)} />;
+							}
 						}
 					}
 				}
