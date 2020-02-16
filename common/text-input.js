@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextInput = ({name, label, placeHolder, value, errors, warns, successes, inputType, min, max, rendered, required, onChange, onBlur, wrapperClass}) => {
+const TextInput = ({name, label, placeHolder, value, errors, warns, successes, inputType, min, max, rendered, required, onChange, onBlur, wrapperClass, comment}) => {
 	
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
@@ -9,6 +9,11 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 	
 	if (inputType == null || inputType.length == 0){
 		inputType = "text";
+	}
+	
+	let commentLabel = '';
+	if (comment != null && comment != "") {
+		commentLabel = comment;
 	}
 	
 	let errorLabel = '';
@@ -21,7 +26,7 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 	
 	let warnLabel = '';
 	let warnFeedBack = '';
-	if (warns != null && warns[name] != null && warns[name] > 0) {
+	if (warns != null && warns[name] != null && warns[name] != "") {
 		wrapperClass += " " + 'has-error has-feedback';
 		warnFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
 		warnLabel = <label id={name + "-warn"} className="control-label has-warn" htmlFor={name}>{warns[name]}</label>;
@@ -29,9 +34,9 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 			
 	let successLabel = '';
 	let successFeedBack = '';
-	if (successes != null && successes[name] > 0) {
-		wrapperClass += " " + 'has-error has-feedback';
-		successFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
+	if (successes != null && successes[name] != null && successes[name] != "") {
+		wrapperClass += " " + 'has-success has-feedback';
+		//successFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
 		successLabel = <label id={name + "-success"} className="control-label has-success" htmlFor={name}>{successes[name]}</label>;
 	}
 	
@@ -54,6 +59,7 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 			<div className={wrapperClass}>
 				<label htmlFor={name}>{label}{req}</label>
 				<input type={inputType} id={name} name={name} min={min} max={max} className="form-control" autoComplete="new-password" autoCapitalize="off" onChange={onChange} onBlur={onBlur}  placeholder={placeHolder} value={value}/>
+				{commentLabel}
 				{errorFeedBack}
 				{errorLabel}
 				{warnFeedBack}
@@ -82,7 +88,8 @@ TextInput.propTypes = {
 	required: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	onChange: PropTypes.func,
 	onBlur: PropTypes.func,
-	wrapperClass: PropTypes.string
+	wrapperClass: PropTypes.string,
+	comment: PropTypes.string
 };
 
 export default TextInput;

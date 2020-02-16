@@ -6,7 +6,7 @@ import Pagination from './pagination';
 import moment from 'moment';
 
 const Table = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit, parent,
-	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onColumnSort, onHeader, onOption1, onOption2, onOption3, onOption4, onOption5, onOption6}) => {
+	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onColumnSort, onHeader, onOption1, onOption2, onOption3, onOption4, onOption5, onOption6, goBack}) => {
 		
 	let parentName = "";
 	if (parent != null) {
@@ -14,6 +14,12 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 	}
 	let tableHeader = "";
 	let tableRows = [];
+	
+	let parentReturn = "";
+	if (goBack != null) {
+		parentReturn = <i className="fa fa-arrow-circle-left" title="Go Back" onClick={goBack()} aria-hidden="true"></i>;
+	}
+	
 
 	// Create headers
 	if (columns != null && columns.length > 0) {
@@ -168,7 +174,7 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 		<div className="col-md-12 col-sm-12 col-xs-12">
 			<div className="x_panel">
 				<div className="x_title">
-					{header}{parentName}
+					{header}{parentName} {parentReturn}
 					<ul className="navbar-right panel_toolbox">
 						<li><i className="fa fa-plus" title="Add" onClick={onHeader()}/></li>
 					</ul>
@@ -227,7 +233,7 @@ Table.propTypes = {
 	onOption4: PropTypes.func,
 	onOption5: PropTypes.func,
 	onOption6: PropTypes.func,
-	onEditRole: PropTypes.func
+	goBack: PropTypes.func
 };
 
 export default Table;

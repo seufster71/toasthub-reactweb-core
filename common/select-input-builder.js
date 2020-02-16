@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from '../../coreView/common/select-input';
 
-const SelectInputBuilder = ({item, field, inputFields, options, onChange, errors, warns, successes }) => {
+const SelectInputBuilder = ({item, field, inputFields, options, onChange, containerState }) => {
 	
 	let defaultInput = "";
 	if (field.classModel != "") {
@@ -21,7 +21,8 @@ const SelectInputBuilder = ({item, field, inputFields, options, onChange, errors
     }
 	
 	return (
-		<Select name={field.name} label={field.label} required={field.required} errors={errors} options={selectOptions} onChange={onChange(field.name)} value={(inputFields != null && inputFields[field.name] != null)?inputFields[field.name]:defaultInput}/>
+		<Select name={field.name} label={field.label} required={field.required} errors={containerState.errors} successes={containerState.successes} warns={containerState.warns} 
+		options={selectOptions} onChange={onChange(field.name)} value={(inputFields != null && inputFields[field.name] != null)?inputFields[field.name]:defaultInput}/>
 	);
 };
 
@@ -30,9 +31,7 @@ SelectInputBuilder.propTypes = {
 	field: PropTypes.object.isRequired,
 	inputFields: PropTypes.object.isRequired,
 	options: PropTypes.array,
-	errors: PropTypes.object,
-	warns: PropTypes.object,
-	successes: PropTypes.object,
+	containerState: PropTypes.object,
 	onChange: PropTypes.func
 };
 
