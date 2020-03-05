@@ -3,34 +3,25 @@ import PropTypes from 'prop-types';
 import Input from './text-input';
 import Utils from '../../core/common/utils';
 
-const MultiLangTextInput = ({ item, field, inputFields, errors, warns, successes, onChange, appPrefs, wrapperClass}) => {
+const MultiLangTextInput = ({ item, field, inputFields, containerState, onChange, appPrefs, wrapperClass}) => {
 	
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
 	}
 	
-	let errorLabel = '';
-	let errorFeedBack = '';
-	if (errors != null && errors[field.name] != null && errors[field.name] != "") {
-		wrapperClass += " " + 'has-error has-feedback';
-		errorFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		errorLabel = <div id={field.name + "-error"} className="control-label has-error" >{errors[field.name]}</div>;
+	let errors = null;
+	if (containerState != null && containerState.errors != null) {
+		errors = containerState.errors;
 	}
 	
-	let warnLabel = '';
-	let warnFeedBack = '';
-	if (warns != null && warns[field.name] != null && warns[field.name] > 0) {
-		wrapperClass += " " + 'has-error has-feedback';
-		warnFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		warnLabel = <label id={field.name + "-warn"} className="control-label has-warn" htmlFor={field.name}>{warns[field.name]}</label>;
+	let warns = null;
+	if (containerState != null && containerState.warns != null) {
+		warns = containerState.warns;
 	}
 			
-	let successLabel = '';
-	let successFeedBack = '';
-	if (successes != null && successes[field.name] > 0) {
-		wrapperClass += " " + 'has-error has-feedback';
-		successFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		successLabel = <label id={field.name + "-success"} className="control-label has-success" htmlFor={field.name}>{successes[field.name]}</label>;
+	let successes = null;
+	if (containerState != null && containerState.successes != null) {
+		successes = containerState.successes;
 	}
 	
 	let titleDefault = "";
@@ -67,7 +58,7 @@ const MultiLangTextInput = ({ item, field, inputFields, errors, warns, successes
     			//}
     			let textLabel = formLabel.textLabel + " " + langLabel;
     			let textNameLang = textName + "-" + appPrefs.appGlobal.LANGUAGES[i].code;
-    			langTextOptions.push(<Input key={i} name={textNameLang} inputType={field.htmlType} label={textLabel} required={required} errors={errors} onChange={onChange(textNameLang)} value={(inputFields != null && inputFields[textNameLang] != null)?inputFields[textNameLang]:textDefault}/>);
+    			langTextOptions.push(<Input key={i} name={textNameLang} inputType={field.htmlType} label={textLabel} required={required} errors={errors} warns={warns} successes={successes} onChange={onChange(textNameLang)} value={(inputFields != null && inputFields[textNameLang] != null)?inputFields[textNameLang]:textDefault}/>);
     		}
     	}
     }
@@ -86,7 +77,7 @@ const MultiLangTextInput = ({ item, field, inputFields, errors, warns, successes
 			<div className="panel panel-default">
 				<div className="panel-heading"> {formLabel.label} </div>
 				<div className="panel-body">
-					<Input name={defaultName} inputType={field.htmlType} label={formLabel.defaultLabel} rendered={field.rendered} required={field.required} errors={errors} onChange={onChange(defaultName)} value={(inputFields != null && inputFields[defaultName] != null)?inputFields[defaultName]:titleDefault}/>
+					<Input name={defaultName} inputType={field.htmlType} label={formLabel.defaultLabel} rendered={field.rendered} required={field.required} errors={errors} warns={warns} successes={successes} onChange={onChange(defaultName)} value={(inputFields != null && inputFields[defaultName] != null)?inputFields[defaultName]:titleDefault}/>
 					{langTextOptions}
 				</div>
 			</div>
@@ -100,9 +91,7 @@ MultiLangTextInput.propTypes = {
 	item: PropTypes.object,
 	field: PropTypes.object.isRequired,
 	inputFields: PropTypes.object.isRequired,
-	errors: PropTypes.object,
-	warns: PropTypes.object,
-	successes: PropTypes.object,
+	containerState: PropTypes.object,
 	onChange: PropTypes.func,
 	appPrefs: PropTypes.object,
 	wrapperClass: PropTypes.string,

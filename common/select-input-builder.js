@@ -19,9 +19,24 @@ const SelectInputBuilder = ({item, field, inputFields, options, onChange, contai
     	let o = JSON.parse(field.value);
     	selectOptions = o.options
     }
+    
+    let errors = null;
+	if (containerState != null && containerState.errors != null){
+		errors = containerState.errors;
+	}
+	
+	let warns = null;
+	if (containerState != null && containerState.warns != null){
+		warns = containerState.warns;
+	}
+	
+	let successes = null;
+	if (containerState != null && containerState.successes != null){
+		successes = containerState.successes;
+	}
 	
 	return (
-		<Select name={field.name} label={field.label} required={field.required} errors={containerState.errors} successes={containerState.successes} warns={containerState.warns} 
+		<Select name={field.name} label={field.label} required={field.required} errors={errors} successes={successes} warns={warns} 
 		options={selectOptions} onChange={onChange(field.name)} value={(inputFields != null && inputFields[field.name] != null)?inputFields[field.name]:defaultInput}/>
 	);
 };

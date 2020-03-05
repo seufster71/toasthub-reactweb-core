@@ -16,7 +16,7 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 	let tableRows = [];
 	
 	let parentReturn = "";
-	if (goBack != null) {
+	if (goBack != null && parent != null) {
 		parentReturn = <i className="fa fa-arrow-circle-left" title="Go Back" onClick={goBack()} aria-hidden="true"></i>;
 	}
 	
