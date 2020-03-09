@@ -1,13 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import ShowEntries from './show-entries';
-import Search from './search';
-import Pagination from './pagination';
+import List from '../../coreView/common/list';
 import moment from 'moment';
 
-const Table = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit, parent,
+const ListBuilder = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit, parent,
 	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onColumnSort, onHeader, onOption1, onOption2, onOption3, onOption4, onOption5, onOption6, goBack}) => {
-		
+	let striped = true;
 	let parentName = "";
 	if (parent != null) {
 		parentName = parent;
@@ -20,49 +18,18 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 		parentReturn = <i className="fa fa-arrow-circle-left" title="Go Back" onClick={goBack()} aria-hidden="true"></i>;
 	}
 	
-
-	// Create headers
-	if (columns != null && columns.length > 0) {
-		let tableHeaders = [];
-		//  tableHeaders.push(<th key={0} scope="col">#</th>);
-
-		for (let c = 0; c < columns.length; c++) {
-			if (columns[c].optionalParams != null) {
-				let opt = JSON.parse(columns[c].optionalParams);
-				if (opt.conditionParent != null && opt.conditionParent == "NotNull" && (parent == null || parent == "")) {
-					continue;
-				}
-			}
-			let sortOption = "";
-			if (columns[c].value != "") {
-				sortOption = <i className="fa fa-unsorted" onClick={onColumnSort(columns[c].name)} />;
-				if (containerState != null && containerState.orderCriteria != null) {
-					let orderCriteria = containerState.orderCriteria;
-					for(let o = 0; o < orderCriteria.length; o++) {
-						if (orderCriteria[o].orderColumn == columns[c].name) {
-							if (orderCriteria.orderDir == "DESC") {
-								sortOption = <i className="fa fa-sort-alpha-desc" onClick={onColumnSort(columns[c].name)} />;
-							} else {
-								sortOption = <i className="fa fa-sort-alpha-asc" onClick={onColumnSort(columns[c].name)} />;
-							}
-						}
-					}
-				}
-			}
-			tableHeaders.push(<th key={columns[c].id} scope="col">{columns[c].value} {sortOption}</th>);
-		}
-		tableHeader = <thead><tr>{tableHeaders}</tr></thead>;
-	}
-	
-	// fill table
+	let listRows = [];
+	// fill list
 	if (items != null && items.length > 0) {
-		for (let i = 0; i < items.length; i++) {
-			let cells = [];
-			//cells.push(<th key={0} scope="row">{i + 1}</th>);
-			for (let c = 0; c < columns.length; c++) {
+		let even = true;
+	    for (let i = 0; i < items.length; i++) {
+	    	let cells = [];
+	    	let lines = [];
+	    	for (let c = 0; c < columns.length; c++) {
 				if (columns[c].optionalParams != null) {
 					let opt = JSON.parse(columns[c].optionalParams);
 					let value = "";
+					let label = columns[c].value;
 					if (opt.conditionParent != null && opt.conditionParent == "NotNull" && (parent == null || parent == "")) {
 						continue;
 					}
@@ -152,66 +119,72 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 							value = items[i][opt.fieldObj.field];
 						}
 					}
-					cells.push(
-							<td key={columns[c].id}>{value}</td>
+					lines.push(
+							<div key={columns[c].id}>{label}: {value}</div>
 					);
 				} else {
-					cells.push(
-						<td key={columns[c].id}/>
+					lines.push(
+						<div key={columns[c].id}> no data</div>
 					);
 				}
 			}
-			tableRows.push(
-				<tr key={items[i].id} >{cells}</tr>
-			);
-		}
-	} else {
-		tableRows.push(<tr key="1"><td id={appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.name}> {appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.value}</td></tr>);
-	}
-	let tableBody = <tbody>{tableRows}</tbody>;
+	    	
+	    	
+	    	let active = "Disabled";
+	    	if (items[i].active == true) {
+	    		active = "Active";
+	    	}
+	    	let created = "";
+	    	if (items[i].created != null) {
+	    		created = new Intl.DateTimeFormat('en-US', {
+		          year: 'numeric',
+		          month: 'short',
+		          day: 'numeric',
+		          hour: 'numeric',
+		          minute: 'numeric',
+		          second: 'numeric',
+		          timeZone: 'America/New_York'
+	    		}).format(moment(items[i].created).toDate());
+	    	}
+	    	let modified = "";
+	    	if (items[i].modified != null) {
+	    		modified = new Intl.DateTimeFormat('en-US', {
+		          year: 'numeric',
+		          month: 'short',
+		          day: 'numeric',
+		          hour: 'numeric',
+		          minute: 'numeric',
+		          second: 'numeric',
+		          timeZone: 'America/New_York'
+	    		}).format(moment(items[i].modified).toDate());
+	    	}
+	    	
+	    	
+	    	cells.push(
+	    		<div key={0} >
+		            <div className="row">
+		              <div className="col-md-4">
+		                {lines}
+		              </div>
+		            </div>
+		        </div>
+            );
 
+	    	listRows.push(<li key={items[i].id} className="list-group-item">{cells}</li>);
+	    	
+	    }
+  	} else {
+	    listRows.push(<li key="1"><div id={appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.name}> {appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.value}</div></li>);
+  	}
+	
 	return (
-		<div className="col-md-12 col-sm-12 col-xs-12">
-			<div className="x_panel">
-				<div className="x_title">
-					{header}{parentName} {parentReturn}
-					<ul className="navbar-right panel_toolbox">
-						<li><i className="fa fa-plus" title="Add" onClick={onHeader()}/></li>
-					</ul>
-				</div>
-				<div className="x_content">
-					<div className="row">
-						<ShowEntries name={containerState.pageName+"_PAGELIMIT"} appPrefs={appPrefs} listLimit={listLimit} onListLimitChange={onListLimitChange}/>
-						<Search name={containerState.pageName+"_SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
-					</div>
-					<table className="table table-striped">
-						{tableHeader}
-						{tableBody}
-					</table>
-					<Pagination currentSegment={containerState[containerState.pageName+"_PAGINATION"]} appPrefs={appPrefs} itemCount={itemCount} listStart={listStart} listLimit={listLimit} onClick={onPaginationClick}/>
-				</div>
-			</div>
-			<div id="filterModal" className="modal fade" role="dialog" aria-labelledby="basicModal">
-				<div className="modal-dialog">
-					<div className="modal-content">
-						<div className="modal-header">
-							<button type="button" className="close" data-dismiss="modal" aria-hidden="true"><i className="fa fa-close"/></button>
-							<h4 className="modal-title">Modal title</h4>
-						</div>
-						<div className="modal-body">
-							<h3>Modal Body <i className="fa fa-cog fa-spin fa-3x fa-fw"/></h3>
-						</div>
-						<div className="modal-footer">
-							<h3>Footer</h3>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<List containerState={containerState} header={header} listRows={listRows} itemCount={itemCount} appPrefs={appPrefs} listStart={listStart} listLimit={listLimit} 
+		onListLimitChange={onListLimitChange} onSearchClick={onSearchClick} onSearchChange={onSearchChange} onPaginationClick={onPaginationClick}
+		onHeader={onHeader} striped={striped}/>
 	);
 };
 
-Table.propTypes = {
+ListBuilder.propTypes = {
 	containerState: PropTypes.object,
 	header: PropTypes.string,
 	items: PropTypes.array,
@@ -236,4 +209,4 @@ Table.propTypes = {
 	goBack: PropTypes.func
 };
 
-export default Table;
+export default ListBuilder;

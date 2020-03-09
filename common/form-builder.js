@@ -25,7 +25,7 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
 			<h4 className="modal-title">{formTitle}</h4>
 			{fieldList}
 			<div className="row">
-		  		<button type="button" className="btn ai-btn-primary" onClick={onSave()}>Save</button>
+		  		<button type="button" className="btn btn-primary" onClick={onSave()}>Save</button>
 		  		<button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={onCancel()}>Cancel</button>
 	  		</div>
 	  	</div>

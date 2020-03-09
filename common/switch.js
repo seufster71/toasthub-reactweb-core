@@ -68,9 +68,9 @@ const Switch = ({item, field, inputFields, errors, warns, successes, onChange, w
 	// convert options to switches
 	let switchOptions = [];
 	for (let i = 0; i < options.length; i++) {
-		let c = "btn ai-btn-radio btn-sm notActive";
+		let c = "btn btn-radio btn-sm notActive";
 		if (value == options[i].value) {
-			c = "btn ai-btn-radio btn-sm active";
+			c = "btn btn-radio btn-sm active";
 		}
 		switchOptions.push(<a key={i} className={c} data-toggle={field.name} data-title={options[i].label} onClick={onChange(field.name,options[i].value)}>{options[i].label}</a>);
 	}
