@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ShowEntries from './show-entries';
+import OrderBy from './order-by';
 import Search from './search';
+import SearchBy from './search-by';
 import Pagination from './pagination';
 import moment from 'moment';
 
-const Table = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit, parent,
-	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onColumnSort, onHeader, onOption1, onOption2, onOption3, onOption4, onOption5, onOption6, goBack}) => {
+const Table = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit, parent, onListLimitChange, onSearchClick, onSearchChange, 
+	onPaginationClick, onOrderBy, onHeader, onOption1, onOption2, onOption3, onOption4, onOption5, onOption6, goBack, orderCriteria, searchCriteria}) => {
 		
 	let parentName = "";
 	if (parent != null) {
@@ -33,23 +35,8 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 					continue;
 				}
 			}
-			let sortOption = "";
-			if (columns[c].value != "") {
-				sortOption = <i className="fa fa-unsorted" onClick={onColumnSort(columns[c].name)} />;
-				if (containerState != null && containerState.orderCriteria != null) {
-					let orderCriteria = containerState.orderCriteria;
-					for(let o = 0; o < orderCriteria.length; o++) {
-						if (orderCriteria[o].orderColumn == columns[c].name) {
-							if (orderCriteria.orderDir == "DESC") {
-								sortOption = <i className="fa fa-sort-alpha-desc" onClick={onColumnSort(columns[c].name)} />;
-							} else {
-								sortOption = <i className="fa fa-sort-alpha-asc" onClick={onColumnSort(columns[c].name)} />;
-							}
-						}
-					}
-				}
-			}
-			tableHeaders.push(<th key={columns[c].id} scope="col">{columns[c].value} {sortOption}</th>);
+			
+			tableHeaders.push(<th key={columns[c].id} scope="col">{columns[c].value}</th>);
 		}
 		tableHeader = <thead><tr>{tableHeaders}</tr></thead>;
 	}
@@ -181,8 +168,10 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 				</div>
 				<div className="x_content">
 					<div className="row">
-						<ShowEntries name={containerState.pageName+"_PAGELIMIT"} appPrefs={appPrefs} listLimit={listLimit} onListLimitChange={onListLimitChange}/>
-						<Search name={containerState.pageName+"_SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
+						<ShowEntries name={containerState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={listLimit} onListLimitChange={onListLimitChange}/>
+						<OrderBy containerState={containerState} name={containerState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} orderCriteria={orderCriteria} onChange={onOrderBy}/>
+						<SearchBy containerState={containerState} name={containerState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} searchCriteria={searchCriteria} onChange={onSearchClick}/>
+						<Search name={containerState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
 					</div>
 					<table className="table table-striped">
 						{tableHeader}
@@ -225,7 +214,7 @@ Table.propTypes = {
 	onSearchChange: PropTypes.func,
 	onSearchClick: PropTypes.func,
 	onPaginationClick: PropTypes.func,
-	onColumnSort: PropTypes.func,
+	onOrderBy: PropTypes.func,
 	onHeader: PropTypes.func,
 	onOption1: PropTypes.func,
 	onOption2: PropTypes.func,
@@ -233,7 +222,9 @@ Table.propTypes = {
 	onOption4: PropTypes.func,
 	onOption5: PropTypes.func,
 	onOption6: PropTypes.func,
-	goBack: PropTypes.func
+	goBack: PropTypes.func,
+	orderCriteria: PropTypes.array,
+	searchCriteria: PropTypes.array
 };
 
 export default Table;

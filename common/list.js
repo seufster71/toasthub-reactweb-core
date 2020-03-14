@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ShowEntries from './show-entries';
+import OrderBy from './order-by';
+import SearchBy from './search-by';
 import Search from './search';
 import Pagination from './pagination';
 
-const List = ({containerState, header, listRows, itemCount, appPrefs, listStart, listLimit,
-	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onFilterClick, onHeader, striped}) => {
+const List = ({containerState, header, listRows, itemCount, appPrefs, listStart, listLimit, parent,
+	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onFilterClick, onHeader, onOrderBy, striped,
+	orderCriteria, searchCriteria}) => {
 
 	let classListGroup = "list-group list-unstyled";	
 	if (striped == true) {
@@ -23,8 +26,10 @@ const List = ({containerState, header, listRows, itemCount, appPrefs, listStart,
           </div>
           <div className="x_content">
           	<div className="row">
-          		<ShowEntries name={containerState.pageName+"_PAGELIMIT"} appPrefs={appPrefs} listLimit={listLimit} onListLimitChange={onListLimitChange}/>
-          		<Search name={containerState.pageName+"_SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
+          		<ShowEntries name={containerState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={listLimit} onListLimitChange={onListLimitChange}/>
+          		<OrderBy containerState={containerState} name={containerState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} orderCriteria={orderCriteria} onChange={onOrderBy}/>
+				<SearchBy containerState={containerState} name={containerState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} searchCriteria={searchCriteria} onChange={onSearchClick}/>
+          		<Search name={containerState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
           	</div>
           		<br/>
             <ul className={classListGroup}>
@@ -45,13 +50,17 @@ List.propTypes = {
   listStart: PropTypes.number.isRequired,
   listLimit: PropTypes.number.isRequired,
   appPrefs: PropTypes.object,
+  parent: PropTypes.object,
   onListLimitChange: PropTypes.func,
   onSearchChange: PropTypes.func,
   onSearchClick: PropTypes.func,
   onPaginationClick: PropTypes.func,
   onFilterClick: PropTypes.func,
   onHeader: PropTypes.func,
-  striped: PropTypes.bool
+  onOrderBy: PropTypes.func,
+  striped: PropTypes.bool,
+  orderCriteria: PropTypes.array,
+  searchCriteria: PropTypes.array
 };
 
 export default List;
