@@ -14,6 +14,9 @@ const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria
 				if (opt.conditionParent != null && opt.conditionParent == "NotNull" && (parent == null || parent == "")) {
 					continue;
 				}
+				if (opt.fieldIcon != null) {
+					continue;
+				}
 			}
 			if (columns[c].value != "") {
 				let optionASC = {value:columns[c].name, label:columns[c].value+" ASC"};

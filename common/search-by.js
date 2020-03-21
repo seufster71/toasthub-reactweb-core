@@ -14,6 +14,9 @@ const SearchBy = ({containerState, name, appPrefs, columns, parent, searchCriter
 				if (opt.conditionParent != null && opt.conditionParent == "NotNull" && (parent == null || parent == "")) {
 					continue;
 				}
+				if (opt.fieldIcon != null) {
+					continue;
+				}
 			}
 			if (columns[c].value != "") {
 				let option = {value:columns[c].name, label:columns[c].value};
