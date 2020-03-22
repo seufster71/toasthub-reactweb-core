@@ -74,9 +74,17 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 
 					} else if (opt.fieldBool != null) {
 						if (items[i][opt.fieldBool] == true) {
-							value = "Active";
+							if (opt.labelTrue != null && opt.labelTrue[appPrefs.lang] != null) {
+								value = opt.labelTrue[appPrefs.lang];
+							} else {
+								value = opt.labelTrue.defaultText;
+							}
 						} else {
-							value = "Disabled";
+							if (opt.labelFalse != null && opt.labelFalse[appPrefs.lang] != null) {
+								value = opt.labelFalse[appPrefs.lang];
+							} else {
+								value = opt.labelFalse.defaultText;
+							}
 						}
 					} else if (opt.fieldIcon != null) {
 						value = [];
@@ -201,7 +209,7 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 };
 
 Table.propTypes = {
-	containerState: PropTypes.object,
+	containerState: PropTypes.object.isRequired,
 	header: PropTypes.string,
 	items: PropTypes.array,
 	itemCount: PropTypes.number,

@@ -8,7 +8,7 @@ import Pagination from './pagination';
 
 const List = ({containerState, header, listRows, itemCount, appPrefs, listStart, listLimit, parent,
 	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onFilterClick, onHeader, onOrderBy, striped,
-	orderCriteria, searchCriteria}) => {
+	orderCriteria, searchCriteria, columns}) => {
 
 	let classListGroup = "list-group list-unstyled";	
 	if (striped == true) {
@@ -44,11 +44,11 @@ const List = ({containerState, header, listRows, itemCount, appPrefs, listStart,
 
 List.propTypes = {
   containerState: PropTypes.object.isRequired,
-  header: PropTypes.string.isRequired,
-  listRows: PropTypes.array.isRequired,
-  itemCount: PropTypes.number.isRequired,
-  listStart: PropTypes.number.isRequired,
-  listLimit: PropTypes.number.isRequired,
+  header: PropTypes.string,
+  listRows: PropTypes.array,
+  itemCount: PropTypes.number,
+  listStart: PropTypes.number,
+  listLimit: PropTypes.number,
   appPrefs: PropTypes.object,
   parent: PropTypes.object,
   onListLimitChange: PropTypes.func,
@@ -60,7 +60,8 @@ List.propTypes = {
   onOrderBy: PropTypes.func,
   striped: PropTypes.bool,
   orderCriteria: PropTypes.array,
-  searchCriteria: PropTypes.array
+  searchCriteria: PropTypes.array,
+  columns: PropTypes.array
 };
 
 export default List;
