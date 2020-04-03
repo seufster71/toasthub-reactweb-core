@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../coreView/common/text-input';
 
-export default function FormBuilder({containerState, item, formName, formTitle, inputFields, appPrefs, appForms, onSave, onCancel, inputChange}) {
+export default function FormBuilder({containerState, item, formName, formTitle, inputFields, appPrefs, prefForms, onSave, onCancel, inputChange}) {
 	
 	let formTitleDefault = "Form Title";
 	if (formTitle == null || formTitle != null && formTitle == ""){
@@ -10,11 +10,11 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
 	}
 	
 	let fieldList = [];
-	if (appForms != null && appForms[formName] != null) {
-    	for (let i = 0; i < appForms[formName].length; i++) {
-    		if(appForms[formName].htmlType == "text"){
-    			fieldList.push(<div key={i} className="row"><TextBuilder item={item} field={appForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={inputChange}/></div>);
-    		} else if (appForms[formName].htmlType == "select") {
+	if (prefForms != null && prefForms[formName] != null) {
+    	for (let i = 0; i < prefForms[formName].length; i++) {
+    		if(prefForms[formName].htmlType == "text"){
+    			fieldList.push(<div key={i} className="row"><TextBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={inputChange}/></div>);
+    		} else if (prefForms[formName].htmlType == "select") {
     			
     		}
     	}
@@ -38,7 +38,7 @@ FormBuilder.propTypes = {
 	formName: PropTypes.string.isRequired,
 	inputFields: PropTypes.object.isRequired,
 	appPrefs: PropTypes.object.isRequired,
-	appForms: PropTypes.object.isRequired,
+	prefForms: PropTypes.object.isRequired,
 	onSave: PropTypes.func.isRequired,
 	onCancel: PropTypes.func.isRequired,
 	inputChange: PropTypes.func.isRequired

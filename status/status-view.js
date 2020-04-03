@@ -55,7 +55,7 @@ class StatusView extends Component {
 }
 
 StatusView.propTypes = {
-  appGlobal: PropTypes.object,
+  prefGlobal: PropTypes.object,
   error: PropTypes.array,
   info: PropTypes.array,
   warn: PropTypes.array,
@@ -64,7 +64,7 @@ StatusView.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return {lang:state.appPrefs.lang, appGlobal:state.appPrefs.appGlobal, error:state.status.error, info:state.status.info, warn:state.status.warn};
+  return {lang:state.appPrefs.lang, prefGlobal:state.appPrefs.prefGlobal, error:state.status.error, info:state.status.info, warn:state.status.warn};
 }
 
 function mapDispatchToProps(dispatch) {

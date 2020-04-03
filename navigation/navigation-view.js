@@ -34,17 +34,21 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
           }
           if (children.length > 0) {
             items.push(
-              <NavDropdown key={topMenus[m].menuId} title={<span><img src="/img/hamburger_green.png" height="20" width="20"/> <span className="navText">{topMenus[m].values[0].value}</span></span>} id={topMenus[m].code} >
+              <NavDropdown key={topMenus[m].menuId} title={<span><i className="fa fa-bars fa-1" aria-hidden="true"></i> <span className="navText">{topMenus[m].values[0].value}</span></span>} id={topMenus[m].code} >
                 {children}
               </NavDropdown>
             );
           } else {
         	let image = "";
           	if (topMenus[m].values[0].image != null) {
-  	            image = <img src={"/img/"+topMenus[m].values[0].image+"_outline.png"} height="20" width="20" />;
-  	            if (activeTab === topMenus[m].values[0].href) {
-  	              image = <img src={"/img/"+topMenus[m].values[0].image+".png"} height="25" width="25" />;
-  	            }
+          		if (topMenus[m].values[0].image.startsWith("fa")) {
+	  	            image = <i className={topMenus[m].values[0].image} aria-hidden="true"/>;
+          		} else {
+	  	            image = <img src={"/img/"+topMenus[m].values[0].image+"_outline.png"} height="20" width="20" />;
+	  	            if (activeTab === topMenus[m].values[0].href) {
+	  	              image = <img src={"/img/"+topMenus[m].values[0].image+".png"} height="25" width="25" />;
+	  	            }
+          		}
   	        }
             items.push(
               <IndexLinkContainer key={topMenus[m].menuId} to={topMenus[m].values[0].href}>

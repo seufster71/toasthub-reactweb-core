@@ -39,25 +39,25 @@ const MultiLangTextInput = ({ item, field, inputFields, containerState, onChange
 	let formLabel = JSON.parse(field.label);
 
 	let langTextOptions=[];
-    if (appPrefs != null && appPrefs.appGlobal != null && appPrefs.appGlobal.LANGUAGES != null && appPrefs.appGlobal.LANGUAGES.length > 0){
-    	for (let i = 0; i < appPrefs.appGlobal.LANGUAGES.length; i++) {
-    		let langLabel = Utils.getMultiLangLabel(appPrefs.appGlobal.LANGUAGES[i], appPrefs.lang);
+    if (appPrefs != null && appPrefs.prefGlobal != null && appPrefs.prefGlobal.LANGUAGES != null && appPrefs.prefGlobal.LANGUAGES.length > 0){
+    	for (let i = 0; i < appPrefs.prefGlobal.LANGUAGES.length; i++) {
+    		let langLabel = Utils.getMultiLangLabel(appPrefs.prefGlobal.LANGUAGES[i], appPrefs.lang);
 
     		let required = false;
-    		if (appPrefs.appGlobal.LANGUAGES[i].defaultLang) {
+    		if (appPrefs.prefGlobal.LANGUAGES[i].defaultLang) {
     			required = true;
     		}
     		if (field.rendered) {
     			let textDefault = "";
     			//if (item != null && item.title != null && item.title.langTexts != null) {
     			//	for (let j = 0; j < item.title.langTexts.length; j++) {
-    			//		if (item.title.langTexts[j].lang == appPrefs.appGlobal.LANGUAGES[i].code) {
+    			//		if (item.title.langTexts[j].lang == appPrefs.prefGlobal.LANGUAGES[i].code) {
     			//			textDefault = item.title.langTexts[j].text;
     			//		}
     			//	}
     			//}
     			let textLabel = formLabel.textLabel + " " + langLabel;
-    			let textNameLang = textName + "-" + appPrefs.appGlobal.LANGUAGES[i].code;
+    			let textNameLang = textName + "-" + appPrefs.prefGlobal.LANGUAGES[i].code;
     			langTextOptions.push(<Input key={i} name={textNameLang} inputType={field.htmlType} label={textLabel} required={required} errors={errors} warns={warns} successes={successes} onChange={onChange(textNameLang)} value={(inputFields != null && inputFields[textNameLang] != null)?inputFields[textNameLang]:textDefault}/>);
     		}
     	}

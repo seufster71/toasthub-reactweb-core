@@ -16,15 +16,15 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
   let loginActive = "";
   let regActive = "";
   let forgotActive = "";
-  let loginTexts = texts.LOGIN_FORM;
-  let registrationTexts = texts.REGISTRATION_FORM;
-  let forgotTexts = texts.FORGOTPASSWORD_FORM;
+  let loginTexts = texts.LOGIN_PAGE;
+  let registrationTexts = texts.REGISTRATION_PAGE;
+  let forgotTexts = texts.FORGOTPASSWORD_PAGE;
   if (currentState.view === 'login') {
     loginActive = "active";
     // LOGIN_FORM
     // fields
-    let loginFields = fields.LOGIN_FORM;
-    let loginLabels = labels.LOGIN_FORM;
+    let loginFields = fields.LOGIN_PAGE;
+    let loginLabels = labels.LOGIN_PAGE;
     for (let i = 0; i < loginFields.length; i++) {
       if (loginFields[i].fieldType === "TXT") {
         items.push(<TextInput
@@ -64,8 +64,8 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
     // FORGOT_PASSWORD_FORM
     forgotActive = "active";
     // fields test
-    let forgotFields = fields.FORGOTPASSWORD_FORM;
-    let forgotLabels = labels.FORGOTPASSWORD_FORM;
+    let forgotFields = fields.FORGOTPASSWORD_PAGE;
+    let forgotLabels = labels.FORGOTPASSWORD_PAGE;
     if (forgotFields != null && forgotLabels != null) {
       for (let i = 0; i < forgotFields.length; i++) {
         if (forgotFields[i].fieldType === "TXT") {
@@ -99,9 +99,9 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
     // fields
     regActive = "active";
     formId = "registration-form";
-    let registrationFields = fields.REGISTRATION_FORM;
+    let registrationFields = fields.REGISTRATION_PAGE;
 
-    let registrationLabels = labels.REGISTRATION_FORM;
+    let registrationLabels = labels.REGISTRATION_PAGE;
     for (let f = 0; f < registrationFields.length; f++) {
       if (registrationFields[f].fieldType === "TXT") {
         items.push(<TextInput

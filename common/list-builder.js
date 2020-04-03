@@ -4,7 +4,7 @@ import List from '../../coreView/common/list';
 import moment from 'moment';
 
 const ListBuilder = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit, parent,
-	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onColumnSort, onHeader, onOption1, onOption2, 
+	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onOrderBy, onHeader, onOption1, onOption2, 
 	onOption3, onOption4, onOption5, onOption6, goBack, orderCriteria, searchCriteria}) => {
 	let striped = true;
 	let parentName = "";
@@ -175,7 +175,7 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 	    	
 	    }
   	} else {
-	    listRows.push(<li key="1"><div id={appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.name}> {appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.value}</div></li>);
+	    listRows.push(<li key="1"><div id={appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.name}> {appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.value}</div></li>);
   	}
 	
 	return (
@@ -191,10 +191,12 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 		onSearchClick={onSearchClick} 
 		onSearchChange={onSearchChange} 
 		onPaginationClick={onPaginationClick}
+		onOrderBy={onOrderBy}
 		onHeader={onHeader} 
 		striped={striped} 
 		orderCriteria={orderCriteria}
 		searchCriteria={searchCriteria}
+		columns={columns}
 		/>
 	);
 };
@@ -213,7 +215,7 @@ ListBuilder.propTypes = {
 	onSearchChange: PropTypes.func,
 	onSearchClick: PropTypes.func,
 	onPaginationClick: PropTypes.func,
-	onColumnSort: PropTypes.func,
+	onOrderBy: PropTypes.func,
 	onHeader: PropTypes.func,
 	onOption1: PropTypes.func,
 	onOption2: PropTypes.func,

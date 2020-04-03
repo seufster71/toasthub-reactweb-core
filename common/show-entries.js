@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 const ShowEntries = ({name, appPrefs, listLimit, onListLimitChange}) => {
 	let options = [];
-	if(appPrefs.appOptions.GLOBAL_PAGE != null && appPrefs.appOptions.GLOBAL_PAGE.GLOBAL_PAGE_PAGELIMIT_SELECT != null) {
-		let listLimitSelect = appPrefs.appOptions.GLOBAL_PAGE.GLOBAL_PAGE_PAGELIMIT_SELECT.value;
+	if(appPrefs.prefOptions.GLOBAL_PAGE != null && appPrefs.prefOptions.GLOBAL_PAGE.GLOBAL_PAGE_PAGELIMIT_SELECT != null) {
+		let listLimitSelect = appPrefs.prefOptions.GLOBAL_PAGE.GLOBAL_PAGE_PAGELIMIT_SELECT.value;
 		if (listLimitSelect != "") {
 			let items = JSON.parse(listLimitSelect);
 			for (let i = 0; i < items.length; i++) {

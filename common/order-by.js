@@ -5,6 +5,7 @@ import SelectMultiple from './select-multiple-input';
 const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria, onChange}) => {
 
 	let options = [];
+	let tempColumns = [];
 	let selectedColumns = [];
 	
 	if (columns != null && columns.length > 0) {
@@ -27,14 +28,22 @@ const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria
 					for (let i = 0; i < orderCriteria.length; i++) {
 						if (orderCriteria[i].orderColumn === columns[c].name) {
 							if (orderCriteria[i].orderDir === "ASC") {
-								selectedColumns.push(optionASC);
+								tempColumns.push({orderCriteria:orderCriteria[i],option:optionASC});
 							} else if (orderCriteria[i].orderDir === "DESC") {
-								selectedColumns.push(optionDESC);
+								tempColumns.push({orderCriteria:orderCriteria[i],option:optionDESC});
 							}
 								
 						}
 					}
 				}
+			}
+		}
+	}
+	
+	for (let i = 0; i < orderCriteria.length; i++) {
+		for (let j = 0; j < tempColumns.length; j++) {
+			if (orderCriteria[i] ==  tempColumns[j].orderCriteria) {
+				selectedColumns.push(tempColumns[j].option);
 			}
 		}
 	}
@@ -53,7 +62,7 @@ OrderBy.propTypes = {
 	name: PropTypes.string.isRequired,
 	appPrefs: PropTypes.object.isRequired,
 	columns: PropTypes.array.isRequired,
-	parent: PropTypes.object,
+	parent: PropTypes.string,
 	orderCriteria: PropTypes.array,
 	onChange: PropTypes.func
 };

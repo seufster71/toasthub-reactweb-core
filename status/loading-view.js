@@ -24,12 +24,12 @@ class LoadingView extends Component {
 }
 
 LoadingView.propTypes = {
-  appGlobal: PropTypes.object,
+  prefGlobal: PropTypes.object,
   lang: PropTypes.string
 };
 
 function mapStateToProps(state, ownProps) {
-  return {lang:state.appPrefs.lang, appGlobal:state.appPrefs.appGlobal};
+  return {lang:state.appPrefs.lang, prefGlobal:state.appPrefs.prefGlobal};
 }
 
 export default connect(mapStateToProps)(LoadingView);

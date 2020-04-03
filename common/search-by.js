@@ -46,7 +46,7 @@ SearchBy.propTypes = {
 	name: PropTypes.string.isRequired,
 	appPrefs: PropTypes.object.isRequired,
 	columns: PropTypes.array.isRequired,
-	parent: PropTypes.object,
+	parent: PropTypes.string,
 	searchCriteria: PropTypes.array,
 	onChange: PropTypes.func
 };

@@ -12,7 +12,7 @@ const Pagination = ({id, currentSegment, appPrefs, itemCount, listStart, listLim
 	if (itemCount < listLimit) {
 		listLimit = itemCount;
 	}
-	let showEntries = appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_SHOW_ENTRIES.value;
+	let showEntries = appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_SHOW_ENTRIES.value;
 	showEntries = showEntries.replace('{pageStart}',listStart + 1);
 	if (listStart + listLimit > itemCount) {
 		  showEntries = showEntries.replace('{pageLimit}',itemCount);
@@ -33,7 +33,7 @@ const Pagination = ({id, currentSegment, appPrefs, itemCount, listStart, listLim
 	if (range > 0){
 		start = 15 * range + 1
 		let prev = 15 * range;
-		clickThrough.push(<li key="GLOBAL_PAGE_PAGING_PREV" className="paginate_button previous" id="datatable_previous" onClick={onClick(prev,id)}><span>{appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_PREV.value}</span></li>);
+		clickThrough.push(<li key="GLOBAL_PAGE_PAGING_PREV" className="paginate_button previous" id="datatable_previous" onClick={onClick(prev,id)}><span>{appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_PREV.value}</span></li>);
 	}
 	range = range + 1;
   
@@ -54,7 +54,7 @@ const Pagination = ({id, currentSegment, appPrefs, itemCount, listStart, listLim
   }
   // next
   if (segments > 15 * range) {
-    clickThrough.push(<li key="GLOBAL_PAGE_PAGING_NEXT" className="paginate_button next" id="datatable_next" onClick={onClick(next,id)}><span>{appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_NEXT.value}</span></li>);
+    clickThrough.push(<li key="GLOBAL_PAGE_PAGING_NEXT" className="paginate_button next" id="datatable_next" onClick={onClick(next,id)}><span>{appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_NEXT.value}</span></li>);
   }
 
   if (segments <= 1){

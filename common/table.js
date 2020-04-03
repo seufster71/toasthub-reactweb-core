@@ -161,7 +161,7 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 			);
 		}
 	} else {
-		tableRows.push(<tr key="1"><td id={appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.name}> {appPrefs.appTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.value}</td></tr>);
+		tableRows.push(<tr key="1"><td id={appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.name}> {appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.value}</td></tr>);
 	}
 	let tableBody = <tbody>{tableRows}</tbody>;
 
