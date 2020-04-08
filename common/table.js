@@ -7,7 +7,7 @@ import SearchBy from './search-by';
 import Pagination from './pagination';
 import moment from 'moment';
 
-const Table = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit, parent, onListLimitChange, onSearchClick, onSearchChange, 
+const Table = ({containerState, header, items, itemCount, columns, labelGroup, appPrefs, listStart, listLimit, parent, onListLimitChange, onSearchClick, onSearchChange, 
 	onPaginationClick, onOrderBy, onHeader, onOption1, onOption2, onOption3, onOption4, onOption5, onOption6, goBack, orderCriteria, searchCriteria}) => {
 		
 	let parentName = "";
@@ -35,8 +35,13 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 					continue;
 				}
 			}
-			
-			tableHeaders.push(<th key={columns[c].id} scope="col">{columns[c].value}</th>);
+			if (labelGroup != null && labelGroup != "" ) {
+				if (columns[c].group == labelGroup) {
+					tableHeaders.push(<th key={columns[c].id} scope="col">{columns[c].value}</th>);
+				}
+			} else {
+				tableHeaders.push(<th key={columns[c].id} scope="col">{columns[c].value}</th>);
+			}
 		}
 		tableHeader = <thead><tr>{tableHeaders}</tr></thead>;
 	}
@@ -147,15 +152,19 @@ const Table = ({containerState, header, items, itemCount, columns, appPrefs, lis
 							value = items[i][opt.fieldObj.field];
 						}
 					}
-					cells.push(
-							<td key={columns[c].id}>{value}</td>
-					);
-				} else {
-					cells.push(
-						<td key={columns[c].id}/>
-					);
-				}
-			}
+					if (labelGroup != null && labelGroup != "" ) {
+						if (columns[c].group == labelGroup) {
+							cells.push(
+									<td key={columns[c].id}>{value}</td>
+							);
+						}
+					} else {
+						cells.push(
+								<td key={columns[c].id}>{value}</td>
+						);
+					}
+				} // for inner 
+			} // for outer
 			tableRows.push(
 				<tr key={items[i].id} >{cells}</tr>
 			);
@@ -217,6 +226,7 @@ Table.propTypes = {
 	listLimit: PropTypes.number,
 	parent: PropTypes.string,
 	columns: PropTypes.array,
+	labelGroup: PropTypes.string,
 	appPrefs: PropTypes.object,
 	onListLimitChange: PropTypes.func,
 	onSearchChange: PropTypes.func,

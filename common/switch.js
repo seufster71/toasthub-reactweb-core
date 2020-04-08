@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Switch = ({item, field, inputFields, errors, warns, successes, onChange, wrapperClass }) => {
+const Switch = ({containerState, item, field, inputFields, onChange, wrapperClass }) => {
 	
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group text-center';
@@ -9,26 +9,26 @@ const Switch = ({item, field, inputFields, errors, warns, successes, onChange, w
 	
 	let errorLabel = '';
 	let errorFeedBack = '';
-	if (errors != null && errors[field.name] != null && errors[field.name] != "") {
+	if (containerState != null && containerState.errors != null && containerState.errors[field.name] != null && containerState.errors[field.name] != "") {
 		wrapperClass += " " + 'has-error has-feedback';
 		errorFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		errorLabel = <div id={field.name + "-error"} className="control-label has-error" >{errors[field.name]}</div>;
+		errorLabel = <div id={field.name + "-error"} className="control-label has-error" >{containerState.errors[field.name]}</div>;
 	}
 	
 	let warnLabel = '';
 	let warnFeedBack = '';
-	if (warns != null && warns[field.name] != null && warns[field.name] > 0) {
+	if (containerState != null && containerState.warns != null && containerState.warns[field.name] != null && containerState.warns[field.name] > 0) {
 		wrapperClass += " " + 'has-error has-feedback';
 		warnFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		warnLabel = <label id={field.name + "-warn"} className="control-label has-warn" htmlFor={field.name}>{warns[field.name]}</label>;
+		warnLabel = <label id={field.name + "-warn"} className="control-label has-warn" htmlFor={field.name}>{containerState.warns[field.name]}</label>;
 	}
 			
 	let successLabel = '';
 	let successFeedBack = '';
-	if (successes != null && successes[field.name] > 0) {
+	if (containerState != null && containerState.successes != null && containerState.successes[field.name] > 0) {
 		wrapperClass += " " + 'has-error has-feedback';
 		successFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		successLabel = <label id={field.name + "-success"} className="control-label has-success" htmlFor={field.name}>{successes[field.name]}</label>;
+		successLabel = <label id={field.name + "-success"} className="control-label has-success" htmlFor={field.name}>{containerState.successes[field.name]}</label>;
 	}
 		
 	// get options	
@@ -114,12 +114,10 @@ const Switch = ({item, field, inputFields, errors, warns, successes, onChange, w
 };
 
 Switch.propTypes = {
+	containerState: PropTypes.object,
 	item: PropTypes.object,
 	field: PropTypes.object.isRequired,
 	inputFields: PropTypes.object.isRequired,
-	errors: PropTypes.object,
-	warns: PropTypes.object,
-	successes: PropTypes.object,
 	onChange: PropTypes.func,
 	wrapperClass: PropTypes.string,
 };
