@@ -1,34 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Switch = ({containerState, item, field, inputFields, onChange, wrapperClass }) => {
+const Switch = ({containerState, item, field, inputFields, onChange, wrapperClass, lang }) => {
 	
+	let fieldName = field.name;
+	if (lang != null) {
+		fieldName = field.name+"-"+lang;
+	}
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group text-center';
 	}
 	
 	let errorLabel = '';
 	let errorFeedBack = '';
-	if (containerState != null && containerState.errors != null && containerState.errors[field.name] != null && containerState.errors[field.name] != "") {
+	if (containerState != null && containerState.errors != null && containerState.errors[fieldName] != null && containerState.errors[fieldName] != "") {
 		wrapperClass += " " + 'has-error has-feedback';
 		errorFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		errorLabel = <div id={field.name + "-error"} className="control-label has-error" >{containerState.errors[field.name]}</div>;
+		errorLabel = <div id={fieldName + "-error"} className="control-label has-error" >{containerState.errors[fieldName]}</div>;
 	}
 	
 	let warnLabel = '';
 	let warnFeedBack = '';
-	if (containerState != null && containerState.warns != null && containerState.warns[field.name] != null && containerState.warns[field.name] > 0) {
+	if (containerState != null && containerState.warns != null && containerState.warns[fieldName] != null && containerState.warns[fieldName] > 0) {
 		wrapperClass += " " + 'has-error has-feedback';
 		warnFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		warnLabel = <label id={field.name + "-warn"} className="control-label has-warn" htmlFor={field.name}>{containerState.warns[field.name]}</label>;
+		warnLabel = <label id={fieldName + "-warn"} className="control-label has-warn" htmlFor={fieldName}>{containerState.warns[fieldName]}</label>;
 	}
 			
 	let successLabel = '';
 	let successFeedBack = '';
-	if (containerState != null && containerState.successes != null && containerState.successes[field.name] > 0) {
+	if (containerState != null && containerState.successes != null && containerState.successes[fieldName] > 0) {
 		wrapperClass += " " + 'has-error has-feedback';
 		successFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		successLabel = <label id={field.name + "-success"} className="control-label has-success" htmlFor={field.name}>{containerState.successes[field.name]}</label>;
+		successLabel = <label id={fieldName + "-success"} className="control-label has-success" htmlFor={fieldName}>{containerState.successes[fieldName]}</label>;
 	}
 		
 	// get options	
@@ -50,8 +54,8 @@ const Switch = ({containerState, item, field, inputFields, onChange, wrapperClas
 	}
 	
 	let value;
-	if (inputFields != null && inputFields[field.name] != null) {
-		value = inputFields[field.name];
+	if (inputFields != null && inputFields[fieldName] != null) {
+		value = inputFields[fieldName];
 	} else {
 		value = activeDefault;
 	}
@@ -72,7 +76,7 @@ const Switch = ({containerState, item, field, inputFields, onChange, wrapperClas
 		if (value == options[i].value) {
 			c = "btn btn-radio btn-sm active";
 		}
-		switchOptions.push(<a key={i} className={c} data-toggle={field.name} data-title={options[i].label} onClick={onChange(field.name,options[i].value)}>{options[i].label}</a>);
+		switchOptions.push(<a key={i} className={c} data-toggle={fieldName} data-title={options[i].label} onClick={onChange(fieldName,options[i].value)}>{options[i].label}</a>);
 	}
 
 	let req = "";
@@ -89,16 +93,16 @@ const Switch = ({containerState, item, field, inputFields, onChange, wrapperClas
 		}
 	}
 	
-	let fieldName = field.name + "-SWITCH";
+	let fieldNameSwitch = fieldName + "-SWITCH";
 	if (rendered) {
 		return (
 			<div className="form-group">
 	        	<label htmlFor={fieldName} >{field.label}{req}</label>
 				<div className="input-group">
-					<div id={fieldName} className="btn-group">
+					<div id={fieldNameSwitch} className="btn-group">
 						{switchOptions}
 					</div>
-					<input type="hidden" name={field.name} id={field.name}/>
+					<input type="hidden" name={fieldName} id={fieldName}/>
 					{errorFeedBack}
 					{errorLabel}
 					{warnFeedBack}
@@ -120,6 +124,7 @@ Switch.propTypes = {
 	inputFields: PropTypes.object.isRequired,
 	onChange: PropTypes.func,
 	wrapperClass: PropTypes.string,
+	lang: PropTypes.string
 };
 
 export default Switch;

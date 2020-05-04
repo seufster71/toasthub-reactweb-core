@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from '../../coreView/common/select-input';
 
-const SelectInputBuilder = ({item, field, inputFields, options, onChange, containerState }) => {
+const SelectInputBuilder = ({item, field, inputFields, options, onChange, containerState, lang }) => {
+	
+	let fieldName = field.name;
+	if (lang != null) {
+		fieldName = field.name+"-"+lang;
+	}
 	
 	let defaultInput = "";
 	if (field.classModel != "") {
@@ -36,8 +41,8 @@ const SelectInputBuilder = ({item, field, inputFields, options, onChange, contai
 	}
 	
 	return (
-		<Select name={field.name} label={field.label} required={field.required} errors={errors} successes={successes} warns={warns} 
-		options={selectOptions} onChange={onChange(field.name)} value={(inputFields != null && inputFields[field.name] != null)?inputFields[field.name]:defaultInput}/>
+		<Select name={fieldName} label={field.label} required={field.required} errors={errors} successes={successes} warns={warns} 
+		options={selectOptions} onChange={onChange(fieldName)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput}/>
 	);
 };
 
@@ -47,7 +52,8 @@ SelectInputBuilder.propTypes = {
 	inputFields: PropTypes.object.isRequired,
 	options: PropTypes.array,
 	containerState: PropTypes.object,
-	onChange: PropTypes.func
+	onChange: PropTypes.func,
+	lang: PropTypes.string
 };
 
 export default SelectInputBuilder;
