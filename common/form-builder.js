@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../coreView/common/text-input';
 import TextBuilder from '../../coreView/common/text-input-builder';
+import TextAreaBuilder from '../../coreView/common/textarea-input-builder';
 import MultiLangTextInput from '../../coreView/common/multi-lang-text-input';
 import SelectBuilder from '../../coreView/common/select-input-builder';
 import CheckBox from '../../coreView/common/checkBox';
@@ -51,6 +52,14 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
     					<div key={i} className="row">
     						<div className="col-sm-4">
     							<TextBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange}/>
+    						</div>
+    					</div>);
+    			break;
+    		case "TXTAREA":
+    			fieldList.push(
+    					<div key={i} className="row">
+    						<div className="col-sm-4">
+    							<TextAreaBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange}/>
     						</div>
     					</div>);
     			break;
