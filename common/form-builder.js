@@ -7,6 +7,7 @@ import MultiLangTextInput from '../../coreView/common/multi-lang-text-input';
 import SelectBuilder from '../../coreView/common/select-input-builder';
 import CheckBox from '../../coreView/common/checkBox';
 import Switch from '../../coreView/common/switch';
+import DateBuilder from '../../coreView/common/date-input-builder';
 import utils from '../../core/common/utils';
 import moment from 'moment';
 
@@ -89,6 +90,14 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
     					<div key={i} className="row">
     						<div className="col-sm-4">
     							<Switch item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange}/>
+    						</div>
+    					</div>);
+    			break;
+    		case "DATE":
+    			fieldList.push(
+    					<div key={i} className="row">
+    						<div className="col-sm-4">
+    							<DateBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange}/>
     						</div>
     					</div>);
     			break;

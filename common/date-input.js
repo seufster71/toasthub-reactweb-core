@@ -4,53 +4,59 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 
-const DateInput = ({item, field, inputFields, errors, warns, successes, onChange, wrapperClass }) => {
+const DateInput = ({name, label, placeHolder, value, errors, warns, successes, rendered, required, onChange, onBlur, wrapperClass, comment}) => {
 	
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
 	}
 	
+	let commentLabel = '';
+	if (comment != null && comment != "") {
+		commentLabel = comment;
+	}
+	
 	let errorLabel = '';
 	let errorFeedBack = '';
-	if (errors != null && errors[field.name] != null && errors[field.name] != "") {
+	if (errors != null && errors[name] != null && errors[name] != "") {
 		wrapperClass += " " + 'has-error has-feedback';
 		errorFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		errorLabel = <div id={field.name + "-error"} className="control-label has-error" >{errors[field.name]}</div>;
+		errorLabel = <div id={name + "-error"} className="control-label has-error" >{errors[name]}</div>;
 	}
 	
 	let warnLabel = '';
 	let warnFeedBack = '';
-	if (warns != null && warns[field.name] != null && warns[field.name] > 0) {
+	if (warns != null && warns[name] != null && warns[name] != "") {
 		wrapperClass += " " + 'has-error has-feedback';
 		warnFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		warnLabel = <label id={field.name + "-warn"} className="control-label has-warn" htmlFor={field.name}>{warns[field.name]}</label>;
+		warnLabel = <label id={name + "-warn"} className="control-label has-warn" htmlFor={name}>{warns[name]}</label>;
 	}
 			
 	let successLabel = '';
 	let successFeedBack = '';
-	if (successes != null && successes[field.name] > 0) {
+	if (successes != null && successes[name] != null && successes[name] != "") {
 		wrapperClass += ' ' + 'has-error has-feedback';
-		successFeedBack = <span className='glyphicon glyphicon-remove form-control-feedback'/>;
-		successLabel = <label id={field.name + "-success"} className="control-label has-success" htmlFor={field.name}>{successes[field.name]}</label>;
+		//successFeedBack = <span className='glyphicon glyphicon-remove form-control-feedback'/>;
+		successLabel = <label id={name + "-success"} className="control-label has-success" htmlFor={name}>{successes[name]}</label>;
 	}
 		
 	let req = '';
-	if ((typeof field.required === 'boolean' && field.required) || (typeof field.required === 'string' && field.required == 'true')){
+	if ((typeof required === 'boolean' && required) || (typeof required === 'string' && required == 'true')){
 		req = ' *';
 	}
 	
-	let rendered = true;
-	if (field.rendered != null && field.rendered.length != 0){
-		if ((typeof field.rendered === "string" && field.rendered == "false")){
-			rendered = false;
+	if (rendered == null || rendered.length == 0){
+		rendered = true;
+	} else if (typeof rendered === "string"){
+		if (rendered == "true") {
+			rendered = true;
 		} else {
-			rendered = field.rendered;
+			rendered = false;
 		}
 	}
 	
 	let selected = null;
-	if (inputFields != null && inputFields[field.name] != null && inputFields[field.name] != "") {
-		selected = moment(inputFields[field.name]).toDate();
+	if (value != null && value != "") {
+		selected = moment(value).toDate();
 	} else {
 		selected = moment().toDate();
 	}
@@ -58,9 +64,9 @@ const DateInput = ({item, field, inputFields, errors, warns, successes, onChange
 	if (rendered) {
 		return (
 			<div className={wrapperClass}>
-				<label htmlFor={field.name}>{field.label}{req}</label>
+				<label htmlFor={name}>{label}{req}</label>
 				<div>
-					<DatePicker className="form-control" selected={selected} dateFormat="MM-dd-yyyy" onChange={onChange(field.name)} />
+					<DatePicker className="form-control" selected={selected} dateFormat="MM-dd-yyyy" onChange={onChange} />
 				</div>
 				{errorFeedBack}
 				{errorLabel}
@@ -76,14 +82,19 @@ const DateInput = ({item, field, inputFields, errors, warns, successes, onChange
 };
 
 DateInput.propTypes = {
-	item: PropTypes.object,
-	field: PropTypes.object.isRequired,
-	inputFields: PropTypes.object.isRequired,
+	name: PropTypes.string.isRequired,
+	label: PropTypes.string,
+	placeHolder: PropTypes.string,
+	value: PropTypes.string,
 	errors: PropTypes.object,
 	warns: PropTypes.object,
 	successes: PropTypes.object,
+	rendered: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
+	required: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	onChange: PropTypes.func,
+	onBlur: PropTypes.func,
 	wrapperClass: PropTypes.string,
+	comment: PropTypes.string
 };
 
 export default DateInput;
