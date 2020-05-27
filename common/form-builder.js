@@ -76,7 +76,17 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
     			let options = [];
     			if (prefForms[formName][i].value != "") {
     				let valueObj = JSON.parse(prefForms[formName][i].value);
-    				options = valueObj.options;
+    				if (valueObj.options != null) {
+    					options = valueObj.options;
+    				} else if (valueObj.referPref != null) {
+    					let pref = appPrefs.prefTexts[valueObj.referPref.prefName][valueObj.referPref.prefItem];
+    					if (pref != null && pref.value != null && pref.value != "") {
+							let value = JSON.parse(pref.value);
+							if (value.options != null) {
+								options = value.options;
+							}
+						}
+    				}
     			}
 				fieldList.push(
     					<div key={i} className="row">
@@ -86,10 +96,25 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
     					</div>);
     			break;
     		case "BLN":
+    			let optionsBLN = [];
+    			if (prefForms[formName][i].value != "") {
+    				let valueObj = JSON.parse(prefForms[formName][i].value);
+    				if (valueObj.options != null) {
+    					optionsBLN = valueObj.options;
+    				} else if (valueObj.referPref != null) {
+    					let pref = appPrefs.prefTexts[valueObj.referPref.prefName][valueObj.referPref.prefItem];
+						if (pref != null && pref.value != null && pref.value != "") {
+							let value = JSON.parse(pref.value);
+							if (value.options != null) {
+								optionsBLN = value.options;
+							}
+						}
+    				}
+    			}
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<Switch item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange}/>
+    							<Switch item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange} options={optionsBLN}/>
     						</div>
     					</div>);
     			break;

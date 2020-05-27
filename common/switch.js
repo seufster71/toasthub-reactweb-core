@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Switch = ({containerState, item, field, inputFields, onChange, wrapperClass, lang }) => {
+const Switch = ({containerState, item, field, inputFields, onChange, wrapperClass, lang, options }) => {
 	
 	let fieldName = field.name;
 	if (lang != null) {
@@ -37,14 +37,14 @@ const Switch = ({containerState, item, field, inputFields, onChange, wrapperClas
 		
 	// get options	
 	let defaultOptions = [{"value":true,"label":"Yes"},{"value":false,"label":"No","defaultInd":true}];
-	let options = [];
-	if (field.value != null) {
-		let fieldOptions = JSON.parse(field.value);
-		options = fieldOptions.options;
-	} else {
-		options = defaultOptions;
+	if (options == null || options != null && options.length == 0) {
+		if (field.value != null) {
+			let fieldOptions = JSON.parse(field.value);
+			options = fieldOptions.options;
+		} else {
+			options = defaultOptions;
+		}
 	}
-	
 	let activeDefault;
 	if (field.classModel != "") {
 		let activeModel = JSON.parse(field.classModel);
@@ -124,7 +124,8 @@ Switch.propTypes = {
 	inputFields: PropTypes.object.isRequired,
 	onChange: PropTypes.func,
 	wrapperClass: PropTypes.string,
-	lang: PropTypes.string
+	lang: PropTypes.string,
+	options: PropTypes.array
 };
 
 export default Switch;
