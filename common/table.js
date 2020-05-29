@@ -60,6 +60,9 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 					}
 					if (opt.field != null) {
 						value = items[i][opt.field];
+						if (opt.prefix != null) {
+							value = opt.prefix + value;
+						}
 					} else if (opt.fieldML != null) {
 						if (items[i][opt.fieldML].langTexts != null && items[i][opt.fieldML].langTexts.length > 0){
 							let match = false;
