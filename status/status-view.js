@@ -29,23 +29,23 @@ class StatusView extends Component {
     				{this.props.error[i].message}
     				</div>);
     		}
-    	} else {
-    		if (this.props.info != null) {
-    			for (let i = 0; i < this.props.info.length; i++) {
-    				items.push(<div key={'info-'+i} id={'info-'+i} className="alert alert-success" role="alert">
-    				{this.props.info[i].message}</div>);
-    			}
-    		}
-    		if (this.props.warn != null) {
-    			for (let i = 0; i < this.props.warn.length; i++) {
-    				items.push(<div key={'warn-'+i} id={'warn-'+i} className="alert alert-warning" role="alert">
-    				{this.props.warn[i].message}</div>);
-    			}
-    		}
-    		if (this.props.warn != null || this.props.info != null) {
-    			setTimeout(() => {this.clearStatus();},5000);
-    		}
     	}
+    	if (this.props.info != null) {
+			for (let i = 0; i < this.props.info.length; i++) {
+				items.push(<div key={'info-'+i} id={'info-'+i} className="alert alert-success" role="alert">
+				{this.props.info[i].message}</div>);
+			}
+		}
+		if (this.props.warn != null) {
+			for (let i = 0; i < this.props.warn.length; i++) {
+				items.push(<div key={'warn-'+i} id={'warn-'+i} className="alert alert-warning" role="alert">
+				{this.props.warn[i].message}</div>);
+			}
+		}
+    		
+    	setTimeout(() => {this.clearStatus();},5000);
+
+    	
     	return (
     			<div className="toastHub-status"> {items} </div>
     	);
