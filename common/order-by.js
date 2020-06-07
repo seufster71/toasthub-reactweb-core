@@ -52,7 +52,7 @@ const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria
 
 	return (
 		<div className="col-xs-12 col-md-3">
-			<SelectMultiple containerState={containerState} name={name} label="Order by" options={options} defaultOption={selectedColumns} onChange={onChange(name)} inline="true" value={value}/>
+			<SelectMultiple containerState={containerState} name={name} label="Order by" options={options} defaultOption={selectedColumns} onChange={onChange} inline="true" value={value}/>
         </div>
 	);
 };

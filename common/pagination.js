@@ -33,7 +33,7 @@ const Pagination = ({id, currentSegment, appPrefs, itemCount, listStart, listLim
 	if (range > 0){
 		start = 15 * range + 1
 		let prev = 15 * range;
-		clickThrough.push(<li key="GLOBAL_PAGE_PAGING_PREV" className="paginate_button previous" id="datatable_previous" onClick={onClick(prev,id)}><span>{appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_PREV.value}</span></li>);
+		clickThrough.push(<li key="GLOBAL_PAGE_PAGING_PREV" className="paginate_button previous" id="datatable_previous" onClick={() => onClick(prev,id)}><span>{appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_PREV.value}</span></li>);
 	}
 	range = range + 1;
   
@@ -46,7 +46,7 @@ const Pagination = ({id, currentSegment, appPrefs, itemCount, listStart, listLim
       segmentClass = "paginate_button";
     }
     if (c <= 15 * range) {
-    	clickThrough.push(<li key={c} className={segmentClass} onClick={onClick(c,id)}><span >{c}</span></li>);
+    	clickThrough.push(<li key={c} className={segmentClass} onClick={() => onClick(c,id)}><span >{c}</span></li>);
     } else {
 		next = c;
 		break;
@@ -54,7 +54,7 @@ const Pagination = ({id, currentSegment, appPrefs, itemCount, listStart, listLim
   }
   // next
   if (segments > 15 * range) {
-    clickThrough.push(<li key="GLOBAL_PAGE_PAGING_NEXT" className="paginate_button next" id="datatable_next" onClick={onClick(next,id)}><span>{appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_NEXT.value}</span></li>);
+    clickThrough.push(<li key="GLOBAL_PAGE_PAGING_NEXT" className="paginate_button next" id="datatable_next" onClick={() => onClick(next,id)}><span>{appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_PAGING_NEXT.value}</span></li>);
   }
 
   if (segments <= 1){

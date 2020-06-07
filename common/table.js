@@ -8,7 +8,7 @@ import Pagination from './pagination';
 import moment from 'moment';
 
 const Table = ({containerState, header, items, itemCount, columns, labelGroup, appPrefs, listStart, listLimit, parent, onListLimitChange, onSearchClick, onSearchChange, 
-	onPaginationClick, onOrderBy, onHeader, onOption1, onOption2, onOption3, onOption4, onOption5, onOption6, goBack, orderCriteria, searchCriteria}) => {
+	onPaginationClick, onOrderBy, onHeader, onOption, goBack, orderCriteria, searchCriteria}) => {
 		
 	let parentName = "";
 	if (parent != null) {
@@ -96,24 +96,9 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 						}
 					} else if (opt.fieldIcon != null) {
 						value = [];
-						for(let j = 0; j < opt.fieldIcon.length; j++) {
-							if (opt.fieldIcon[j].icon == "option1" && onOption1 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption1(items[i])} aria-hidden="true"/>);
-							}
-							if (opt.fieldIcon[j].icon == "option2" && onOption2 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption2(items[i])} aria-hidden="true"/>);
-							}
-							if (opt.fieldIcon[j].icon == "option3" && onOption3 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption3(items[i])} aria-hidden="true"/>);
-							}
-							if (opt.fieldIcon[j].icon == "option4" && onOption4 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption4(items[i])} aria-hidden="true"/>);
-							}
-							if (opt.fieldIcon[j].icon == "option5" && onOption5 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption5(items[i])} aria-hidden="true"/>);
-							}
-							if (opt.fieldIcon[j].icon == "option6" && onOption6 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption6(items[i])} aria-hidden="true"/>);
+						if (onOption != null) {
+							for(let j = 0; j < opt.fieldIcon.length; j++) {
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={() => onOption(opt.fieldIcon[j].code,items[i])} aria-hidden="true"/>);
 							}
 						}
 					} else if (opt.fieldObj != null){
@@ -183,7 +168,7 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 				<div className="x_title">
 					{header}{parentName} {parentReturn}
 					<ul className="navbar-right panel_toolbox">
-						<li><i className="fa fa-plus" title="Add" onClick={onHeader()}/></li>
+						<li><i className="fa fa-plus" title="Add" onClick={() => onOption("MODIFY")}/></li>
 					</ul>
 				</div>
 				<div className="x_content">
@@ -237,12 +222,7 @@ Table.propTypes = {
 	onPaginationClick: PropTypes.func,
 	onOrderBy: PropTypes.func,
 	onHeader: PropTypes.func,
-	onOption1: PropTypes.func,
-	onOption2: PropTypes.func,
-	onOption3: PropTypes.func,
-	onOption4: PropTypes.func,
-	onOption5: PropTypes.func,
-	onOption6: PropTypes.func,
+	onOption: PropTypes.func,
 	goBack: PropTypes.func,
 	orderCriteria: PropTypes.array,
 	searchCriteria: PropTypes.array

@@ -21,7 +21,7 @@ const ShowEntries = ({name, appPrefs, listLimit, onListLimitChange}) => {
 	return (
 		<div className="col-xs-12 col-md-3">
 			<div className="dataTables_length" id="datatable_length">
-				<label>Show <select name={name} aria-controls="datatable" className="form-control input-sm" onChange={onListLimitChange(name)} >
+				<label>Show <select name={name} aria-controls="datatable" className="form-control input-sm" onChange={() => onListLimitChange(name)} >
               	{options}
               	</select> entries </label>
             </div>

@@ -39,7 +39,7 @@ const DateInputBuilder = ({item, field, inputFields, onChange, onBlur, container
 	
 	return (
 			<DateInput name={fieldName} label={field.label} rendered={field.rendered} required={field.required} errors={errors} successes={successes}
-			warns={warns} onChange={onChange(fieldName,"DATE")} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
+			warns={warns} onChange={(e) => onChange(fieldName,"DATE",e)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
 			onBlur={(onBlur != null)?onBlur(field):null}/>
 		);
 	

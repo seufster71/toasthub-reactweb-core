@@ -39,8 +39,8 @@ const TextInputBuilder = ({item, field, inputFields, onChange, onBlur, container
 	
 	return (
 			<Input name={fieldName} inputType={field.htmlType} label={field.label} rendered={field.rendered} required={field.required} errors={errors} successes={successes}
-			warns={warns} onChange={onChange(fieldName)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
-			onBlur={(onBlur != null)?onBlur(field):null}/>
+			warns={warns} onChange={() => onChange(fieldName)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
+			onBlur={(onBlur != null)?() => onBlur(field):null}/>
 		);
 	
 };

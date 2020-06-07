@@ -76,7 +76,7 @@ const Switch = ({containerState, item, field, inputFields, onChange, wrapperClas
 		if (value == options[i].value) {
 			c = "btn btn-radio btn-sm active";
 		}
-		switchOptions.push(<a key={i} className={c} data-toggle={fieldName} data-title={options[i].label} onClick={onChange(fieldName,options[i].value)}>{options[i].label}</a>);
+		switchOptions.push(<a key={i} className={c} data-toggle={fieldName} data-title={options[i].label} onClick={() => onChange(fieldName,options[i].value)}>{options[i].label}</a>);
 	}
 
 	let req = "";

@@ -36,7 +36,7 @@ const SearchBy = ({containerState, name, appPrefs, columns, parent, searchCriter
 
 	return (
 		<div className="col-xs-12 col-md-3">
-			<SelectMultiple containerState={containerState} name={name} label="Search by" options={options} defaultOption={selectedColumns} onChange={onChange(name)} inline="true"/>
+			<SelectMultiple containerState={containerState} name={name} label="Search by" options={options} defaultOption={selectedColumns} onChange={onChange} inline="true"/>
         </div>
 	);
 };

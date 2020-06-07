@@ -259,8 +259,8 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
 			{fieldList}
 			<div className="row">
 				<div className="col-sm-4">
-		  			<button type="button" className="btn btn-primary" onClick={onSave()}>Save</button>
-		  			<button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={onCancel()}>Cancel</button>
+		  			<button type="button" className="btn btn-primary" onClick={() => onSave()}>Save</button>
+		  			<button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => onCancel()}>Cancel</button>
 		  		</div>
 	  		</div>
 	  	</div>
