@@ -42,7 +42,7 @@ const SelectInputBuilder = ({item, field, inputFields, options, onChange, contai
 	
 	return (
 		<Select name={fieldName} label={field.label} required={field.required} errors={errors} successes={successes} warns={warns} 
-		options={selectOptions} onChange={onChange(fieldName)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput}/>
+		options={selectOptions} onChange={onChange} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput}/>
 	);
 };
 

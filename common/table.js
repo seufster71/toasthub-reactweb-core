@@ -8,20 +8,11 @@ import Pagination from './pagination';
 import moment from 'moment';
 
 const Table = ({containerState, header, items, itemCount, columns, labelGroup, appPrefs, listStart, listLimit, parent, onListLimitChange, onSearchClick, onSearchChange, 
-	onPaginationClick, onOrderBy, onHeader, onOption, goBack, orderCriteria, searchCriteria}) => {
+	onPaginationClick, onOrderBy, onHeader, onOption, orderCriteria, searchCriteria}) => {
 		
-	let parentName = "";
-	if (parent != null) {
-		parentName = parent;
-	}
+	
 	let tableHeader = "";
 	let tableRows = [];
-	
-	let parentReturn = "";
-	if (goBack != null && parent != null) {
-		parentReturn = <i className="fa fa-arrow-circle-left" title="Go Back" onClick={goBack()} aria-hidden="true"></i>;
-	}
-	
 
 	// Create headers
 	if (columns != null && columns.length > 0) {
@@ -166,7 +157,7 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 		<div className="col-md-12 col-sm-12 col-xs-12">
 			<div className="x_panel">
 				<div className="x_title">
-					{header}{parentName} {parentReturn}
+					{header}
 					<ul className="navbar-right panel_toolbox">
 						<li><i className="fa fa-plus" title="Add" onClick={() => onOption("MODIFY")}/></li>
 					</ul>
@@ -207,7 +198,7 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 
 Table.propTypes = {
 	containerState: PropTypes.object.isRequired,
-	header: PropTypes.string,
+	header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	items: PropTypes.array,
 	itemCount: PropTypes.number,
 	listStart: PropTypes.number,
@@ -223,7 +214,6 @@ Table.propTypes = {
 	onOrderBy: PropTypes.func,
 	onHeader: PropTypes.func,
 	onOption: PropTypes.func,
-	goBack: PropTypes.func,
 	orderCriteria: PropTypes.array,
 	searchCriteria: PropTypes.array
 };
