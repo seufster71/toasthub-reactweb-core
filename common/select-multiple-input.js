@@ -62,7 +62,7 @@ const SelectMultipleInput = ({containerState, name, label, defaultOption, value,
 							{label}{req}
 						</div>
 						<div className="col-md-9">
-							<Select id="multiSelect" defaultValue={defaultOption} isMulti onChange={onChange} options={options}/>
+							<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti onChange={onChange} options={options}/>
 						</div>
 					</div>
 					{errorFeedBack}
@@ -77,7 +77,7 @@ const SelectMultipleInput = ({containerState, name, label, defaultOption, value,
 			return (
 					<div className={wrapperClass}>
 						<label htmlFor={name}>{label}{req}</label>
-						<Select id="multiSelect" defaultValue={defaultOption} isMulti onChange={onChange} options={options}/>
+						<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti onChange={onChange} options={options}/>
 						{errorFeedBack}
 						{errorLabel}
 						{warnFeedBack}

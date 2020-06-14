@@ -8,7 +8,7 @@ import Pagination from './pagination';
 import moment from 'moment';
 
 const Table = ({containerState, header, items, itemCount, columns, labelGroup, appPrefs, listStart, listLimit, parent, onListLimitChange, onSearchClick, onSearchChange, 
-	onPaginationClick, onOrderBy, onHeader, onOption, orderCriteria, searchCriteria}) => {
+	onPaginationClick, onOrderBy, onHeader, onOption, orderCriteria, searchCriteria, moveSelectedItem, moveHeader}) => {
 		
 	
 	let tableHeader = "";
@@ -23,6 +23,8 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 			if (columns[c].optionalParams != null) {
 				let opt = JSON.parse(columns[c].optionalParams);
 				if (opt.conditionParent != null && opt.conditionParent == "NotNull" && (parent == null || parent == "")) {
+					continue;
+				} else if (opt.conditionField != null && opt.conditionField === "moveSelectedItem"  && opt.conditionCheck == "NotNull" && (moveSelectedItem == null || moveSelectedItem == "")) {
 					continue;
 				}
 			}
@@ -48,7 +50,10 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 					let value = "";
 					if (opt.conditionParent != null && opt.conditionParent == "NotNull" && (parent == null || parent == "")) {
 						continue;
+					} else if (opt.conditionField != null && opt.conditionField === "moveSelectedItem"  && opt.conditionCheck == "NotNull" && (moveSelectedItem == null || moveSelectedItem == "")) {
+						continue;
 					}
+					
 					if (opt.field != null) {
 						value = items[i][opt.field];
 						if (opt.prefix != null) {
@@ -130,6 +135,14 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 						} else {
 							value = items[i][opt.fieldObj.field];
 						}
+					} else if (opt.fieldJSON != null) {
+						value = [];
+						if (items[i][opt.fieldJSON] != null && items[i][opt.fieldJSON] != "") {
+							let list = JSON.parse(items[i][opt.fieldJSON]);
+							for (let j = 0; j < list.length; j++) {
+								value.push(<div key={j}>{list[j]}</div>);
+							}
+						}
 					}
 					if (labelGroup != null && labelGroup != "" ) {
 						if (columns[c].group == labelGroup) {
@@ -169,6 +182,7 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 						<SearchBy containerState={containerState} name={containerState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} searchCriteria={searchCriteria} onChange={onSearchClick}/>
 						<Search name={containerState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
 					</div>
+					{moveHeader}
 					<table className="table table-striped">
 						{tableHeader}
 						{tableBody}
@@ -215,7 +229,9 @@ Table.propTypes = {
 	onHeader: PropTypes.func,
 	onOption: PropTypes.func,
 	orderCriteria: PropTypes.array,
-	searchCriteria: PropTypes.array
+	searchCriteria: PropTypes.array,
+	moveSelectedItem: PropTypes.object,
+	moveHeader: PropTypes.string
 };
 
 export default Table;

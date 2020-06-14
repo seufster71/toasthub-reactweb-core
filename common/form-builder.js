@@ -8,11 +8,23 @@ import SelectBuilder from '../../coreView/common/select-input-builder';
 import CheckBox from '../../coreView/common/checkBox';
 import Switch from '../../coreView/common/switch';
 import DateBuilder from '../../coreView/common/date-input-builder';
+import SelectMultipleBuilder from '../../coreView/common/select-multiple-builder';
 import utils from '../../core/common/utils';
 import moment from 'moment';
 
-export default function FormBuilder({containerState, item, formName, formTitle, formGroup, inputFields, appPrefs, prefForms, onSave, onCancel, onChange}) {
+export default function FormBuilder({containerState, itemState, item, formName, formTitle, formGroup, inputFields, 
+	appPrefs, prefForms, onSave, onCancel, onChange, selectChange}) {
 	
+	if (itemState != null && item == null){
+		item = itemState.selected;
+	}
+	if (itemState != null && inputFields == null) {
+		inputFields = itemState.inputFields;
+	}
+	if (itemState != null && prefForms == null) {
+		prefForms = itemState.prefForms;
+	}
+		
 	let formTitleDefault = "Form Title";
 	if (formTitle == null || formTitle != null && formTitle == ""){
 		formTitle = formTitleDefault;
@@ -38,6 +50,8 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
 	
 	let fieldList = [];
 	let subGroups = [];
+	let options;
+	let defaultOption;
 	if (prefForms != null && prefForms[formName] != null) {
     	for (let i = 0; i < prefForms[formName].length; i++) {
     		if (prefForms[formName][i].subGroup != undefined && prefForms[formName][i].subGroup != ""){
@@ -73,7 +87,7 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
 						</div>);
     			break;
     		case "SLT":
-    			let options = [];
+    			options = [];
     			if (prefForms[formName][i].value != "") {
     				let valueObj = JSON.parse(prefForms[formName][i].value);
     				if (valueObj.options != null) {
@@ -92,6 +106,43 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
     					<div key={i} className="row">
     						<div className="col-sm-4">
     							<SelectBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange} options={options}/>
+    						</div>
+    					</div>);
+    			break;
+    		case "SLTMULTI":
+    			options = [];
+    			if (prefForms[formName][i].value != "") {
+    				let valueObj = JSON.parse(prefForms[formName][i].value);
+    				if (valueObj.options != null) {
+    					options = valueObj.options;
+    				} else if (valueObj.referPref != null) {
+    					let pref = appPrefs.prefTexts[valueObj.referPref.prefName][valueObj.referPref.prefItem];
+    					if (pref != null && pref.value != null && pref.value != "") {
+							let value = JSON.parse(pref.value);
+							if (value.options != null) {
+								options = value.options;
+							}
+						}
+    				} else if (valueObj.optionRef != null) {
+    					options = itemState[valueObj.optionRef];
+    				}
+    			}
+    			defaultOption = [];
+    			if (inputFields[prefForms[formName][i].name] != null && inputFields[prefForms[formName][i].name] != "") {
+    				let optionIds = JSON.parse(inputFields[prefForms[formName][i].name]);
+    				for (let l = 0; l < optionIds.length; l++) {
+    					for (let o = 0; o < options.length; o++) {
+    						if (optionIds[l] == options[o].value) {
+    							defaultOption.push(options[o]);
+    						}
+    					}
+    				}
+    			}
+    			
+    			fieldList.push(
+    					<div key={i} className="row">
+    						<div className="col-sm-4">
+    							<SelectMultipleBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={selectChange} options={options} defaultOption={defaultOption}/>
     						</div>
     					</div>);
     			break;
@@ -269,13 +320,14 @@ export default function FormBuilder({containerState, item, formName, formTitle, 
 
 FormBuilder.propTypes = {
 	containerState: PropTypes.object.isRequired,
+	itemState: PropTypes.object,
 	item: PropTypes.object,
 	formName: PropTypes.string.isRequired,
 	formTitle: PropTypes.string,
 	formGroup: PropTypes.string.isRequired,
-	inputFields: PropTypes.object.isRequired,
+	inputFields: PropTypes.object,
 	appPrefs: PropTypes.object.isRequired,
-	prefForms: PropTypes.object.isRequired,
+	prefForms: PropTypes.object,
 	onSave: PropTypes.func.isRequired,
 	onCancel: PropTypes.func.isRequired,
 	onChange: PropTypes.func.isRequired
