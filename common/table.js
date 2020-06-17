@@ -157,9 +157,12 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 					}
 				} // for inner 
 			} // for outer
-			tableRows.push(
-				<tr key={items[i].id} >{cells}</tr>
-			);
+			if (moveSelectedItem != null && items[i].id == moveSelectedItem.id) {
+				tableRows.push( <tr key={items[i].id} style={{background:"#FFFFCC"}}>{cells}</tr> );
+			} else {
+				tableRows.push( <tr key={items[i].id} >{cells}</tr> );
+			}
+			
 		}
 	} else {
 		tableRows.push(<tr key="1"><td id={appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.name}> {appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.value}</td></tr>);
@@ -178,11 +181,17 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 				<div className="x_content">
 					<div className="row">
 						<ShowEntries name={containerState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={listLimit} onListLimitChange={onListLimitChange}/>
-						<OrderBy containerState={containerState} name={containerState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} orderCriteria={orderCriteria} onChange={onOrderBy}/>
-						<SearchBy containerState={containerState} name={containerState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} searchCriteria={searchCriteria} onChange={onSearchClick}/>
-						<Search name={containerState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
+						{moveSelectedItem != null
+						? <span style={{background:"#FFFFCC"}}>{moveHeader}</span>
+						: <OrderBy containerState={containerState} name={containerState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} orderCriteria={orderCriteria} onChange={onOrderBy}/>
+						}
+						{moveSelectedItem != null ? <span></span>
+						:<SearchBy containerState={containerState} name={containerState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} searchCriteria={searchCriteria} onChange={onSearchClick}/>
+						}
+						{moveSelectedItem != null ? <span></span>
+						:<Search name={containerState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
+						}
 					</div>
-					{moveHeader}
 					<table className="table table-striped">
 						{tableHeader}
 						{tableBody}

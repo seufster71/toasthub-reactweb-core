@@ -129,7 +129,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			}
     			defaultOption = [];
     			if (inputFields[prefForms[formName][i].name] != null && inputFields[prefForms[formName][i].name] != "") {
-    				let optionIds = JSON.parse(inputFields[prefForms[formName][i].name]);
+    				let optionIds = inputFields[prefForms[formName][i].name];
     				for (let l = 0; l < optionIds.length; l++) {
     					for (let o = 0; o < options.length; o++) {
     						if (optionIds[l] == options[o].value) {
