@@ -49,12 +49,10 @@ const SelectInput = ({name, label, defaultOption, value, errors, warns, successe
 	let selectOptions = [];
 	for (let i = 0; i < options.length; i++) {
 		let label = "";
-		if (options[i].text == null && options[i].defaultText != null) {
+		if (options[i].label == null && options[i].defaultText != null) {
 			label = options[i].defaultText;
 		} else if (options[i].label != null) {
 			label = options[i].label;
-		} else if (options[i].text == null) {
-			label = "";
 		}
 		selectOptions.push(<option key={i} value={options[i].value}>{label}</option>);
 	}
