@@ -61,12 +61,16 @@ const Switch = ({containerState, item, field, inputFields, onChange, wrapperClas
 	}
 	
 	if (value == null) {
+		let found = false;
 		for (let i = 0; i < options.length; i++) {
 			if (options[i].defaultInd == true) {
 				value = options[i].value;
+				found = true;
 			}
 		}
-		value = false;
+		if (!found){
+			value = false;
+		}
 	}
 	
 	// convert options to switches

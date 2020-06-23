@@ -223,10 +223,25 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     	            					</div>);
     	        				break;
     	    	    		case "BLN":
+    	    	    			let optionsBLN = [];
+    	    	    			if (prefForms[formName][j].value != "") {
+    	    	    				let valueObj = JSON.parse(prefForms[formName][j].value);
+    	    	    				if (valueObj.options != null) {
+    	    	    					optionsBLN = valueObj.options;
+    	    	    				} else if (valueObj.referPref != null) {
+    	    	    					let pref = appPrefs.prefTexts[valueObj.referPref.prefName][valueObj.referPref.prefItem];
+    	    							if (pref != null && pref.value != null && pref.value != "") {
+    	    								let value = JSON.parse(pref.value);
+    	    								if (value.options != null) {
+    	    									optionsBLN = value.options;
+    	    								}
+    	    							}
+    	    	    				}
+    	    	    			}
     	        				subGroupList.push(
     	            					<div key={j} className="row">
     	            						<div className="col-sm-12">
-    	            							<Switch item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} onChange={onChange}/>
+    	            							<Switch item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} onChange={onChange} options={optionsBLN}/>
     	            						</div>
     	            					</div>);
     	        				break;
@@ -277,10 +292,25 @@ export default function FormBuilder({containerState, itemState, item, formName, 
                 					</div>);
             				break;
 	    	    		case "BLN":
+	    	    			let optionsBLN = [];
+	    	    			if (prefForms[formName][j].value != "") {
+	    	    				let valueObj = JSON.parse(prefForms[formName][j].value);
+	    	    				if (valueObj.options != null) {
+	    	    					optionsBLN = valueObj.options;
+	    	    				} else if (valueObj.referPref != null) {
+	    	    					let pref = appPrefs.prefTexts[valueObj.referPref.prefName][valueObj.referPref.prefItem];
+	    							if (pref != null && pref.value != null && pref.value != "") {
+	    								let value = JSON.parse(pref.value);
+	    								if (value.options != null) {
+	    									optionsBLN = value.options;
+	    								}
+	    							}
+	    	    				}
+	    	    			}
             				subGroupList.push(
                 					<div key={j} className="row">
                 						<div className="col-sm-12">
-                							<Switch item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} onChange={onChange}/>
+                							<Switch item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} onChange={onChange} options={optionsBLN}/>
                 						</div>
                 					</div>);
             				break;
