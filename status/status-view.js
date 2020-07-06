@@ -9,42 +9,41 @@ import {connect} from 'react-redux';
 class StatusView extends Component {
     constructor(props) {
     	super(props);
-    	this.clearStatus = this.clearStatus.bind(this);
     }
 
     componentDidUpdate() {
     	window.scrollTo(0,0);
     }
 
-    clearStatus() {
+    clearStatus = () => {
     	this.props.actions.clearStatus();
     }
     render() {
     	let items = [];
-    	if (this.props.error != null ) {
-    		for (let i = 0; i < this.props.error.length; i++) {
+    	if (this.props.status.error != null ) {
+    		for (let i = 0; i < this.props.status.error.length; i++) {
     			items.push(<div key={'error'+i} className="alert alert-danger" role="alert">
     				<span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"/>
     				<span className="sr-only">Error:</span>
-    				{this.props.error[i].message}
+    				{this.props.status.error[i].message}
     				</div>);
     		}
     	}
-    	if (this.props.info != null) {
-			for (let i = 0; i < this.props.info.length; i++) {
+    	if (this.props.status.info != null) {
+			for (let i = 0; i < this.props.status.info.length; i++) {
 				items.push(<div key={'info-'+i} id={'info-'+i} className="alert alert-success" role="alert">
-				{this.props.info[i].message}</div>);
+				{this.props.status.info[i].message}</div>);
 			}
 		}
-		if (this.props.warn != null) {
-			for (let i = 0; i < this.props.warn.length; i++) {
+		if (this.props.status.warn != null) {
+			for (let i = 0; i < this.props.status.warn.length; i++) {
 				items.push(<div key={'warn-'+i} id={'warn-'+i} className="alert alert-warning" role="alert">
-				{this.props.warn[i].message}</div>);
+				{this.props.status.warn[i].message}</div>);
 			}
 		}
-    		
-    	setTimeout(() => {this.clearStatus();},5000);
-
+		if (this.props.status.error != null || this.props.status.info != null || this.props.status.warn != null) {
+			setTimeout(() => {this.clearStatus()},5000);
+		}
     	
     	return (
     			<div className="toastHub-status"> {items} </div>
@@ -64,7 +63,7 @@ StatusView.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return {lang:state.appPrefs.lang, prefGlobal:state.appPrefs.prefGlobal, error:state.status.error, info:state.status.info, warn:state.status.warn};
+  return {lang:state.appPrefs.lang, prefGlobal:state.appPrefs.prefGlobal, status:state.status};
 }
 
 function mapDispatchToProps(dispatch) {
