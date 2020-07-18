@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 
-const DateInput = ({name, label, placeHolder, value, errors, warns, successes, rendered, required, onChange, onBlur, wrapperClass, comment}) => {
+const DateInput = ({name, label, placeHolder, value, errors, warns, successes, rendered, required, inputChange, onBlur, wrapperClass, comment}) => {
 	
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
@@ -66,7 +66,7 @@ const DateInput = ({name, label, placeHolder, value, errors, warns, successes, r
 			<div className={wrapperClass}>
 				<label htmlFor={name}>{label}{req}</label>
 				<div>
-					<DatePicker className="form-control" selected={selected} dateFormat="MM-dd-yyyy" onChange={onChange} />
+					<DatePicker className="form-control" selected={selected} dateFormat="MM-dd-yyyy" onChange={inputChange} />
 				</div>
 				{errorFeedBack}
 				{errorLabel}

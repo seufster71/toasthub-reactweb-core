@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from '../../coreView/common/select-input';
 
-const SelectInputBuilder = ({item, field, inputFields, options, onChange, containerState, lang }) => {
+const SelectInputBuilder = ({item, field, inputFields, options, inputChange, containerState, lang }) => {
 	
 	let fieldName = field.name;
 	if (lang != null) {
@@ -42,7 +42,7 @@ const SelectInputBuilder = ({item, field, inputFields, options, onChange, contai
 	
 	return (
 		<Select name={fieldName} label={field.label} required={field.required} errors={errors} successes={successes} warns={warns} 
-		options={selectOptions} onChange={onChange} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput}/>
+		options={selectOptions} inputChange={inputChange} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput}/>
 	);
 };
 
@@ -52,7 +52,7 @@ SelectInputBuilder.propTypes = {
 	inputFields: PropTypes.object.isRequired,
 	options: PropTypes.array,
 	containerState: PropTypes.object,
-	onChange: PropTypes.func,
+	inputChange: PropTypes.func,
 	lang: PropTypes.string
 };
 

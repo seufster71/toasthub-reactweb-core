@@ -33,7 +33,7 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
           name={'LOGIN_FORM-'+loginFields[i].name}
           placeHolder={loginFields[i].label}
           inputType={loginFields[i].htmlType}
-          onChange={handleChange('LOGIN_FORM-'+loginFields[i].name)}
+          inputChange={handleChange('LOGIN_FORM-'+loginFields[i].name)}
           onBlur={fieldBlurEvent('LOGIN_FORM-'+loginFields[i].name)}/>);
       }
     }

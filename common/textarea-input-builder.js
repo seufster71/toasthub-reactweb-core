@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextAreaInput from '../../coreView/common/textarea-input';
 
-const TextAreaInputBuilder = ({item, field, inputFields, onChange, onBlur, containerState, lang}) => {
+const TextAreaInputBuilder = ({item, field, inputFields, inputChange, onBlur, containerState, lang}) => {
 	let fieldName = field.name;
 	if (lang != null){
 		fieldName = field.name+"-"+lang;
@@ -39,7 +39,7 @@ const TextAreaInputBuilder = ({item, field, inputFields, onChange, onBlur, conta
 	
 	return (
 			<TextAreaInput name={fieldName} label={field.label} rendered={field.rendered} required={field.required} errors={errors} successes={successes} rows={field.rows} cols={field.cols}
-			warns={warns} onChange={() => onChange(fieldName)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
+			warns={warns} inputChange={() => inputChange("TEXT",fieldName)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
 			onBlur={(onBlur != null)?onBlur(field):null}/>
 		);
 	
@@ -50,7 +50,7 @@ TextAreaInputBuilder.propTypes = {
 	field: PropTypes.object.isRequired,
 	inputFields: PropTypes.object.isRequired,
 	containerState: PropTypes.object,
-	onChange: PropTypes.func,
+	inputChange: PropTypes.func,
 	onBlur: PropTypes.func,
 	lang: PropTypes.string
 };

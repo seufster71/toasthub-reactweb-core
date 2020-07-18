@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Switch = ({containerState, item, field, inputFields, onChange, wrapperClass, lang, options }) => {
+const Switch = ({containerState, item, field, inputFields, inputChange, wrapperClass, lang, options }) => {
 	
 	let fieldName = field.name;
 	if (lang != null) {
@@ -80,7 +80,7 @@ const Switch = ({containerState, item, field, inputFields, onChange, wrapperClas
 		if (value == options[i].value) {
 			c = "btn btn-radio btn-sm active";
 		}
-		switchOptions.push(<a key={i} className={c} data-toggle={fieldName} data-title={options[i].label} onClick={() => onChange(fieldName,options[i].value)}>{options[i].label}</a>);
+		switchOptions.push(<a key={i} className={c} data-toggle={fieldName} data-title={options[i].label} onClick={() => inputChange("SWITCH",fieldName,options[i].value)}>{options[i].label}</a>);
 	}
 
 	let req = "";
@@ -126,7 +126,7 @@ Switch.propTypes = {
 	item: PropTypes.object,
 	field: PropTypes.object.isRequired,
 	inputFields: PropTypes.object.isRequired,
-	onChange: PropTypes.func,
+	inputChange: PropTypes.func,
 	wrapperClass: PropTypes.string,
 	lang: PropTypes.string,
 	options: PropTypes.array

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../coreView/common/text-input';
 
-const TextInputBuilder = ({item, field, inputFields, onChange, onBlur, containerState, lang}) => {
+const TextInputBuilder = ({item, field, inputFields, inputChange, onBlur, containerState, lang}) => {
 	let fieldName = field.name;
 	if (lang != null){
 		fieldName = field.name+"-"+lang;
@@ -39,7 +39,7 @@ const TextInputBuilder = ({item, field, inputFields, onChange, onBlur, container
 	
 	return (
 			<Input name={fieldName} inputType={field.htmlType} label={field.label} rendered={field.rendered} required={field.required} errors={errors} successes={successes}
-			warns={warns} onChange={() => onChange(fieldName)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
+			warns={warns} inputChange={(e) => inputChange("TEXT",fieldName,'',e)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
 			onBlur={(onBlur != null)?() => onBlur(field):null}/>
 		);
 	
@@ -50,7 +50,7 @@ TextInputBuilder.propTypes = {
 	field: PropTypes.object.isRequired,
 	inputFields: PropTypes.object.isRequired,
 	containerState: PropTypes.object,
-	onChange: PropTypes.func,
+	inputChange: PropTypes.func,
 	onBlur: PropTypes.func,
 	lang: PropTypes.string
 };

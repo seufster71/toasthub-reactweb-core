@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-const SelectInput = ({name, label, defaultOption, value, errors, warns, successes, rendered, required, onChange, onBlur, options, wrapperClass}) => {
+const SelectInput = ({name, label, defaultOption, value, errors, warns, successes, rendered, required, inputChange, onBlur, options, wrapperClass}) => {
 
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
@@ -61,7 +61,7 @@ const SelectInput = ({name, label, defaultOption, value, errors, warns, successe
 		return (
 			<div className={wrapperClass}>
 				<label htmlFor={name}>{label}{req}</label>
-				<select name={name} value={value} className="form-control" onChange={() => onChange(name)}>
+				<select name={name} value={value} className="form-control" onChange={() => inputChange("SELECT",name)}>
 					{selectOptions}
 				</select>
 				{errorFeedBack}
@@ -87,7 +87,7 @@ SelectInput.propTypes = {
 	successes: PropTypes.object,
 	rendered: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	required: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
-	onChange: PropTypes.func.isRequired,
+	inputChange: PropTypes.func.isRequired,
 	onBlur: PropTypes.func,
 	options: PropTypes.arrayOf(PropTypes.object),
 	wrapperClass: PropTypes.string

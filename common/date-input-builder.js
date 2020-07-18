@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DateInput from '../../coreView/common/date-input';
 
-const DateInputBuilder = ({item, field, inputFields, onChange, onBlur, containerState, lang}) => {
+const DateInputBuilder = ({item, field, inputFields, inputChange, onBlur, containerState, lang}) => {
 	let fieldName = field.name;
 	if (lang != null){
 		fieldName = field.name+"-"+lang;
@@ -39,7 +39,7 @@ const DateInputBuilder = ({item, field, inputFields, onChange, onBlur, container
 	
 	return (
 			<DateInput name={fieldName} label={field.label} rendered={field.rendered} required={field.required} errors={errors} successes={successes}
-			warns={warns} onChange={(e) => onChange(fieldName,"DATE",e)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
+			warns={warns} inputChange={(e) => inputChange("DATE",fieldName,'',e)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
 			onBlur={(onBlur != null)?onBlur(field):null}/>
 		);
 	
@@ -50,7 +50,7 @@ DateInputBuilder.propTypes = {
 	field: PropTypes.object.isRequired,
 	inputFields: PropTypes.object.isRequired,
 	containerState: PropTypes.object,
-	onChange: PropTypes.func,
+	inputChange: PropTypes.func,
 	onBlur: PropTypes.func,
 	lang: PropTypes.string
 };

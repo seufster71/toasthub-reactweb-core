@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Input from './text-input';
 import Utils from '../../core/common/utils';
 
-const MultiLangTextInput = ({ item, field, inputFields, containerState, onChange, appPrefs, wrapperClass}) => {
+const MultiLangTextInput = ({ item, field, inputFields, containerState, inputChange, appPrefs, wrapperClass}) => {
 	
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
@@ -58,7 +58,7 @@ const MultiLangTextInput = ({ item, field, inputFields, containerState, onChange
     			//}
     			let textLabel = formLabel.textLabel + " " + langLabel;
     			let textNameLang = textName + "-" + appPrefs.prefGlobal.LANGUAGES[i].code;
-    			langTextOptions.push(<Input key={i} name={textNameLang} inputType={field.htmlType} label={textLabel} required={required} errors={errors} warns={warns} successes={successes} onChange={() => onChange(textNameLang)} value={(inputFields != null && inputFields[textNameLang] != null)?inputFields[textNameLang]:textDefault}/>);
+    			langTextOptions.push(<Input key={i} name={textNameLang} inputType={field.htmlType} label={textLabel} required={required} errors={errors} warns={warns} successes={successes} inputChange={() => inputChange("TEXT",textNameLang)} value={(inputFields != null && inputFields[textNameLang] != null)?inputFields[textNameLang]:textDefault}/>);
     		}
     	}
     }
@@ -77,7 +77,7 @@ const MultiLangTextInput = ({ item, field, inputFields, containerState, onChange
 			<div className="panel panel-default">
 				<div className="panel-heading"> {formLabel.label} </div>
 				<div className="panel-body">
-					<Input name={defaultName} inputType={field.htmlType} label={formLabel.defaultLabel} rendered={field.rendered} required={field.required} errors={errors} warns={warns} successes={successes} onChange={() => onChange(defaultName)} value={(inputFields != null && inputFields[defaultName] != null)?inputFields[defaultName]:titleDefault}/>
+					<Input name={defaultName} inputType={field.htmlType} label={formLabel.defaultLabel} rendered={field.rendered} required={field.required} errors={errors} warns={warns} successes={successes} inputChange={() => inputChange("TEXT",defaultName)} value={(inputFields != null && inputFields[defaultName] != null)?inputFields[defaultName]:titleDefault}/>
 					{langTextOptions}
 				</div>
 			</div>
@@ -92,7 +92,7 @@ MultiLangTextInput.propTypes = {
 	field: PropTypes.object.isRequired,
 	inputFields: PropTypes.object.isRequired,
 	containerState: PropTypes.object,
-	onChange: PropTypes.func,
+	inputChange: PropTypes.func,
 	appPrefs: PropTypes.object,
 	wrapperClass: PropTypes.string,
 };

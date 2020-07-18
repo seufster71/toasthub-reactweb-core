@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextAreaInput = ({name, label, placeHolder, value, errors, warns, successes, rows, cols, rendered, required, onChange, onBlur, wrapperClass, comment}) => {
+const TextAreaInput = ({name, label, placeHolder, value, errors, warns, successes, rows, cols, rendered, required, inputChange, onBlur, wrapperClass, comment}) => {
 	
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
@@ -62,7 +62,7 @@ const TextAreaInput = ({name, label, placeHolder, value, errors, warns, successe
 		return (
 			<div className={wrapperClass}>
 				<label htmlFor={name}>{label}{req}</label>
-				<textarea id={name} name={name} rows={rows} cols={cols} className="form-control" onChange={onChange} onBlur={onBlur}  placeholder={placeHolder} value={value}/>
+				<textarea id={name} name={name} rows={rows} cols={cols} className="form-control" onChange={inputChange} onBlur={onBlur}  placeholder={placeHolder} value={value}/>
 				{commentLabel}
 				{errorFeedBack}
 				{errorLabel}
@@ -89,7 +89,7 @@ TextAreaInput.propTypes = {
 	cols: PropTypes.number,
 	rendered: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	required: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
-	onChange: PropTypes.func,
+	inputChange: PropTypes.func,
 	onBlur: PropTypes.func,
 	wrapperClass: PropTypes.string,
 	comment: PropTypes.string

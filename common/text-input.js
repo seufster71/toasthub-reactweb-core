@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextInput = ({name, label, placeHolder, value, errors, warns, successes, inputType, min, max, rendered, required, onChange, onBlur, wrapperClass, comment}) => {
+const TextInput = ({name, label, placeHolder, value, errors, warns, successes, inputType, min, max, rendered, required, inputChange, onBlur, wrapperClass, comment}) => {
 	
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
@@ -58,7 +58,7 @@ const TextInput = ({name, label, placeHolder, value, errors, warns, successes, i
 		return (
 			<div className={wrapperClass}>
 				<label htmlFor={name}>{label}{req}</label>
-				<input type={inputType} id={name} name={name} min={min} max={max} className="form-control" autoComplete="new-password" autoCapitalize="off" onChange={onChange} onBlur={onBlur}  placeholder={placeHolder} value={value}/>
+				<input type={inputType} id={name} name={name} min={min} max={max} className="form-control" autoComplete="new-password" autoCapitalize="off" onChange={inputChange} onBlur={onBlur}  placeholder={placeHolder} value={value}/>
 				{commentLabel}
 				{errorFeedBack}
 				{errorLabel}
@@ -86,7 +86,7 @@ TextInput.propTypes = {
 	max: PropTypes.string,
 	rendered: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	required: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
-	onChange: PropTypes.func,
+	inputChange: PropTypes.func,
 	onBlur: PropTypes.func,
 	wrapperClass: PropTypes.string,
 	comment: PropTypes.string

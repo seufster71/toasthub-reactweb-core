@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../coreView/common/text-input';
 import TextBuilder from '../../coreView/common/text-input-builder';
+import TextAutocompleteBuilder from '../../coreView/common/text-autocomplete-builder';
 import TextAreaBuilder from '../../coreView/common/textarea-input-builder';
 import MultiLangTextInput from '../../coreView/common/multi-lang-text-input';
 import SelectBuilder from '../../coreView/common/select-input-builder';
@@ -13,7 +14,7 @@ import utils from '../../core/common/utils';
 import moment from 'moment';
 
 export default function FormBuilder({containerState, itemState, item, formName, formTitle, formGroup, inputFields, 
-	appPrefs, prefForms, onSave, onCancel, onChange, selectChange}) {
+	appPrefs, prefForms, onSave, onCancel, inputChange}) {
 	
 	if (itemState != null && item == null){
 		item = itemState.selected;
@@ -50,7 +51,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
 	
 	let fieldList = [];
 	let subGroups = [];
-	let options;
+	let options = [];
 	let defaultOption;
 	if (prefForms != null && prefForms[formName] != null) {
     	for (let i = 0; i < prefForms[formName].length; i++) {
@@ -66,7 +67,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<TextBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange}/>
+    							<TextBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange}/>
     						</div>
     					</div>);
     			break;
@@ -74,7 +75,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<TextAreaBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange}/>
+    							<TextAreaBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange}/>
     						</div>
     					</div>);
     			break;
@@ -82,7 +83,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
 							<div className="col-sm-4">
-								<MultiLangTextInput field={prefForms[formName][i]} item={item} inputFields={inputFields} containerState={containerState} onChange={onChange} appPrefs={appPrefs}/>		
+								<MultiLangTextInput field={prefForms[formName][i]} item={item} inputFields={inputFields} containerState={containerState} inputChange={inputChange} appPrefs={appPrefs}/>		
 							</div>
 						</div>);
     			break;
@@ -105,7 +106,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
 				fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<SelectBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange} options={options}/>
+    							<SelectBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange} options={options}/>
     						</div>
     					</div>);
     			break;
@@ -142,7 +143,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<SelectMultipleBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={selectChange} options={options} defaultOption={defaultOption}/>
+    							<SelectMultipleBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange} options={options} defaultOption={defaultOption}/>
     						</div>
     					</div>);
     			break;
@@ -165,7 +166,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<Switch item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange} options={optionsBLN}/>
+    							<Switch item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange} options={optionsBLN}/>
     						</div>
     					</div>);
     			break;
@@ -173,7 +174,24 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<DateBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} onChange={onChange}/>
+    							<DateBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange}/>
+    						</div>
+    					</div>);
+    			break;
+    		case "ASLT":
+    			if (itemState.selectList != null) {
+    				for (let l = 0; l < itemState.selectList.length; l++) {
+    					let desc = itemState.selectList[l].label;
+    					if (itemState.selectList[l] != null && itemState.selectList[l].extra != "") {
+    						desc += " - " + itemState.selectList[l].extra;
+    					}
+    					options.push(<div key={l} onClick={() => inputChange("SELECTCLICK",prefForms[formName][i],itemState.selectList[l])}>{desc}</div>);
+    				}
+    			}
+    			fieldList.push(
+    					<div key={i} className="row">
+    						<div className="col-sm-4">
+    							<TextAutocompleteBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange} options={options} isSelectListOpen={itemState.isSelectListOpen}/>
     						</div>
     					</div>);
     			break;
@@ -205,7 +223,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     	    					subGroupList.push(
     	            					<div key={j} className="row">
     	            						<div className="col-sm-12">
-    	            							<TextBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} onChange={onChange}/>
+    	            							<TextBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange}/>
     	            						</div>
     	            					</div>);
     	            			break;
@@ -218,7 +236,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     	        				subGroupList.push(
     	            					<div key={j} className="row">
     	            						<div className="col-sm-12">
-    	            							<SelectBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} onChange={onChange} options={options}/>
+    	            							<SelectBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange} options={options}/>
     	            						</div>
     	            					</div>);
     	        				break;
@@ -241,7 +259,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     	        				subGroupList.push(
     	            					<div key={j} className="row">
     	            						<div className="col-sm-12">
-    	            							<Switch item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} onChange={onChange} options={optionsBLN}/>
+    	            							<Switch item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange} options={optionsBLN}/>
     	            						</div>
     	            					</div>);
     	        				break;
@@ -274,7 +292,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
         					subGroupList.push(
                 					<div key={j} className="row">
                 						<div className="col-sm-12">
-                							<TextBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} onChange={onChange}/>
+                							<TextBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange}/>
                 						</div>
                 					</div>);
         					break;
@@ -287,7 +305,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
             				subGroupList.push(
                 					<div key={j} className="row">
                 						<div className="col-sm-12">
-                							<SelectBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} onChange={onChange} options={options}/>
+                							<SelectBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange} options={options}/>
                 						</div>
                 					</div>);
             				break;
@@ -310,7 +328,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
             				subGroupList.push(
                 					<div key={j} className="row">
                 						<div className="col-sm-12">
-                							<Switch item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} onChange={onChange} options={optionsBLN}/>
+                							<Switch item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange} options={optionsBLN}/>
                 						</div>
                 					</div>);
             				break;
@@ -360,6 +378,6 @@ FormBuilder.propTypes = {
 	prefForms: PropTypes.object,
 	onSave: PropTypes.func.isRequired,
 	onCancel: PropTypes.func.isRequired,
-	onChange: PropTypes.func.isRequired
+	inputChange: PropTypes.func.isRequired
 };
 

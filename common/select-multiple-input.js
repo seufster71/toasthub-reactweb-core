@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
-const SelectMultipleInput = ({containerState, name, label, defaultOption, value, rendered, required, onChange, onBlur, options, wrapperClass, inline}) => {
+const SelectMultipleInput = ({containerState, name, label, defaultOption, value, rendered, required, inputChange, onBlur, options, wrapperClass, inline}) => {
 
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
@@ -62,7 +62,7 @@ const SelectMultipleInput = ({containerState, name, label, defaultOption, value,
 							{label}{req}
 						</div>
 						<div className="col-md-9">
-							<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti onChange={onChange} options={options}/>
+							<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti inputChange={inputChange} options={options}/>
 						</div>
 					</div>
 					{errorFeedBack}
@@ -77,7 +77,7 @@ const SelectMultipleInput = ({containerState, name, label, defaultOption, value,
 			return (
 					<div className={wrapperClass}>
 						<label htmlFor={name}>{label}{req}</label>
-						<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti onChange={onChange} options={options}/>
+						<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti inputChange={inputChange} options={options}/>
 						{errorFeedBack}
 						{errorLabel}
 						{warnFeedBack}
@@ -100,7 +100,7 @@ SelectMultipleInput.propTypes = {
 	value: PropTypes.oneOfType([PropTypes.string,PropTypes.number]),
 	rendered: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	required: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
-	onChange: PropTypes.func.isRequired,
+	inputChange: PropTypes.func.isRequired,
 	onBlur: PropTypes.func,
 	options: PropTypes.arrayOf(PropTypes.object),
 	wrapperClass: PropTypes.string,

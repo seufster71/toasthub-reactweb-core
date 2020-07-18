@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import SelectMultiple from './select-multiple-input';
 
-const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria, onChange}) => {
+const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria, onOrderBy}) => {
 
 	let options = [];
 	let tempColumns = [];
@@ -52,7 +52,7 @@ const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria
 
 	return (
 		<div className="col-xs-12 col-md-3">
-			<SelectMultiple containerState={containerState} name={name} label="Order by" options={options} defaultOption={selectedColumns} onChange={onChange} inline="true" value={value}/>
+			<SelectMultiple containerState={containerState} name={name} label="Order by" options={options} defaultOption={selectedColumns} inputChange={onOrderBy} inline="true" value={value}/>
         </div>
 	);
 };
@@ -64,7 +64,7 @@ OrderBy.propTypes = {
 	columns: PropTypes.array.isRequired,
 	parent: PropTypes.string,
 	orderCriteria: PropTypes.array,
-	onChange: PropTypes.func
+	onOrderBy: PropTypes.func
 };
 
 export default OrderBy;

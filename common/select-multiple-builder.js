@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SelectMultiple from './select-multiple-input';
 
-const SelectInputBuilder = ({item, field, inputFields, options, onChange, containerState, lang, defaultOption }) => {
+const SelectInputBuilder = ({item, field, inputFields, options, inputChange, containerState, lang, defaultOption }) => {
 	
 	let fieldName = field.name;
 	if (lang != null) {
@@ -26,7 +26,7 @@ const SelectInputBuilder = ({item, field, inputFields, options, onChange, contai
 	
 	return (
 			<SelectMultiple containerState={containerState} name={fieldName} label={field.label} options={options} 
-				onChange={onChange} defaultOption={defaultOption}/>
+				inputChange={inputChange} defaultOption={defaultOption}/>
 	);
 };
 
@@ -37,7 +37,7 @@ SelectInputBuilder.propTypes = {
 	options: PropTypes.array,
 	defaultOption: PropTypes.array,
 	containerState: PropTypes.object,
-	onChange: PropTypes.func,
+	inputChange: PropTypes.func,
 	lang: PropTypes.string
 };
 
