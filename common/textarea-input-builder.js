@@ -39,7 +39,7 @@ const TextAreaInputBuilder = ({item, field, inputFields, inputChange, onBlur, co
 	
 	return (
 			<TextAreaInput name={fieldName} label={field.label} rendered={field.rendered} required={field.required} errors={errors} successes={successes} rows={field.rows} cols={field.cols}
-			warns={warns} inputChange={() => inputChange("TEXT",fieldName)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
+			warns={warns} inputChange={(e) => inputChange("TEXT",fieldName,'',e)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
 			onBlur={(onBlur != null)?onBlur(field):null}/>
 		);
 	
