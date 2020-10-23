@@ -16,15 +16,15 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
   let loginActive = "";
   let regActive = "";
   let forgotActive = "";
-  let loginTexts = texts.LOGIN_PAGE;
-  let registrationTexts = texts.REGISTRATION_PAGE;
-  let forgotTexts = texts.FORGOTPASSWORD_PAGE;
+  let loginTexts = texts.LOGIN_FORM;
+  let registrationTexts = texts.REGISTRATION_FORM;
+  let forgotTexts = texts.FORGOTPASSWORD_FORM;
   if (currentState.view === 'login') {
     loginActive = "active";
     // LOGIN_FORM
     // fields
-    let loginFields = fields.LOGIN_PAGE;
-    let loginLabels = labels.LOGIN_PAGE;
+    let loginFields = fields.LOGIN_FORM;
+    let loginLabels = labels.LOGIN_FORM;
     for (let i = 0; i < loginFields.length; i++) {
       if (loginFields[i].fieldType === "TXT") {
         items.push(<TextInput
