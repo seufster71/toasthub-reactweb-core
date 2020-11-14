@@ -7,8 +7,8 @@ import SearchBy from './search-by';
 import Pagination from './pagination';
 import moment from 'moment';
 
-const Table = ({containerState, header, items, itemCount, columns, labelGroup, appPrefs, listStart, listLimit, parent, onListLimitChange, onSearchClick, onSearchChange, 
-	onPaginationClick, onOrderBy, onHeader, onOption, orderCriteria, searchCriteria, moveSelectedItem, moveHeader}) => {
+const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onListLimitChange, onSearchClick, onSearchChange, 
+	onPaginationClick, onOrderBy, onHeader, onOption, moveSelectedItem, moveHeader}) => {
 		
 	
 	let tableHeader = "";
@@ -40,8 +40,8 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 	}
 	
 	// fill table
-	if (items != null && items.length > 0) {
-		for (let i = 0; i < items.length; i++) {
+	if (itemState != null && itemState.items != null && itemState.items.length > 0) {
+		for (let i = 0; i < itemState.items.length; i++) {
 			let cells = [];
 			//cells.push(<th key={0} scope="row">{i + 1}</th>);
 			for (let c = 0; c < columns.length; c++) {
@@ -55,29 +55,29 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 					}
 					
 					if (opt.field != null) {
-						value = items[i][opt.field];
+						value = itemState.items[i][opt.field];
 						if (opt.prefix != null) {
 							value = opt.prefix + value;
 						}
 					} else if (opt.fieldML != null) {
-						if (items[i][opt.fieldML].langTexts != null && items[i][opt.fieldML].langTexts.length > 0){
+						if (itemState.items[i][opt.fieldML].langTexts != null && itemState.items[i][opt.fieldML].langTexts.length > 0){
 							let match = false;
-							for(let j = 0; j < items[i][opt.fieldML].langTexts.length; j++) {
-								if (items[i][opt.fieldML].langTexts[j].lang == appPrefs.lang) {
-									value = items[i][opt.fieldML].langTexts[j].text;
+							for(let j = 0; j < itemState.items[i][opt.fieldML].langTexts.length; j++) {
+								if (itemState.items[i][opt.fieldML].langTexts[j].lang == appPrefs.lang) {
+									value = itemState.items[i][opt.fieldML].langTexts[j].text;
 									match = true;
 									break;
 								}
 							}
 							if (!match) {
-								value = items[i][opt.fieldML].defaultText;
+								value = itemState.items[i][opt.fieldML].defaultText;
 							}
 						} else {
-					    	value = items[i][opt.fieldML].defaultText;
+					    	value = itemState.items[i][opt.fieldML].defaultText;
 					    }
 
 					} else if (opt.fieldBool != null) {
-						if (items[i][opt.fieldBool] == true) {
+						if (itemState.items[i][opt.fieldBool] == true) {
 							if (opt.labelTrue != null && opt.labelTrue[appPrefs.lang] != null) {
 								value = opt.labelTrue[appPrefs.lang];
 							} else {
@@ -94,55 +94,71 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 						value = [];
 						if (onOption != null) {
 							for(let j = 0; j < opt.fieldIcon.length; j++) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={() => onOption(opt.fieldIcon[j].code,items[i])} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={() => onOption(opt.fieldIcon[j].code,itemState.items[i])} aria-hidden="true"/>);
 							}
 						}
 					} else if (opt.fieldObj != null){
 						if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.field != null) {
-							if (items[i][opt.fieldObj.field] != null) {
-								value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.field];
+							if (itemState.items[i][opt.fieldObj.field] != null) {
+								value = itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.field];
 							}
 						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldDate != null) {
-							if (items[i][opt.fieldObj.field] != null) {
+							if (itemState.items[i][opt.fieldObj.field] != null) {
 								value = new Intl.DateTimeFormat('en-US',{
 				            		year: 'numeric', month: 'numeric', day: 'numeric'
-				            	}).format(moment(items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldDate]).toDate());
+				            	}).format(moment(itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldDate]).toDate());
 							}
 						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldBool != null) {
-							if (items[i][opt.fieldObj.field] != null) {
-								if (items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldBool] == true) {
+							if (itemState.items[i][opt.fieldObj.field] != null) {
+								if (itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldBool] == true) {
 									value = "Active";
 								} else {
 									value = "Disabled";
 								}
 							}
 						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldML != null) {
-							if (items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts != null && items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length > 0){
+							if (itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts != null && itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length > 0){
 								let match = false;
-								for(let j = 0; j < items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length; j++) {
-									if (items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts[j].lang == appPrefs.lang) {
-										value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts[j].text;
+								for(let j = 0; j < itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length; j++) {
+									if (itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts[j].lang == appPrefs.lang) {
+										value = itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts[j].text;
 										match = true;
 										break;
 									}
 								}
 								if (!match) {
-									value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].defaultText;
+									value = itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].defaultText;
 								}
 							} else {
-								value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].defaultText;
+								value = itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].defaultText;
 							}
 						} else {
-							value = items[i][opt.fieldObj.field];
+							value = itemState.items[i][opt.fieldObj.field];
 						}
 					} else if (opt.fieldJSON != null) {
 						value = [];
-						if (items[i][opt.fieldJSON] != null && items[i][opt.fieldJSON] != "") {
-							let list = JSON.parse(items[i][opt.fieldJSON]);
+						if (itemState.items[i][opt.fieldJSON] != null && itemState.items[i][opt.fieldJSON] != "") {
+							let list = JSON.parse(itemState.items[i][opt.fieldJSON]);
 							for (let j = 0; j < list.length; j++) {
 								value.push(<div key={j}>{list[j]}</div>);
 							}
 						}
+					} else if (opt.fieldJoin != null) {
+						var myVal = "";
+						for (let j = 0; j < opt.fieldJoin.length; j++) {
+							if (j > 0 && opt.joinSeparator != null) {
+								myVal = myVal + opt.joinSeparator;
+							}
+							if (opt.fieldJoin[j].field != null) {
+								myVal = myVal + itemState.items[i][opt.fieldJoin[j].field];
+							}
+						}
+						if (opt.prefix != null) {
+							value = opt.prefix + myVal;
+						} else {
+							value = myVal;
+						}
+						
 					}
 					if (labelGroup != null && labelGroup != "" ) {
 						if (columns[c].group == labelGroup) {
@@ -157,10 +173,10 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 					}
 				} // for inner 
 			} // for outer
-			if (moveSelectedItem != null && items[i].id == moveSelectedItem.id) {
-				tableRows.push( <tr key={items[i].id} style={{background:"#FFFFCC"}}>{cells}</tr> );
+			if (moveSelectedItem != null && itemState.items[i].id == moveSelectedItem.id) {
+				tableRows.push( <tr key={itemState.items[i].id} style={{background:"#FFFFCC"}}>{cells}</tr> );
 			} else {
-				tableRows.push( <tr key={items[i].id} >{cells}</tr> );
+				tableRows.push( <tr key={itemState.items[i].id} >{cells}</tr> );
 			}
 			
 		}
@@ -180,23 +196,23 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 				</div>
 				<div className="x_content">
 					<div className="row">
-						<ShowEntries name={containerState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={listLimit} onListLimitChange={onListLimitChange}/>
+						<ShowEntries name={itemState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={itemState.listLimit} onListLimitChange={onListLimitChange}/>
 						{moveSelectedItem != null
 						? <span style={{background:"#FFFFCC"}}>{moveHeader}</span>
-						: <OrderBy containerState={containerState} name={containerState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} orderCriteria={orderCriteria} onOrderBy={onOrderBy}/>
+						: <OrderBy itemState={itemState} name={itemState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} orderCriteria={itemState.orderCriteria} onOrderBy={onOrderBy}/>
 						}
 						{moveSelectedItem != null ? <span></span>
-						:<SearchBy containerState={containerState} name={containerState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} searchCriteria={searchCriteria} onSearchClick={onSearchClick}/>
+						:<SearchBy itemState={itemState} name={itemState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} searchCriteria={itemState.searchCriteria} onSearchClick={onSearchClick}/>
 						}
 						{moveSelectedItem != null ? <span></span>
-						:<Search name={containerState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
+						:<Search name={itemState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
 						}
 					</div>
 					<table className="table table-striped">
 						{tableHeader}
 						{tableBody}
 					</table>
-					<Pagination currentSegment={containerState[containerState.pageName+"_PAGINATION"]} appPrefs={appPrefs} itemCount={itemCount} listStart={listStart} listLimit={listLimit} onClick={onPaginationClick}/>
+					<Pagination currentSegment={itemState[itemState.pageName+"_PAGINATION"]} appPrefs={appPrefs} itemCount={itemState.itemCount} listStart={itemState.listStart} listLimit={itemState.listLimit} onClick={onPaginationClick}/>
 				</div>
 			</div>
 			<div id="filterModal" className="modal fade" role="dialog" aria-labelledby="basicModal">
@@ -220,12 +236,8 @@ const Table = ({containerState, header, items, itemCount, columns, labelGroup, a
 };
 
 Table.propTypes = {
-	containerState: PropTypes.object.isRequired,
+	itemState: PropTypes.object.isRequired,
 	header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-	items: PropTypes.array,
-	itemCount: PropTypes.number,
-	listStart: PropTypes.number,
-	listLimit: PropTypes.number,
 	parent: PropTypes.string,
 	columns: PropTypes.array,
 	labelGroup: PropTypes.string,
@@ -237,8 +249,6 @@ Table.propTypes = {
 	onOrderBy: PropTypes.func,
 	onHeader: PropTypes.func,
 	onOption: PropTypes.func,
-	orderCriteria: PropTypes.array,
-	searchCriteria: PropTypes.array,
 	moveSelectedItem: PropTypes.object,
 	moveHeader: PropTypes.string
 };

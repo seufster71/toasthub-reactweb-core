@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextAreaInput from '../../coreView/common/textarea-input';
 
-const TextAreaInputBuilder = ({item, field, inputFields, inputChange, onBlur, containerState, lang}) => {
+const TextAreaInputBuilder = ({field, inputChange, onBlur, itemState, lang}) => {
 	let fieldName = field.name;
 	if (lang != null){
 		fieldName = field.name+"-"+lang;
@@ -10,8 +10,8 @@ const TextAreaInputBuilder = ({item, field, inputFields, inputChange, onBlur, co
 	let defaultInput = "";
 	if (field.classModel != "") {
 		let codeModel = JSON.parse(field.classModel);
-		if (item != null && item[codeModel.field] != null) {
-			defaultInput = item[codeModel.field];
+		if (itemState.selected != null && itemState.selected[codeModel.field] != null) {
+			defaultInput = itemState.selected[codeModel.field];
 		}
 	}
 	
@@ -22,34 +22,19 @@ const TextAreaInputBuilder = ({item, field, inputFields, inputChange, onBlur, co
 			comment = validation.comment;
 		}
 	}
-	let errors = null;
-	if (containerState != null && containerState.errors != null){
-		errors = containerState.errors;
-	}
-	
-	let warns = null;
-	if (containerState != null && containerState.warns != null){
-		warns = containerState.warns;
-	}
-	
-	let successes = null;
-	if (containerState != null && containerState.successes != null){
-		successes = containerState.successes;
-	}
+
 	
 	return (
-			<TextAreaInput name={fieldName} label={field.label} rendered={field.rendered} required={field.required} errors={errors} successes={successes} rows={field.rows} cols={field.cols}
-			warns={warns} inputChange={(e) => inputChange("TEXT",fieldName,'',e)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
+			<TextAreaInput name={fieldName} label={field.label} rendered={field.rendered} required={field.required} errors={itemState.errors} successes={itemState.successes} rows={field.rows} cols={field.cols}
+			warns={itemState.warns} inputChange={(e) => inputChange("TEXT",fieldName,'',e)} value={(itemState.inputFields != null && itemState.inputFields[fieldName] != null)?itemState.inputFields[fieldName]:defaultInput} comment={comment}
 			onBlur={(onBlur != null)?onBlur(field):null}/>
 		);
 	
 };
 
 TextAreaInputBuilder.propTypes = {
-	item: PropTypes.object,
+	itemState: PropTypes.object.isRequired,
 	field: PropTypes.object.isRequired,
-	inputFields: PropTypes.object.isRequired,
-	containerState: PropTypes.object,
 	inputChange: PropTypes.func,
 	onBlur: PropTypes.func,
 	lang: PropTypes.string

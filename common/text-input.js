@@ -77,7 +77,7 @@ TextInput.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string,
 	placeHolder: PropTypes.string,
-	value: PropTypes.string,
+	value: PropTypes.oneOfType([PropTypes.string,PropTypes.number]),
 	errors: PropTypes.object,
 	warns: PropTypes.object,
 	successes: PropTypes.object,

@@ -13,18 +13,8 @@ import SelectMultipleBuilder from '../../coreView/common/select-multiple-builder
 import utils from '../../core/common/utils';
 import moment from 'moment';
 
-export default function FormBuilder({containerState, itemState, item, formName, formTitle, formGroup, inputFields, 
-	appPrefs, prefForms, onSave, onCancel, inputChange}) {
+export default function FormBuilder({itemState, formName, formTitle, formGroup, appPrefs, onSave, onCancel, inputChange}) {
 	
-	if (itemState != null && item == null){
-		item = itemState.selected;
-	}
-	if (itemState != null && inputFields == null) {
-		inputFields = itemState.inputFields;
-	}
-	if (itemState != null && prefForms == null) {
-		prefForms = itemState.prefForms;
-	}
 		
 	let formTitleDefault = "Form Title";
 	if (formTitle == null || formTitle != null && formTitle == ""){
@@ -32,20 +22,20 @@ export default function FormBuilder({containerState, itemState, item, formName, 
 	}
 	
 	let created = "";
-    if (item != null && item.created != null) {
+    if (itemState.selected != null && itemState.selected.created != null) {
     	created = new Intl.DateTimeFormat('en-US',{
     		year: 'numeric', month: 'numeric', day: 'numeric',
     		hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'America/New_York'
-    	}).format(moment(item.created).toDate());
+    	}).format(moment(itemState.selected.created).toDate());
     	created = <div>Created: {created}</div>;
     }
     
     let modified = "";
-    if (item != null && item.modified != null) {
+    if (itemState.selected != null && itemState.selected.modified != null) {
     	modified = new Intl.DateTimeFormat('en-US',{
     		year: 'numeric', month: 'numeric', day: 'numeric',
     		hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'America/New_York'
-    	}).format(moment(item.modified).toDate());
+    	}).format(moment(itemState.selected.modified).toDate());
     	modified = <div>Last Modified: {modified}</div>
     }
 	
@@ -53,21 +43,21 @@ export default function FormBuilder({containerState, itemState, item, formName, 
 	let subGroups = [];
 	let options = [];
 	let defaultOption;
-	if (prefForms != null && prefForms[formName] != null) {
-    	for (let i = 0; i < prefForms[formName].length; i++) {
-    		if (prefForms[formName][i].subGroup != undefined && prefForms[formName][i].subGroup != ""){
+	if (itemState.prefForms != null && itemState.prefForms[formName] != null) {
+    	for (let i = 0; i < itemState.prefForms[formName].length; i++) {
+    		if (itemState.prefForms[formName][i].subGroup != undefined && itemState.prefForms[formName][i].subGroup != ""){
     			continue;
     		}
-    		let fieldType = prefForms[formName][i].fieldType;
+    		let fieldType = itemState.prefForms[formName][i].fieldType;
     		switch(fieldType) {
     		case "MGRP":
-        		subGroups.push(prefForms[formName][i]);
+        		subGroups.push(itemState.prefForms[formName][i]);
     			break;
     		case "TXT":
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<TextBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange}/>
+    							<TextBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange}/>
     						</div>
     					</div>);
     			break;
@@ -75,7 +65,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<TextAreaBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange}/>
+    							<TextAreaBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange}/>
     						</div>
     					</div>);
     			break;
@@ -83,14 +73,22 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
 							<div className="col-sm-4">
-								<MultiLangTextInput field={prefForms[formName][i]} item={item} inputFields={inputFields} containerState={containerState} inputChange={inputChange} appPrefs={appPrefs}/>		
+								<MultiLangTextInput field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} appPrefs={appPrefs}/>		
 							</div>
 						</div>);
     			break;
+    		case "INT":
+    			fieldList.push(
+    					<div key={i} className="row">
+    						<div className="col-sm-4">
+    							<TextBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange}/>
+    						</div>
+    					</div>);
+    			break;
     		case "SLT":
     			options = [];
-    			if (prefForms[formName][i].value != "") {
-    				let valueObj = JSON.parse(prefForms[formName][i].value);
+    			if (itemState.prefForms[formName][i].value != "") {
+    				let valueObj = JSON.parse(itemState.prefForms[formName][i].value);
     				if (valueObj.options != null) {
     					options = valueObj.options;
     				} else if (valueObj.referPref != null) {
@@ -106,14 +104,14 @@ export default function FormBuilder({containerState, itemState, item, formName, 
 				fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<SelectBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange} options={options}/>
+    							<SelectBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} options={options}/>
     						</div>
     					</div>);
     			break;
     		case "SLTMULTI":
     			options = [];
-    			if (prefForms[formName][i].value != "") {
-    				let valueObj = JSON.parse(prefForms[formName][i].value);
+    			if (itemState.prefForms[formName][i].value != "") {
+    				let valueObj = JSON.parse(itemState.prefForms[formName][i].value);
     				if (valueObj.options != null) {
     					options = valueObj.options;
     				} else if (valueObj.referPref != null) {
@@ -129,8 +127,8 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     				}
     			}
     			defaultOption = [];
-    			if (inputFields[prefForms[formName][i].name] != null && inputFields[prefForms[formName][i].name] != "") {
-    				let optionIds = inputFields[prefForms[formName][i].name];
+    			if (itemState.inputFields[itemState.prefForms[formName][i].name] != null && itemState.inputFields[itemState.prefForms[formName][i].name] != "") {
+    				let optionIds = itemState.inputFields[itemState.prefForms[formName][i].name];
     				for (let l = 0; l < optionIds.length; l++) {
     					for (let o = 0; o < options.length; o++) {
     						if (optionIds[l] == options[o].value) {
@@ -143,14 +141,14 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<SelectMultipleBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange} options={options} defaultOption={defaultOption}/>
+    							<SelectMultipleBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} options={options} defaultOption={defaultOption}/>
     						</div>
     					</div>);
     			break;
     		case "BLN":
     			let optionsBLN = [];
-    			if (prefForms[formName][i].value != "") {
-    				let valueObj = JSON.parse(prefForms[formName][i].value);
+    			if (itemState.prefForms[formName][i].value != "") {
+    				let valueObj = JSON.parse(itemState.prefForms[formName][i].value);
     				if (valueObj.options != null) {
     					optionsBLN = valueObj.options;
     				} else if (valueObj.referPref != null) {
@@ -166,7 +164,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<Switch item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange} options={optionsBLN}/>
+    							<Switch field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} options={optionsBLN}/>
     						</div>
     					</div>);
     			break;
@@ -174,7 +172,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<DateBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange}/>
+    							<DateBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange}/>
     						</div>
     					</div>);
     			break;
@@ -185,13 +183,13 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     					if (itemState.selectList[l] != null && itemState.selectList[l].extra != "") {
     						desc += " - " + itemState.selectList[l].extra;
     					}
-    					options.push(<div key={l} onClick={() => inputChange("SELECTCLICK",prefForms[formName][i],itemState.selectList[l])}>{desc}</div>);
+    					options.push(<div key={l} onClick={() => inputChange("SELECTCLICK",itemState.prefForms[formName][i],itemState.selectList[l])}>{desc}</div>);
     				}
     			}
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<TextAutocompleteBuilder item={item} field={prefForms[formName][i]} inputFields={inputFields} containerState={containerState} inputChange={inputChange} options={options} isSelectListOpen={itemState.isSelectListOpen}/>
+    							<TextAutocompleteBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} options={options} isSelectListOpen={itemState.isSelectListOpen}/>
     						</div>
     					</div>);
     			break;
@@ -212,38 +210,38 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     				for (let l = 0; l < appPrefs.prefGlobal.LANGUAGES.length; l++) {
     	    			let key = "subGroup-"+appPrefs.prefGlobal.LANGUAGES[l].code;
     	    			let subGroupList = [];
-    	    			for (let j = 0; j < prefForms[formName].length; j++) {
-    	    				if ( !(prefForms[formName][j].subGroup === groupName) ) {
+    	    			for (let j = 0; j < itemState.prefForms[formName].length; j++) {
+    	    				if ( !(itemState.prefForms[formName][j].subGroup === groupName) ) {
     	    	    			continue;
     	    	    		}
     	    					
-    	    				let fieldType = prefForms[formName][j].fieldType;
+    	    				let fieldType = itemState.prefForms[formName][j].fieldType;
     	    				switch(fieldType) {
     	    	    		case "TXT":
     	    					subGroupList.push(
     	            					<div key={j} className="row">
     	            						<div className="col-sm-12">
-    	            							<TextBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange}/>
+    	            							<TextBuilder field={itemState.prefForms[formName][j]} lang={appPrefs.prefGlobal.LANGUAGES[l].code} itemState={itemState} inputChange={inputChange}/>
     	            						</div>
     	            					</div>);
     	            			break;
     	    	    		case "SLT":
     		    				let options = [];
-    		        			if (prefForms[formName][j].value != "") {
-    		        				let valueObj = JSON.parse(prefForms[formName][j].value);
+    		        			if (itemState.prefForms[formName][j].value != "") {
+    		        				let valueObj = JSON.parse(itemState.prefForms[formName][j].value);
     		        				options = valueObj.options;
     		        			}
     	        				subGroupList.push(
     	            					<div key={j} className="row">
     	            						<div className="col-sm-12">
-    	            							<SelectBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange} options={options}/>
+    	            							<SelectBuilder field={itemState.prefForms[formName][j]} lang={appPrefs.prefGlobal.LANGUAGES[l].code} itemState={itemState} inputChange={inputChange} options={options}/>
     	            						</div>
     	            					</div>);
     	        				break;
     	    	    		case "BLN":
     	    	    			let optionsBLN = [];
-    	    	    			if (prefForms[formName][j].value != "") {
-    	    	    				let valueObj = JSON.parse(prefForms[formName][j].value);
+    	    	    			if (itemState.prefForms[formName][j].value != "") {
+    	    	    				let valueObj = JSON.parse(itemState.prefForms[formName][j].value);
     	    	    				if (valueObj.options != null) {
     	    	    					optionsBLN = valueObj.options;
     	    	    				} else if (valueObj.referPref != null) {
@@ -259,7 +257,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     	        				subGroupList.push(
     	            					<div key={j} className="row">
     	            						<div className="col-sm-12">
-    	            							<Switch item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange} options={optionsBLN}/>
+    	            							<Switch field={prefForms[formName][j]} lang={appPrefs.prefGlobal.LANGUAGES[l].code} itemState={itemState} inputChange={inputChange} options={optionsBLN}/>
     	            						</div>
     	            					</div>);
     	        				break;
@@ -282,37 +280,37 @@ export default function FormBuilder({containerState, itemState, item, formName, 
     	    					</div>);
     				}
     			} else {
-    				for (let j = 0; j < prefForms[formName].length; j++) {
-        				if ( !(prefForms[formName][j].group === groupName) ) {
+    				for (let j = 0; j < itemState.prefForms[formName].length; j++) {
+        				if ( !(itemState.prefForms[formName][j].group === groupName) ) {
         	    			continue;
         	    		}
-        				let fieldType = prefForms[formName][j].fieldType;
+        				let fieldType = itemState.prefForms[formName][j].fieldType;
         				switch(fieldType) {
 	    	    		case "TXT":
         					subGroupList.push(
                 					<div key={j} className="row">
                 						<div className="col-sm-12">
-                							<TextBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange}/>
+                							<TextBuilder field={prefForms[formName][j]} lang={appPrefs.prefGlobal.LANGUAGES[l].code} itemState={itemState} inputChange={inputChange}/>
                 						</div>
                 					</div>);
         					break;
 	    	    		case "SLT":
     	    				let options = [];
-    	        			if (prefForms[formName][j].value != "") {
-    	        				let valueObj = JSON.parse(prefForms[formName][j].value);
+    	        			if (itemState.prefForms[formName][j].value != "") {
+    	        				let valueObj = JSON.parse(itemState.prefForms[formName][j].value);
     	        				options = valueObj.options;
     	        			}
             				subGroupList.push(
                 					<div key={j} className="row">
                 						<div className="col-sm-12">
-                							<SelectBuilder item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange} options={options}/>
+                							<SelectBuilder field={itemState.prefForms[formName][j]} lang={appPrefs.prefGlobal.LANGUAGES[l].code} itemState={itemState} inputChange={inputChange} options={options}/>
                 						</div>
                 					</div>);
             				break;
 	    	    		case "BLN":
 	    	    			let optionsBLN = [];
-	    	    			if (prefForms[formName][j].value != "") {
-	    	    				let valueObj = JSON.parse(prefForms[formName][j].value);
+	    	    			if (itemState.prefForms[formName][j].value != "") {
+	    	    				let valueObj = JSON.parse(itemState.prefForms[formName][j].value);
 	    	    				if (valueObj.options != null) {
 	    	    					optionsBLN = valueObj.options;
 	    	    				} else if (valueObj.referPref != null) {
@@ -328,7 +326,7 @@ export default function FormBuilder({containerState, itemState, item, formName, 
             				subGroupList.push(
                 					<div key={j} className="row">
                 						<div className="col-sm-12">
-                							<Switch item={item} field={prefForms[formName][j]} inputFields={inputFields} lang={appPrefs.prefGlobal.LANGUAGES[l].code} containerState={containerState} inputChange={inputChange} options={optionsBLN}/>
+                							<Switch field={itemState.prefForms[formName][j]} lang={appPrefs.prefGlobal.LANGUAGES[l].code} itemState={itemState} inputChange={inputChange} options={optionsBLN}/>
                 						</div>
                 					</div>);
             				break;
@@ -367,15 +365,11 @@ export default function FormBuilder({containerState, itemState, item, formName, 
 }
 
 FormBuilder.propTypes = {
-	containerState: PropTypes.object.isRequired,
-	itemState: PropTypes.object,
-	item: PropTypes.object,
+	itemState: PropTypes.object.isRequired,
 	formName: PropTypes.string.isRequired,
 	formTitle: PropTypes.string,
 	formGroup: PropTypes.string.isRequired,
-	inputFields: PropTypes.object,
 	appPrefs: PropTypes.object.isRequired,
-	prefForms: PropTypes.object,
 	onSave: PropTypes.func.isRequired,
 	onCancel: PropTypes.func.isRequired,
 	inputChange: PropTypes.func.isRequired

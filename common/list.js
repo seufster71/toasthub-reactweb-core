@@ -6,9 +6,8 @@ import SearchBy from './search-by';
 import Search from './search';
 import Pagination from './pagination';
 
-const List = ({containerState, header, listRows, itemCount, appPrefs, listStart, listLimit, parent,
-	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onFilterClick, onHeader, onOrderBy, striped,
-	orderCriteria, searchCriteria, columns}) => {
+const List = ({itemState, header, listRows, appPrefs, parent,
+	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onFilterClick, onHeader, onOrderBy, striped, columns}) => {
 
 	let classListGroup = "list-group list-unstyled";	
 	if (striped == true) {
@@ -26,16 +25,16 @@ const List = ({containerState, header, listRows, itemCount, appPrefs, listStart,
           </div>
           <div className="x_content">
           	<div className="row">
-          		<ShowEntries name={containerState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={listLimit} onListLimitChange={onListLimitChange}/>
-          		<OrderBy containerState={containerState} name={containerState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} orderCriteria={orderCriteria} onChange={onOrderBy}/>
-				<SearchBy containerState={containerState} name={containerState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} searchCriteria={searchCriteria} onChange={onSearchClick}/>
-          		<Search name={containerState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
+          		<ShowEntries name={itemState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={itemState.listLimit} onListLimitChange={onListLimitChange}/>
+          		<OrderBy itemState={itemState} name={itemState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} orderCriteria={itemState.orderCriteria} onChange={onOrderBy}/>
+				<SearchBy itemState={itemState} name={itemState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} onChange={onSearchClick}/>
+          		<Search name={itemState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
           	</div>
           		<br/>
             <ul className={classListGroup}>
               {listRows}
             </ul>
-            <Pagination currentSegment={containerState[containerState.pageName+"_PAGINATION"]} appPrefs={appPrefs} itemCount={itemCount} listStart={listStart} listLimit={listLimit} onClick={onPaginationClick}/>
+            <Pagination currentSegment={itemState[itemState.pageName+"_PAGINATION"]} appPrefs={appPrefs} itemCount={itemState.itemCount} listStart={itemState.listStart} listLimit={itemState.listLimit} onClick={onPaginationClick}/>
           </div>
         </div>
       </div>
@@ -43,12 +42,9 @@ const List = ({containerState, header, listRows, itemCount, appPrefs, listStart,
 };
 
 List.propTypes = {
-  containerState: PropTypes.object.isRequired,
+  itemState: PropTypes.object.isRequired,
   header: PropTypes.string,
   listRows: PropTypes.array,
-  itemCount: PropTypes.number,
-  listStart: PropTypes.number,
-  listLimit: PropTypes.number,
   appPrefs: PropTypes.object,
   parent: PropTypes.object,
   onListLimitChange: PropTypes.func,
@@ -59,8 +55,6 @@ List.propTypes = {
   onHeader: PropTypes.func,
   onOrderBy: PropTypes.func,
   striped: PropTypes.bool,
-  orderCriteria: PropTypes.array,
-  searchCriteria: PropTypes.array,
   columns: PropTypes.array
 };
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import SelectMultiple from './select-multiple-input';
 
-const SearchBy = ({containerState, name, appPrefs, columns, parent, searchCriteria, onSearchClick}) => {
+const SearchBy = ({itemState, name, appPrefs, columns, parent, onSearchClick}) => {
 
 	let options = [];
 	let selectedColumns = [];
@@ -21,9 +21,9 @@ const SearchBy = ({containerState, name, appPrefs, columns, parent, searchCriter
 			if (columns[c].value != "") {
 				let option = {value:columns[c].name, label:columns[c].value};
 				options.push(option);
-				if (searchCriteria != null) {
-					for (let i = 0; i < searchCriteria.length; i++) {
-						if (searchCriteria[i].searchColumn === columns[c].name) {
+				if (itemState.searchCriteria != null) {
+					for (let i = 0; i < itemState.searchCriteria.length; i++) {
+						if (itemState.searchCriteria[i].searchColumn === columns[c].name) {
 							selectedColumns.push(option);
 						}
 					}
@@ -36,18 +36,17 @@ const SearchBy = ({containerState, name, appPrefs, columns, parent, searchCriter
 
 	return (
 		<div className="col-xs-12 col-md-3">
-			<SelectMultiple containerState={containerState} name={name} label="Search by" options={options} defaultOption={selectedColumns} inputChange={onSearchClick} inline="true"/>
+			<SelectMultiple itemState={itemState} name={name} label="Search by" options={options} defaultOption={selectedColumns} inputChange={onSearchClick} inline="true"/>
         </div>
 	);
 };
 
 SearchBy.propTypes = {
-	containerState: PropTypes.object,
+	itemState: PropTypes.object.isRequired,
 	name: PropTypes.string.isRequired,
 	appPrefs: PropTypes.object.isRequired,
 	columns: PropTypes.array.isRequired,
 	parent: PropTypes.string,
-	searchCriteria: PropTypes.array,
 	onSearchClick: PropTypes.func
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from '../../coreView/common/select-input';
 
-const SelectInputBuilder = ({item, field, inputFields, options, inputChange, containerState, lang }) => {
+const SelectInputBuilder = ({itemState, field, options, inputChange, lang }) => {
 	
 	let fieldName = field.name;
 	if (lang != null) {
@@ -12,8 +12,8 @@ const SelectInputBuilder = ({item, field, inputFields, options, inputChange, con
 	let defaultInput = "";
 	if (field.classModel != "") {
 		let codeModel = JSON.parse(field.classModel);
-		if (item != null && item[codeModel.field] != null) {
-			defaultInput = item[codeModel.field];
+		if (itemState.item != null && itemState.item[codeModel.field] != null) {
+			defaultInput = itemState.item[codeModel.field];
 		}
 	}
 	
@@ -24,34 +24,17 @@ const SelectInputBuilder = ({item, field, inputFields, options, inputChange, con
     	let o = JSON.parse(field.value);
     	selectOptions = o.options
     }
-    
-    let errors = null;
-	if (containerState != null && containerState.errors != null){
-		errors = containerState.errors;
-	}
-	
-	let warns = null;
-	if (containerState != null && containerState.warns != null){
-		warns = containerState.warns;
-	}
-	
-	let successes = null;
-	if (containerState != null && containerState.successes != null){
-		successes = containerState.successes;
-	}
 	
 	return (
-		<Select name={fieldName} label={field.label} required={field.required} errors={errors} successes={successes} warns={warns} 
-		options={selectOptions} inputChange={inputChange} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput}/>
+		<Select name={fieldName} label={field.label} required={field.required} errors={itemState.errors} successes={itemState.successes} warns={itemState.warns} 
+		options={selectOptions} inputChange={inputChange} value={(itemState.inputFields != null && itemState.inputFields[fieldName] != null)?itemState.inputFields[fieldName]:defaultInput}/>
 	);
 };
 
 SelectInputBuilder.propTypes = {
-	item: PropTypes.object,
+	itemState: PropTypes.object.isRequired,
 	field: PropTypes.object.isRequired,
-	inputFields: PropTypes.object.isRequired,
 	options: PropTypes.array,
-	containerState: PropTypes.object,
 	inputChange: PropTypes.func,
 	lang: PropTypes.string
 };

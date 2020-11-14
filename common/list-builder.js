@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import List from '../../coreView/common/list';
 import moment from 'moment';
 
-const ListBuilder = ({containerState, header, items, itemCount, columns, appPrefs, listStart, listLimit, parent,
-	onListLimitChange, onSearchClick, onSearchChange, onPaginationClick, onOrderBy, onHeader, onOption1, onOption2, 
-	onOption3, onOption4, onOption5, onOption6, goBack, orderCriteria, searchCriteria}) => {
+const ListBuilder = ({header, itemState, columns, appPrefs, parent, onListLimitChange, onSearchClick, 
+	onSearchChange, onPaginationClick, onOrderBy, onHeader, onOption1, onOption2, 
+	onOption3, onOption4, onOption5, onOption6, goBack}) => {
 	let striped = true;
 	let parentName = "";
 	if (parent != null) {
@@ -21,9 +21,9 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 	
 	let listRows = [];
 	// fill list
-	if (items != null && items.length > 0) {
+	if (itemState != null && itemState.items != null && itemState.items.length > 0) {
 		let even = true;
-	    for (let i = 0; i < items.length; i++) {
+	    for (let i = 0; i < itemState.items.length; i++) {
 	    	let cells = [];
 	    	let lines = [];
 	    	for (let c = 0; c < columns.length; c++) {
@@ -35,26 +35,26 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 						continue;
 					}
 					if (opt.field != null) {
-						value = items[i][opt.field];
+						value = itemState.items[i][opt.field];
 					} else if (opt.fieldML != null) {
-						if (items[i][opt.fieldML].langTexts != null && items[i][opt.fieldML].langTexts.length > 0){
+						if (itemState.items[i][opt.fieldML].langTexts != null && itemState.items[i][opt.fieldML].langTexts.length > 0){
 							let match = false;
-							for(let j = 0; j < items[i][opt.fieldML].langTexts.length; j++) {
-								if (items[i][opt.fieldML].langTexts[j].lang == appPrefs.lang) {
-									value = items[i][opt.fieldML].langTexts[j].text;
+							for(let j = 0; j < itemState.items[i][opt.fieldML].langTexts.length; j++) {
+								if (itemState.items[i][opt.fieldML].langTexts[j].lang == appPrefs.lang) {
+									value = itemState.items[i][opt.fieldML].langTexts[j].text;
 									match = true;
 									break;
 								}
 							}
 							if (!match) {
-								value = items[i][opt.fieldML].defaultText;
+								value = itemState.items[i][opt.fieldML].defaultText;
 							}
 						} else {
-					    	value = items[i][opt.fieldML].defaultText;
+					    	value = itemState.items[i][opt.fieldML].defaultText;
 					    }
 
 					} else if (opt.fieldBool != null) {
-						if (items[i][opt.fieldBool] == true) {
+						if (itemState.items[i][opt.fieldBool] == true) {
 							value = "Active";
 						} else {
 							value = "Disabled";
@@ -63,61 +63,61 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 						value = [];
 						for(let j = 0; j < opt.fieldIcon.length; j++) {
 							if (opt.fieldIcon[j].icon == "option1" && onOption1 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption1(items[i])} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption1(itemState.items[i])} aria-hidden="true"/>);
 							}
 							if (opt.fieldIcon[j].icon == "option2" && onOption2 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption2(items[i])} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption2(itemState.items[i])} aria-hidden="true"/>);
 							}
 							if (opt.fieldIcon[j].icon == "option3" && onOption3 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption3(items[i])} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption3(itemState.items[i])} aria-hidden="true"/>);
 							}
 							if (opt.fieldIcon[j].icon == "option4" && onOption4 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption4(items[i])} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption4(itemState.items[i])} aria-hidden="true"/>);
 							}
 							if (opt.fieldIcon[j].icon == "option5" && onOption5 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption5(items[i])} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption5(itemState.items[i])} aria-hidden="true"/>);
 							}
 							if (opt.fieldIcon[j].icon == "option6" && onOption6 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption6(items[i])} aria-hidden="true"/>);
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption6(itemState.items[i])} aria-hidden="true"/>);
 							}
 						}
 					} else if (opt.fieldObj != null){
 						if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.field != null) {
-							if (items[i][opt.fieldObj.field] != null) {
-								value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.field];
+							if (itemState.items[i][opt.fieldObj.field] != null) {
+								value = itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.field];
 							}
 						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldDate != null) {
-							if (items[i][opt.fieldObj.field] != null) {
+							if (itemState.items[i][opt.fieldObj.field] != null) {
 								value = new Intl.DateTimeFormat('en-US',{
 				            		year: 'numeric', month: 'numeric', day: 'numeric'
-				            	}).format(moment(items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldDate]).toDate());
+				            	}).format(moment(itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldDate]).toDate());
 							}
 						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldBool != null) {
-							if (items[i][opt.fieldObj.field] != null) {
-								if (items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldBool] == true) {
+							if (itemState.items[i][opt.fieldObj.field] != null) {
+								if (itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldBool] == true) {
 									value = "Active";
 								} else {
 									value = "Disabled";
 								}
 							}
 						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldML != null) {
-							if (items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts != null && items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length > 0){
+							if (itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts != null && itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length > 0){
 								let match = false;
-								for(let j = 0; j < items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length; j++) {
-									if (items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts[j].lang == appPrefs.lang) {
-										value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts[j].text;
+								for(let j = 0; j < itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length; j++) {
+									if (itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts[j].lang == appPrefs.lang) {
+										value = itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts[j].text;
 										match = true;
 										break;
 									}
 								}
 								if (!match) {
-									value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].defaultText;
+									value = itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].defaultText;
 								}
 							} else {
-								value = items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].defaultText;
+								value = itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].defaultText;
 							}
 						} else {
-							value = items[i][opt.fieldObj.field];
+							value = itemState.items[i][opt.fieldObj.field];
 						}
 					}
 					lines.push(
@@ -132,11 +132,11 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 	    	
 	    	
 	    	let active = "Disabled";
-	    	if (items[i].active == true) {
+	    	if (itemState.items[i].active == true) {
 	    		active = "Active";
 	    	}
 	    	let created = "";
-	    	if (items[i].created != null) {
+	    	if (itemState.items[i].created != null) {
 	    		created = new Intl.DateTimeFormat('en-US', {
 		          year: 'numeric',
 		          month: 'short',
@@ -145,10 +145,10 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 		          minute: 'numeric',
 		          second: 'numeric',
 		          timeZone: 'America/New_York'
-	    		}).format(moment(items[i].created).toDate());
+	    		}).format(moment(itemState.items[i].created).toDate());
 	    	}
 	    	let modified = "";
-	    	if (items[i].modified != null) {
+	    	if (itemState.items[i].modified != null) {
 	    		modified = new Intl.DateTimeFormat('en-US', {
 		          year: 'numeric',
 		          month: 'short',
@@ -157,7 +157,7 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 		          minute: 'numeric',
 		          second: 'numeric',
 		          timeZone: 'America/New_York'
-	    		}).format(moment(items[i].modified).toDate());
+	    		}).format(moment(itemState.items[i].modified).toDate());
 	    	}
 	    	
 	    	
@@ -171,7 +171,7 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 		        </div>
             );
 
-	    	listRows.push(<li key={items[i].id} className="list-group-item">{cells}</li>);
+	    	listRows.push(<li key={itemState.items[i].id} className="list-group-item">{cells}</li>);
 	    	
 	    }
   	} else {
@@ -180,13 +180,10 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 	
 	return (
 		<List 
-		containerState={containerState} 
 		header={header} 
 		listRows={listRows} 
-		itemCount={itemCount} 
+		itemState={itemState}
 		appPrefs={appPrefs} 
-		listStart={listStart} 
-		listLimit={listLimit} 
 		onListLimitChange={onListLimitChange} 
 		onSearchClick={onSearchClick} 
 		onSearchChange={onSearchChange} 
@@ -194,20 +191,14 @@ const ListBuilder = ({containerState, header, items, itemCount, columns, appPref
 		onOrderBy={onOrderBy}
 		onHeader={onHeader} 
 		striped={striped} 
-		orderCriteria={orderCriteria}
-		searchCriteria={searchCriteria}
 		columns={columns}
 		/>
 	);
 };
 
 ListBuilder.propTypes = {
-	containerState: PropTypes.object,
+	itemState: PropTypes.object.isRequired,
 	header: PropTypes.string,
-	items: PropTypes.array,
-	itemCount: PropTypes.number,
-	listStart: PropTypes.number,
-	listLimit: PropTypes.number,
 	parent: PropTypes.string,
 	columns: PropTypes.array,
 	appPrefs: PropTypes.object,
@@ -223,9 +214,7 @@ ListBuilder.propTypes = {
 	onOption4: PropTypes.func,
 	onOption5: PropTypes.func,
 	onOption6: PropTypes.func,
-	goBack: PropTypes.func,
-	orderCriteria: PropTypes.array,
-	searchCriteria: PropTypes.array
+	goBack: PropTypes.func
 };
 
 export default ListBuilder;

@@ -61,7 +61,7 @@ const SelectInput = ({name, label, defaultOption, value, errors, warns, successe
 		return (
 			<div className={wrapperClass}>
 				<label htmlFor={name}>{label}{req}</label>
-				<select name={name} value={value} className="form-control" onChange={() => inputChange("SELECT",name)}>
+				<select name={name} value={value} className="form-control" onChange={(e) => inputChange("SELECT",name,'',e)}>
 					{selectOptions}
 				</select>
 				{errorFeedBack}

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import SelectMultiple from './select-multiple-input';
 
-const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria, onOrderBy}) => {
+const OrderBy = ({itemState, name, appPrefs, columns, parent, onOrderBy}) => {
 
 	let options = [];
 	let tempColumns = [];
@@ -24,13 +24,13 @@ const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria
 				let optionDESC = {value:columns[c].name, label:columns[c].value+" DESC"};
 				options.push(optionASC);
 				options.push(optionDESC);
-				if (orderCriteria != null) {
-					for (let i = 0; i < orderCriteria.length; i++) {
-						if (orderCriteria[i].orderColumn === columns[c].name) {
-							if (orderCriteria[i].orderDir === "ASC") {
-								tempColumns.push({orderCriteria:orderCriteria[i],option:optionASC});
-							} else if (orderCriteria[i].orderDir === "DESC") {
-								tempColumns.push({orderCriteria:orderCriteria[i],option:optionDESC});
+				if (itemState.orderCriteria != null) {
+					for (let i = 0; i < itemState.orderCriteria.length; i++) {
+						if (itemState.orderCriteria[i].orderColumn === columns[c].name) {
+							if (itemState.orderCriteria[i].orderDir === "ASC") {
+								tempColumns.push({orderCriteria:itemState.orderCriteria[i],option:optionASC});
+							} else if (itemState.orderCriteria[i].orderDir === "DESC") {
+								tempColumns.push({orderCriteria:itemState.orderCriteria[i],option:optionDESC});
 							}
 								
 						}
@@ -40,9 +40,9 @@ const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria
 		}
 	}
 	
-	for (let i = 0; i < orderCriteria.length; i++) {
+	for (let i = 0; i < itemState.orderCriteria.length; i++) {
 		for (let j = 0; j < tempColumns.length; j++) {
-			if (orderCriteria[i] ==  tempColumns[j].orderCriteria) {
+			if (itemState.orderCriteria[i] ==  tempColumns[j].orderCriteria) {
 				selectedColumns.push(tempColumns[j].option);
 			}
 		}
@@ -52,18 +52,17 @@ const OrderBy = ({containerState, name, appPrefs, columns, parent, orderCriteria
 
 	return (
 		<div className="col-xs-12 col-md-3">
-			<SelectMultiple containerState={containerState} name={name} label="Order by" options={options} defaultOption={selectedColumns} inputChange={onOrderBy} inline="true" value={value}/>
+			<SelectMultiple itemState={itemState} name={name} label="Order by" options={options} defaultOption={selectedColumns} inputChange={onOrderBy} inline="true" value={value}/>
         </div>
 	);
 };
 
 OrderBy.propTypes = {
-	containerState: PropTypes.object,
+	itemState: PropTypes.object,
 	name: PropTypes.string.isRequired,
 	appPrefs: PropTypes.object.isRequired,
 	columns: PropTypes.array.isRequired,
 	parent: PropTypes.string,
-	orderCriteria: PropTypes.array,
 	onOrderBy: PropTypes.func
 };
 
