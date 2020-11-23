@@ -13,6 +13,10 @@ const List = ({itemState, header, listRows, appPrefs, parent,
 	if (striped == true) {
 		classListGroup = "list-group list-unstyled list-group-striped";
 	}
+	let addButton;
+	if (onHeader != null) {
+		addButton = <li><i className="fa fa-plus" title="Add" onClick={onHeader()}/></li>;
+	}
 	 
 	return (
 		<div className="col-md-12 col-sm-12 col-xs-12">
@@ -20,7 +24,7 @@ const List = ({itemState, header, listRows, appPrefs, parent,
         		<div className="x_title">
         			{header}
         			<ul className="navbar-right panel_toolbox">
-        				<li><i className="fa fa-plus" title="Add" onClick={onHeader()}/></li>
+        				{addButton}
         			</ul>
           </div>
           <div className="x_content">

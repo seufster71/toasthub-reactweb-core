@@ -199,10 +199,10 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 						<ShowEntries name={itemState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={itemState.listLimit} onListLimitChange={onListLimitChange}/>
 						{moveSelectedItem != null
 						? <span style={{background:"#FFFFCC"}}>{moveHeader}</span>
-						: <OrderBy itemState={itemState} name={itemState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} orderCriteria={itemState.orderCriteria} onOrderBy={onOrderBy}/>
+						: <OrderBy itemState={itemState} name={itemState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} onOrderBy={onOrderBy}/>
 						}
 						{moveSelectedItem != null ? <span></span>
-						:<SearchBy itemState={itemState} name={itemState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} searchCriteria={itemState.searchCriteria} onSearchClick={onSearchClick}/>
+						:<SearchBy itemState={itemState} name={itemState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} onSearchClick={onSearchClick}/>
 						}
 						{moveSelectedItem != null ? <span></span>
 						:<Search name={itemState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />

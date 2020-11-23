@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import List from '../../coreView/common/list';
+import ShowEntries from './show-entries';
+import OrderBy from './order-by';
+import SearchBy from './search-by';
+import Search from './search';
+import Pagination from './pagination';
 import moment from 'moment';
 
 const ListBuilder = ({header, itemState, columns, appPrefs, parent, onListLimitChange, onSearchClick, 
-	onSearchChange, onPaginationClick, onOrderBy, onHeader, onOption1, onOption2, 
-	onOption3, onOption4, onOption5, onOption6, goBack}) => {
+	onSearchChange, onPaginationClick, onOrderBy, onHeader, onOption, goBack}) => {
 	let striped = true;
 	let parentName = "";
 	if (parent != null) {
@@ -14,10 +18,6 @@ const ListBuilder = ({header, itemState, columns, appPrefs, parent, onListLimitC
 	let tableHeader = "";
 	let tableRows = [];
 	
-	let parentReturn = "";
-	if (goBack != null && parent != null) {
-		parentReturn = <i className="fa fa-arrow-circle-left" title="Go Back" onClick={goBack()} aria-hidden="true"></i>;
-	}
 	
 	let listRows = [];
 	// fill list
@@ -61,24 +61,9 @@ const ListBuilder = ({header, itemState, columns, appPrefs, parent, onListLimitC
 						}
 					} else if (opt.fieldIcon != null) {
 						value = [];
-						for(let j = 0; j < opt.fieldIcon.length; j++) {
-							if (opt.fieldIcon[j].icon == "option1" && onOption1 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption1(itemState.items[i])} aria-hidden="true"/>);
-							}
-							if (opt.fieldIcon[j].icon == "option2" && onOption2 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption2(itemState.items[i])} aria-hidden="true"/>);
-							}
-							if (opt.fieldIcon[j].icon == "option3" && onOption3 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption3(itemState.items[i])} aria-hidden="true"/>);
-							}
-							if (opt.fieldIcon[j].icon == "option4" && onOption4 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption4(itemState.items[i])} aria-hidden="true"/>);
-							}
-							if (opt.fieldIcon[j].icon == "option5" && onOption5 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption5(itemState.items[i])} aria-hidden="true"/>);
-							}
-							if (opt.fieldIcon[j].icon == "option6" && onOption6 != null) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={onOption6(itemState.items[i])} aria-hidden="true"/>);
+						if (onOption != null) {
+							for(let j = 0; j < opt.fieldIcon.length; j++) {
+								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={() => onOption(opt.fieldIcon[j].code,itemState.items[i])} aria-hidden="true"/>);
 							}
 						}
 					} else if (opt.fieldObj != null){
@@ -178,21 +163,35 @@ const ListBuilder = ({header, itemState, columns, appPrefs, parent, onListLimitC
 	    listRows.push(<li key="1"><div id={appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.name}> {appPrefs.prefTexts.GLOBAL_PAGE.GLOBAL_PAGE_LIST_EMPTY.value}</div></li>);
   	}
 	
+	let classListGroup = "list-group list-unstyled";	
+	if (striped == true) {
+		classListGroup = "list-group list-unstyled list-group-striped";
+	}
+	
 	return (
-		<List 
-		header={header} 
-		listRows={listRows} 
-		itemState={itemState}
-		appPrefs={appPrefs} 
-		onListLimitChange={onListLimitChange} 
-		onSearchClick={onSearchClick} 
-		onSearchChange={onSearchChange} 
-		onPaginationClick={onPaginationClick}
-		onOrderBy={onOrderBy}
-		onHeader={onHeader} 
-		striped={striped} 
-		columns={columns}
-		/>
+		<div className="col-md-12 col-sm-12 col-xs-12">
+        	<div className="x_panel">
+        		<div className="x_title">
+        			{header}
+        			<ul className="navbar-right panel_toolbox">
+        				 <li><i className="fa fa-plus" title="Add" onClick={() => onOption("MODIFY")}/></li>;
+        			</ul>
+          		</div>
+          		<div className="x_content">
+	          		<div className="row">
+	          			<ShowEntries name={itemState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={itemState.listLimit} onListLimitChange={onListLimitChange}/>
+	          			<OrderBy itemState={itemState} name={itemState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} onOrderBy={onOrderBy}/>
+						<SearchBy itemState={itemState} name={itemState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} onSearchClick={onSearchClick}/>
+	          			<Search name={itemState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
+	          		</div>
+	          		<br/>
+	            	<ul className={classListGroup}>
+	              		{listRows}
+	            	</ul>
+	            	<Pagination currentSegment={itemState[itemState.pageName+"_PAGINATION"]} appPrefs={appPrefs} itemCount={itemState.itemCount} listStart={itemState.listStart} listLimit={itemState.listLimit} onClick={onPaginationClick}/>
+	          	</div>
+        	</div>
+      	</div>
 	);
 };
 
