@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DateInput from '../../coreView/common/date-input';
 
-const DateInputBuilder = ({item, field, inputFields, inputChange, onBlur, containerState, lang}) => {
+const DateInputBuilder = ({itemState, field, inputChange, onBlur, lang}) => {
 	let fieldName = field.name;
 	if (lang != null){
 		fieldName = field.name+"-"+lang;
@@ -10,8 +10,8 @@ const DateInputBuilder = ({item, field, inputFields, inputChange, onBlur, contai
 	let defaultInput = "";
 	if (field.classModel != "") {
 		let codeModel = JSON.parse(field.classModel);
-		if (item != null && item[codeModel.field] != null) {
-			defaultInput = item[codeModel.field];
+		if (itemState != null && itemState.inputFields != null && itemState.inputFields[codeModel.field] != null) {
+			defaultInput = itemState.inputFields[codeModel.field];
 		}
 	}
 	
@@ -23,33 +23,31 @@ const DateInputBuilder = ({item, field, inputFields, inputChange, onBlur, contai
 		}
 	}
 	let errors = null;
-	if (containerState != null && containerState.errors != null){
-		errors = containerState.errors;
+	if (itemState != null && itemState.errors != null){
+		errors = itemState.errors;
 	}
 	
 	let warns = null;
-	if (containerState != null && containerState.warns != null){
-		warns = containerState.warns;
+	if (itemState != null && itemState.warns != null){
+		warns = itemState.warns;
 	}
 	
 	let successes = null;
-	if (containerState != null && containerState.successes != null){
-		successes = containerState.successes;
+	if (itemState != null && itemState.successes != null){
+		successes = itemState.successes;
 	}
 	
 	return (
 			<DateInput name={fieldName} label={field.label} rendered={field.rendered} required={field.required} errors={errors} successes={successes}
-			warns={warns} inputChange={(e) => inputChange("DATE",fieldName,'',e)} value={(inputFields != null && inputFields[fieldName] != null)?inputFields[fieldName]:defaultInput} comment={comment}
+			warns={warns} inputChange={(e) => inputChange("DATE",fieldName,'',e)} value={(itemState.inputFields != null && itemState.inputFields[fieldName] != null)?itemState.inputFields[fieldName]:defaultInput} comment={comment}
 			onBlur={(onBlur != null)?onBlur(field):null}/>
 		);
 	
 };
 
 DateInputBuilder.propTypes = {
-	item: PropTypes.object,
+	itemState: PropTypes.object.isRequired,
 	field: PropTypes.object.isRequired,
-	inputFields: PropTypes.object.isRequired,
-	containerState: PropTypes.object,
 	inputChange: PropTypes.func,
 	onBlur: PropTypes.func,
 	lang: PropTypes.string
