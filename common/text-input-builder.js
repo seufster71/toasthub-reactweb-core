@@ -34,7 +34,7 @@ const TextInputBuilder = ({field, inputChange, onBlur, itemState, lang}) => {
 TextInputBuilder.propTypes = {
 	itemState: PropTypes.object.isRequired,
 	field: PropTypes.object.isRequired,
-	inputChange: PropTypes.func,
+	inputChange: PropTypes.func.isRequired,
 	onBlur: PropTypes.func,
 	lang: PropTypes.string
 };

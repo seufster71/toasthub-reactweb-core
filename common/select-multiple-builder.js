@@ -20,7 +20,7 @@ SelectInputBuilder.propTypes = {
 	field: PropTypes.object.isRequired,
 	options: PropTypes.array,
 	defaultOption: PropTypes.array,
-	inputChange: PropTypes.func,
+	inputChange: PropTypes.func.isRequired,
 	lang: PropTypes.string
 };
 

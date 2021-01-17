@@ -48,7 +48,7 @@ const DateInputBuilder = ({itemState, field, inputChange, onBlur, lang}) => {
 DateInputBuilder.propTypes = {
 	itemState: PropTypes.object.isRequired,
 	field: PropTypes.object.isRequired,
-	inputChange: PropTypes.func,
+	inputChange: PropTypes.func.isRequired,
 	onBlur: PropTypes.func,
 	lang: PropTypes.string
 };

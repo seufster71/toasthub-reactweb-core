@@ -3,32 +3,32 @@ import PropTypes from 'prop-types';
 import Input from './text-input';
 import Utils from '../../core/common/utils';
 
-const MultiLangTextInput = ({ item, field, inputFields, containerState, inputChange, appPrefs, wrapperClass}) => {
+const MultiLangTextInput = ({ itemState, field, inputChange, appPrefs, wrapperClass}) => {
 	
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
 	}
 	
 	let errors = null;
-	if (containerState != null && containerState.errors != null) {
-		errors = containerState.errors;
+	if (itemState != null && itemState.errors != null) {
+		errors = itemState.errors;
 	}
 	
 	let warns = null;
-	if (containerState != null && containerState.warns != null) {
-		warns = containerState.warns;
+	if (itemState != null && itemState.warns != null) {
+		warns = itemState.warns;
 	}
 			
 	let successes = null;
-	if (containerState != null && containerState.successes != null) {
-		successes = containerState.successes;
+	if (itemState != null && itemState.successes != null) {
+		successes = itemState.successes;
 	}
 	
 	let titleDefault = "";
 	if (field.classModel != "") {
 		let titleModel = JSON.parse(field.classModel);
-		if (item != null && item[titleModel.field] != null) {
-			titleDefault = item[titleModel.field].defaultText;
+		if (itemState.selected != null && itemState.selected[titleModel.field] != null) {
+			titleDefault = itemState.selected[titleModel.field].defaultText;
 		}
 	}
 	
@@ -37,6 +37,7 @@ const MultiLangTextInput = ({ item, field, inputFields, containerState, inputCha
 	let textName = field.name + '-TEXT';
 	
 	let formLabel = JSON.parse(field.label);
+	let inputFields = itemState.inputFields;
 
 	let langTextOptions=[];
     if (appPrefs != null && appPrefs.prefGlobal != null && appPrefs.prefGlobal.LANGUAGES != null && appPrefs.prefGlobal.LANGUAGES.length > 0){
@@ -49,10 +50,10 @@ const MultiLangTextInput = ({ item, field, inputFields, containerState, inputCha
     		}
     		if (field.rendered) {
     			let textDefault = "";
-    			//if (item != null && item.title != null && item.title.langTexts != null) {
-    			//	for (let j = 0; j < item.title.langTexts.length; j++) {
-    			//		if (item.title.langTexts[j].lang == appPrefs.prefGlobal.LANGUAGES[i].code) {
-    			//			textDefault = item.title.langTexts[j].text;
+    			//if (itemState.selected != null && itemState.selected.title != null && itemState.selected.title.langTexts != null) {
+    			//	for (let j = 0; j < iitemState.selected.title.langTexts.length; j++) {
+    			//		if (itemState.selected.title.langTexts[j].lang == appPrefs.prefGlobal.LANGUAGES[i].code) {
+    			//			textDefault = itemState.selected.title.langTexts[j].text;
     			//		}
     			//	}
     			//}
@@ -88,12 +89,10 @@ const MultiLangTextInput = ({ item, field, inputFields, containerState, inputCha
 };
 
 MultiLangTextInput.propTypes = {
-	item: PropTypes.object,
+	itemState: PropTypes.object.isRequired,
 	field: PropTypes.object.isRequired,
-	inputFields: PropTypes.object.isRequired,
-	containerState: PropTypes.object,
-	inputChange: PropTypes.func,
-	appPrefs: PropTypes.object,
+	inputChange: PropTypes.func.isRequired,
+	appPrefs: PropTypes.object.isRequired,
 	wrapperClass: PropTypes.string,
 };
 

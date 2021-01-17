@@ -124,7 +124,7 @@ const Switch = ({itemState, field, inputChange, wrapperClass, lang, options }) =
 Switch.propTypes = {
 	itemState: PropTypes.object.isRequired,
 	field: PropTypes.object.isRequired,
-	inputChange: PropTypes.func,
+	inputChange: PropTypes.func.isRequired,
 	wrapperClass: PropTypes.string,
 	lang: PropTypes.string,
 	options: PropTypes.array

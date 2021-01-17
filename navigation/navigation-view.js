@@ -11,12 +11,12 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
     let topMenus = menus;
 
     if (topMenus != null) {
-      items = buildMenu(items,topMenus,permissions);
+      items = buildMenu(items,topMenus,permissions,user,activeTab);
     }
     // user profile
     if (user != null) {
     	if (profileMenu != null) {
-    		items = buildMenu(items,profileMenu,permissions,user);
+    		items = buildMenu(items,profileMenu,permissions,user,activeTab);
     	} else {
 		    items.push(
 		        <NavDropdown key="UP" title={<span><i className="fa fa-bars fa-1" aria-hidden="true"></i> <span className="navText">{user.username}</span></span>} id="UP" >
@@ -49,7 +49,7 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
     );
 }
 
-const buildMenu = (items,menus,permissions,user) => {
+const buildMenu = (items,menus,permissions,user,activeTab) => {
 	for (let m = 0; m < menus.length; m++) {
         if (permissions != null && !utils.hasPermission(permissions,menus[m].permissionCode,"R")) {
           continue;

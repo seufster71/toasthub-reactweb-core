@@ -35,7 +35,7 @@ SelectInputBuilder.propTypes = {
 	itemState: PropTypes.object.isRequired,
 	field: PropTypes.object.isRequired,
 	options: PropTypes.array,
-	inputChange: PropTypes.func,
+	inputChange: PropTypes.func.isRequired,
 	lang: PropTypes.string
 };
 

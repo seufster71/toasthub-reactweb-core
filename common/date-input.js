@@ -91,7 +91,7 @@ DateInput.propTypes = {
 	successes: PropTypes.object,
 	rendered: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	required: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
-	onChange: PropTypes.func,
+	inputChange: PropTypes.func.isRequired,
 	onBlur: PropTypes.func,
 	wrapperClass: PropTypes.string,
 	comment: PropTypes.string
