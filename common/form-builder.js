@@ -257,7 +257,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     	        				subGroupList.push(
     	            					<div key={j} className="row">
     	            						<div className="col-sm-12">
-    	            							<Switch field={prefForms[formName][j]} lang={appPrefs.prefGlobal.LANGUAGES[l].code} itemState={itemState} inputChange={inputChange} options={optionsBLN}/>
+    	            							<Switch field={itemState.prefForms[formName][j]} lang={appPrefs.prefGlobal.LANGUAGES[l].code} itemState={itemState} inputChange={inputChange} options={optionsBLN}/>
     	            						</div>
     	            					</div>);
     	        				break;
