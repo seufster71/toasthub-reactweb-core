@@ -99,6 +99,20 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
 								options = value.options;
 							}
 						}
+    				} else if (valueObj.referPrefGlobal != null) {
+    					let prefs = appPrefs.prefGlobal[valueObj.referPrefGlobal];
+    					if (prefs != null && valueObj.referPrefGlobal === "LANGUAGES") {
+							for (let j = 0; j < prefs.length; j++) {
+								let option = {};
+								option.value = prefs[j].code;
+								for (let k = 0; k < prefs[j].title.langTexts.length; k++) {
+									if (prefs[j].title.langTexts[k].lang === appPrefs.lang) {
+										option.label = prefs[j].title.langTexts[k].text;
+									}
+								}
+								options.push(option);
+							}
+						}
     				}
     			}
 				fieldList.push(
