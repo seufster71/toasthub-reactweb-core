@@ -202,7 +202,7 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 						: <OrderBy itemState={itemState} name={itemState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} onOrderBy={onOrderBy}/>
 						}
 						{moveSelectedItem != null ? <span></span>
-						:<SearchBy itemState={itemState} name={itemState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} onSearchClick={onSearchClick}/>
+						:<SearchBy itemState={itemState} name={itemState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} onClick={onSearchClick}/>
 						}
 						{moveSelectedItem != null ? <span></span>
 						:<Search name={itemState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />

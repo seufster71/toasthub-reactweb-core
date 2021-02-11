@@ -59,7 +59,7 @@ const MultiLangTextInput = ({ itemState, field, inputChange, appPrefs, wrapperCl
     			//}
     			let textLabel = formLabel.textLabel + " " + langLabel;
     			let textNameLang = textName + "-" + appPrefs.prefGlobal.LANGUAGES[i].code;
-    			langTextOptions.push(<Input key={i} name={textNameLang} inputType={field.htmlType} label={textLabel} required={required} errors={errors} warns={warns} successes={successes} inputChange={() => inputChange("TEXT",textNameLang)} value={(inputFields != null && inputFields[textNameLang] != null)?inputFields[textNameLang]:textDefault}/>);
+    			langTextOptions.push(<Input key={i} name={textNameLang} inputType={field.htmlType} label={textLabel} required={required} errors={errors} warns={warns} successes={successes} inputChange={(e) => inputChange("TEXT",textNameLang,'',e)} value={(inputFields != null && inputFields[textNameLang] != null)?inputFields[textNameLang]:textDefault}/>);
     		}
     	}
     }
@@ -78,7 +78,7 @@ const MultiLangTextInput = ({ itemState, field, inputChange, appPrefs, wrapperCl
 			<div className="panel panel-default">
 				<div className="panel-heading"> {formLabel.label} </div>
 				<div className="panel-body">
-					<Input name={defaultName} inputType={field.htmlType} label={formLabel.defaultLabel} rendered={field.rendered} required={field.required} errors={errors} warns={warns} successes={successes} inputChange={() => inputChange("TEXT",defaultName)} value={(inputFields != null && inputFields[defaultName] != null)?inputFields[defaultName]:titleDefault}/>
+					<Input name={defaultName} inputType={field.htmlType} label={formLabel.defaultLabel} rendered={field.rendered} required={field.required} errors={errors} warns={warns} successes={successes} inputChange={(e) => inputChange("TEXT",defaultName,'',e)} value={(inputFields != null && inputFields[defaultName] != null)?inputFields[defaultName]:titleDefault}/>
 					{langTextOptions}
 				</div>
 			</div>
