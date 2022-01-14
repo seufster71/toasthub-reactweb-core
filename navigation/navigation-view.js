@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
-import { IndexLinkContainer, LinkContainer } from "react-router-bootstrap";
+import { Navbar, Container, Nav, NavItem, NavDropdown} from "react-bootstrap";
 import utils from '../../core/common/utils';
 
 
@@ -20,12 +19,8 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
     	} else {
 		    items.push(
 		        <NavDropdown key="UP" title={<span><i className="fa fa-bars fa-1" aria-hidden="true"></i> <span className="navText">{user.username}</span></span>} id="UP" >
-		        	<IndexLinkContainer key="UP-1" to="/member-profile">
-		        		<MenuItem >Profile</MenuItem>
-		        	</IndexLinkContainer>
-		        	<IndexLinkContainer key="UP-2" to="/member-logout">
-	        			<MenuItem >Logout</MenuItem>
-	        			</IndexLinkContainer>
+		        	<NavDropdown.Item key="UP-1" href="/member-profile">Profile</NavDropdown.Item>
+		        	<NavDropdown.Item key="UP-2" href="/member-logout">Logout</NavDropdown.Item>
 		        </NavDropdown>
 		    );
     	}
@@ -38,16 +33,20 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
     	headerToolTip = "Environment undetermined";
     }
     return (
-      <Navbar collapseOnSelect fixedTop fluid className="navbar-custom">
-        <Navbar.Header className="page-scroll">
-          <Navbar.Brand className="page-scroll">
-            <a href="#page-top" data-toggle="tooltip" data-placement="bottom" title={headerToolTip} className="desktop-only" >{headerName}</a>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Nav pullRight>{items}</Nav>
+      <Navbar collapseOnSelect fixed fluid="true" >
+      	<Container>
+          <Navbar.Brand  href="#page-top">{headerName}</Navbar.Brand>
+        <Nav >{items}</Nav>
+        </Container>
       </Navbar>
     );
 }
+
+<Navbar expand="lg" variant="light" bg="light">
+  <Container>
+    <Navbar.Brand href="#">Navbar</Navbar.Brand>
+  </Container>
+</Navbar>
 
 const buildMenu = (items,menus,permissions,user,activeTab) => {
 	for (let m = 0; m < menus.length; m++) {
@@ -64,9 +63,7 @@ const buildMenu = (items,menus,permissions,user,activeTab) => {
               }
               if (childList[c].values[0].rendered) {
                 children.push(
-                  <IndexLinkContainer key={menus[m].code+"-"+childList[c].menuId} to={childList[c].values[0].href}>
-                  	<MenuItem >{childList[c].values[0].value}</MenuItem>
-                  </IndexLinkContainer>
+                  <NavDropdown key={menus[m].code+"-"+childList[c].menuId} href={childList[c].values[0].href}>{childList[c].values[0].value}</NavDropdown>
                 );
               }
             }
@@ -112,10 +109,10 @@ const buildMenu = (items,menus,permissions,user,activeTab) => {
           		value = menus[m].values[0].value;
           	}
             items.push(
-              <IndexLinkContainer key={menus[m].menuId} to={menus[m].values[0].href}>
+              <NavDropdown.Item key={menus[m].menuId} href={menus[m].values[0].href}>
                  <NavItem>{image}<span className="navText"> {value}</span>
                  </NavItem>
-              </IndexLinkContainer>
+              </NavDropdown.Item>
             );
           }
         }
