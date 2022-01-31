@@ -33,8 +33,8 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
           name={'LOGIN_FORM-'+loginFields[i].name}
           placeHolder={loginFields[i].label}
           inputType={loginFields[i].htmlType}
-          inputChange={handleChange('LOGIN_FORM-'+loginFields[i].name)}
-          onBlur={fieldBlurEvent('LOGIN_FORM-'+loginFields[i].name)}/>);
+          inputChange={handleChange}
+          onBlur={fieldBlurEvent}/>);
       }
     }
     // buttons
@@ -45,7 +45,7 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
           id={loginLabels[l].name}
           name={loginLabels[l].name}
           value={loginLabels[l].value}
-          onClick={buttonClick(loginLabels[l].name)}
+          onClick={buttonClick}
           className="form-control"/>);
       }
     }
@@ -75,8 +75,8 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
             name={'FORGOTPASSWORD_FORM-'+forgotFields[i].name}
             placeHolder={forgotFields[i].label}
             inputType={forgotFields[i].htmlType}
-            onChange={handleChange('FORGOTPASSWORD_FORM-'+forgotFields[i].name)}
-            onBlur={fieldBlurEvent('FORGOTPASSWORD_FORM-'+forgotFields[i].name)}/>);
+            onChange={handleChange}
+            onBlur={fieldBlurEvent}/>);
         }
       }
       // buttons
@@ -87,7 +87,7 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
             id={forgotLabels[l].name}
             name={forgotLabels[l].name}
             value={forgotLabels[l].value}
-            onClick={buttonClick(forgotLabels[l].value)}
+            onClick={buttonClick}
             className="form-control"/>);
         }
       }
@@ -111,8 +111,8 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
           placeHolder={registrationFields[f].label}
           inputType={registrationFields[f].htmlType}
           error={currentState.errorMap[registrationFields[f].name]}
-          onChange={handleChange('REGISTRATION_FORM-'+registrationFields[f].name)}
-          onBlur={fieldBlurEvent('REGISTRATION_FORM-'+registrationFields[f].name)}/>);
+          onChange={handleChange}
+          onBlur={fieldBlurEvent}/>);
       }
       if (registrationFields[f].htmlType === "password") {
         if (registrationFields[f].optionalParams == null) {
@@ -163,7 +163,7 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
           id={registrationLabels[g].name}
           name={registrationLabels[g].name}
           value={registrationLabels[g].value}
-          onClick={buttonClick(registrationLabels[g].value)}
+          onClick={(e) => buttonClick(e,registrationLabels[g].value)}
           className="form-control"/>);
       }
     }
@@ -188,9 +188,9 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
             <div className="panel-body panel-body-login">
               <div className="row">
                 <div className="col-lg-12">
-                  <form id={formId} >
+                  <div id={formId} >
                     {items}
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
