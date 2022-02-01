@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Charts from 'react-chartjs-2';
+import { Chart as ChartJS, defaults } from 'chart.js';
+import { Chart } from 'react-chartjs-2';
 
 const Graph = ({header, data}) => {
 
@@ -21,7 +22,7 @@ let type = 'bar';
         <h2>{header}</h2>
       </div>
       <div style={{padding:'20px'}}>
-        <Charts
+        <Chart
           type= {type}
           data= {data}
           options={option}

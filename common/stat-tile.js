@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Charts from 'react-chartjs-2';
+import { Chart as ChartJS, defaults } from 'chart.js';
+import { Chart } from 'react-chartjs-2';
 
 const StatTile = ({value, desc, data, background}) => {
 
@@ -44,7 +45,7 @@ const StatTile = ({value, desc, data, background}) => {
           <p> {desc} </p>
         </div>
         <div className="status-tile" style={{marginLeft: 'auto', marginTop: '10px', width:'50%'}}>
-          <Charts
+          <Chart
             type= {type}
             data= {data}
             options={option}
