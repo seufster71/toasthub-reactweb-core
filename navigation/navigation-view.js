@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar, Container, Nav, NavItem, NavDropdown} from "react-bootstrap";
 import utils from '../../core/common/utils';
@@ -33,20 +33,17 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
     	headerToolTip = "Environment undetermined";
     }
     return (
-      <Navbar collapseOnSelect fixed fluid="true" >
-      	<Container>
-          <Navbar.Brand  href="#page-top">{headerName}</Navbar.Brand>
-        <Nav >{items}</Nav>
-        </Container>
+      <Navbar bg="dark" variant="dark" >
+			<Container fluid>
+          		<Navbar.Brand  href="#page-top">{headerName}</Navbar.Brand>
+				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+		  		<Navbar.Collapse id="responsive-navbar-nav">
+        			<Nav className="me-auto">{items}</Nav>
+				</Navbar.Collapse>
+        	</Container>
       </Navbar>
     );
 }
-
-<Navbar expand="lg" variant="light" bg="light">
-  <Container>
-    <Navbar.Brand href="#">Navbar</Navbar.Brand>
-  </Container>
-</Navbar>
 
 const buildMenu = (items,menus,permissions,user,activeTab) => {
 	for (let m = 0; m < menus.length; m++) {
@@ -63,7 +60,7 @@ const buildMenu = (items,menus,permissions,user,activeTab) => {
               }
               if (childList[c].values[0].rendered) {
                 children.push(
-                  <NavDropdown key={menus[m].code+"-"+childList[c].menuId} href={childList[c].values[0].href}>{childList[c].values[0].value}</NavDropdown>
+                  <NavDropdown.Item key={menus[m].code+"-"+childList[c].menuId} href={childList[c].values[0].href}>{childList[c].values[0].value}</NavDropdown.Item>
                 );
               }
             }
@@ -109,10 +106,10 @@ const buildMenu = (items,menus,permissions,user,activeTab) => {
           		value = menus[m].values[0].value;
           	}
             items.push(
-              <NavDropdown.Item key={menus[m].menuId} href={menus[m].values[0].href}>
+              <Nav.Link key={menus[m].menuId} href={menus[m].values[0].href}>
                  <NavItem>{image}<span className="navText"> {value}</span>
                  </NavItem>
-              </NavDropdown.Item>
+              </Nav.Link>
             );
           }
         }

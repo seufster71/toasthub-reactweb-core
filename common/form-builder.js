@@ -363,18 +363,20 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     }
 	
 	return (
-		<div className="col-lg-12">
-			<h4 className="modal-title">{formTitle}</h4>
-			{created}
-			{modified}
-			{fieldList}
-			<div className="row">
-				<div className="col-sm-4">
-		  			<button type="button" className="btn btn-primary" onClick={() => onSave()}>Save</button>
-		  			<button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => onCancel()}>Cancel</button>
+		<div className="container">
+			<div className="col-lg-12">
+				<h4 className="modal-title">{formTitle}</h4>
+				{created}
+				{modified}
+				{fieldList}
+				<div className="row">
+					<div className="col-sm-4">
+			  			<button type="button" className="btn btn-primary" onClick={() => onSave()}>Save</button>
+			  			<button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => onCancel()}>Cancel</button>
+			  		</div>
 		  		</div>
-	  		</div>
-	  	</div>
+		  	</div>
+		</div>
 	);
 }
 
