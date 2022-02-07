@@ -173,31 +173,31 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
   }
 
   return (
-    <header>
-      <div className="intro-text">
+    <div className="container">
         <div className="row">
-          <div id="content_column" className="col-md-6 col-md-offset-3">
-            <div className="panel panel-login">
-              <div className="panel-heading">
-                <div className="row">
-                  {headers}
-                </div>
-              </div>
-            </div>
-            <div id="login-status" role="alert" />
-            <div className="panel-body panel-body-login">
-              <div className="row">
-                <div className="col-lg-12">
-                  <div id={formId} >
-                    {items}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+			<div className="col-sm-6">
+			</div>
+	        <div id="content_column" className="col-sm-6 toasthub-login-top">
+	            <div className="panel panel-login">
+	              <div className="panel-heading">
+	                <div className="row">
+	                  {headers}
+	                </div>
+	              </div>
+	            </div>
+	            <div id="login-status" role="alert" />
+	            <div className="panel-body panel-body-login">
+	              <div className="row">
+	                <div className="col-lg-12">
+	                  <div id={formId} >
+	                    {items}
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+          	</div>
         </div>
-      </div>
-    </header>
+    </div>
 
   );
 }

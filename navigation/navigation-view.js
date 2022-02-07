@@ -33,8 +33,8 @@ export default function NavigationView({menus,appPrefs,permissions,activeTab,cha
     	headerToolTip = "Environment undetermined";
     }
     return (
-      <Navbar bg="dark" variant="dark" >
-			<Container fluid>
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
+			<Container>
           		<Navbar.Brand  href="#page-top">{headerName}</Navbar.Brand>
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 		  		<Navbar.Collapse id="responsive-navbar-nav">

@@ -52,7 +52,6 @@ const SelectMultipleInput = ({itemState, name, label, defaultOption, value, rend
 		}
 	}
 	
-	
 	if (rendered) {
 		if (inline) {
 			return (
@@ -62,7 +61,7 @@ const SelectMultipleInput = ({itemState, name, label, defaultOption, value, rend
 							{label}{req}
 						</div>
 						<div className="col-md-9">
-							<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti inputChange={inputChange} options={options}/>
+							<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti onChange={(e) => inputChange(name,e)} options={options}/>
 						</div>
 					</div>
 					{errorFeedBack}
@@ -77,7 +76,7 @@ const SelectMultipleInput = ({itemState, name, label, defaultOption, value, rend
 			return (
 					<div className={wrapperClass}>
 						<label htmlFor={name}>{label}{req}</label>
-						<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti inputChange={inputChange} options={options}/>
+						<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti onChange={(e) => inputChange(name,e)} options={options}/>
 						{errorFeedBack}
 						{errorLabel}
 						{warnFeedBack}
