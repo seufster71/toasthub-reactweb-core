@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const SelectInput = ({name, label, defaultOption, value, errors, warns, successes, rendered, required, inputChange, onBlur, options, wrapperClass}) => {

@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Chart as ChartJS, defaults } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 
 const Graph = ({header, data}) => {
