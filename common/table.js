@@ -94,7 +94,24 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 						value = [];
 						if (onOption != null) {
 							for(let j = 0; j < opt.fieldIcon.length; j++) {
-								value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={() => onOption(opt.fieldIcon[j].code,itemState.items[i])} aria-hidden="true"/>);
+								let lockField = false;
+								if (opt.fieldIcon[j].lock != null && opt.fieldIcon[j].lock != "") {
+									if (opt.fieldIcon[j].fieldLockObj != null && opt.fieldIcon[j].fieldLockObj != "") {
+										if(itemState.items[i][opt.fieldIcon[j].fieldLockObj] != null) {
+											lockField = itemState.items[i][opt.fieldIcon[j].fieldLockObj][opt.fieldIcon[j].lock];
+										} else {
+											lockField = false;
+										}
+									} else {
+										lockField = itemState.items[i][opt.fieldIcon[j].lock];
+									}
+								}
+								if (lockField == true) {
+									// do nothing
+								} else {
+									value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={() => onOption(opt.fieldIcon[j].code,itemState.items[i])} aria-hidden="true"/>);
+								}
+								
 							}
 						}
 					} else if (opt.fieldObj != null){
