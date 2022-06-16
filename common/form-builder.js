@@ -13,7 +13,7 @@ import SelectMultipleBuilder from '../../coreView/common/select-multiple-builder
 import utils from '../../core/common/utils';
 import moment from 'moment';
 
-export default function FormBuilder({itemState, formName, formTitle, formGroup, appPrefs, onSave, onCancel, inputChange}) {
+export default function FormBuilder({itemState, formName, formTitle, formGroup, appPrefs, onSave, onCancel, inputChange, onClick}) {
 	
 		
 	let formTitleDefault = "Form Title";
@@ -42,7 +42,6 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
 	let fieldList = [];
 	let subGroups = [];
 	let options = [];
-	let defaultOption;
 	if (itemState.prefForms != null && itemState.prefForms[formName] != null) {
     	for (let i = 0; i < itemState.prefForms[formName].length; i++) {
     		if (itemState.prefForms[formName][i].subGroup != undefined && itemState.prefForms[formName][i].subGroup != ""){
@@ -140,7 +139,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     					options = itemState[valueObj.optionRef];
     				}
     			}
-    			defaultOption = [];
+    			let defaultOption = [];
     			if (itemState.inputFields[itemState.prefForms[formName][i].name] != null && itemState.inputFields[itemState.prefForms[formName][i].name] != "") {
     				let optionIds = itemState.inputFields[itemState.prefForms[formName][i].name];
     				for (let l = 0; l < optionIds.length; l++) {
@@ -158,6 +157,21 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     							<SelectMultipleBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} options={options} defaultOption={defaultOption}/>
     						</div>
     					</div>);
+    			break;
+    		case "BTN":
+    			let defaultCode = "TEST";
+    			if (itemState.prefForms[formName][i].classModel != null) {
+					let valueObj = JSON.parse(itemState.prefForms[formName][i].classModel);
+					if (valueObj.code != null && valueObj.type == "function") {
+    					defaultCode = valueObj.code;
+    				}
+				}
+    			fieldList.push(
+					<div key={i} className="row">
+						<div className="col-sm-4">
+							<button type="button" className="btn btn-primary" onClick={() => onClick(defaultCode)}>{itemState.prefForms[formName][i].label}</button>
+						</div>
+					</div>);
     			break;
     		case "BLN":
     			let optionsBLN = [];
@@ -388,6 +402,7 @@ FormBuilder.propTypes = {
 	appPrefs: PropTypes.object.isRequired,
 	onSave: PropTypes.func.isRequired,
 	onCancel: PropTypes.func.isRequired,
-	inputChange: PropTypes.func.isRequired
+	inputChange: PropTypes.func.isRequired,
+	onClick: PropTypes.func
 };
 

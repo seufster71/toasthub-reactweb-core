@@ -4,7 +4,7 @@ import TextInput from '../common/text-input';
 import Button from '../common/button';
 import CheckBox from '../common/checkBox';
 import Link from '../common/link';
-import PasswordMeter from '../common/passwordMeter';
+import PasswordMeter from '../common/password-meter';
 
 export default function Login({currentState, fields, texts, labels, onChangeLogin,
   onChangeRegistration, fieldChangeEvent, onForgotPassword, handleChange,
@@ -45,7 +45,7 @@ export default function Login({currentState, fields, texts, labels, onChangeLogi
           id={loginLabels[l].name}
           name={loginLabels[l].name}
           value={loginLabels[l].value}
-          onClick={buttonClick}
+          onClick={() => buttonClick(loginLabels[l].name)}
           className="form-control"/>);
       }
     }

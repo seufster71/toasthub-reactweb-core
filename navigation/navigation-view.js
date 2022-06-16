@@ -60,7 +60,7 @@ const buildMenu = (items,menus,permissions,user,activeTab) => {
               }
               if (childList[c].values[0].rendered) {
                 children.push(
-                  <NavDropdown.Item key={menus[m].code+"-"+childList[c].menuId} href={childList[c].values[0].href}>{childList[c].values[0].value}</NavDropdown.Item>
+                  <NavDropdown.Item key={menus[m].code+"-"+childList[c].menuId} href={childList[c].values[0].routeWeb}>{childList[c].values[0].value}</NavDropdown.Item>
                 );
               }
             }
@@ -86,11 +86,11 @@ const buildMenu = (items,menus,permissions,user,activeTab) => {
         	let image = "";
           	if (menus[m].values[0].image != null) {
           		if (menus[m].values[0].image.startsWith("fa")) {
-	  	            image = <i className={menus[m].values[0].image} aria-hidden="true"/>;
+	  	            image = <i className={menus[m].values[0].iconWeb} aria-hidden="true"/>;
           		} else {
-	  	            image = <img src={"/img/"+menus[m].values[0].image+"_outline.png"} height="20" width="20" />;
+	  	            image = <img src={"/img/"+menus[m].values[0].iconWeb+"_outline.png"} height="20" width="20" />;
 	  	            if (activeTab === menus[m].values[0].href) {
-	  	              image = <img src={"/img/"+menus[m].values[0].image+".png"} height="25" width="25" />;
+	  	              image = <img src={"/img/"+menus[m].values[0].iconWeb+".png"} height="25" width="25" />;
 	  	            }
           		}
   	        }
@@ -106,7 +106,7 @@ const buildMenu = (items,menus,permissions,user,activeTab) => {
           		value = menus[m].values[0].value;
           	}
             items.push(
-              <Nav.Link key={menus[m].menuId} href={menus[m].values[0].href}>
+              <Nav.Link key={menus[m].menuId} href={menus[m].values[0].routeWeb}>
                  <NavItem>{image}<span className="navText"> {value}</span>
                  </NavItem>
               </Nav.Link>
