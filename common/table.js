@@ -52,6 +52,11 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 						continue;
 					} else if (opt.conditionField != null && opt.conditionField === "moveSelectedItem"  && opt.conditionCheck == "NotNull" && (moveSelectedItem == null || moveSelectedItem == "")) {
 						continue;
+					} else if (opt.allowLinkParentType != null && itemState.parentType != null && opt.allowLinkParentType != itemState.parentType) {
+						cells.push(
+								<td key={columns[c].id}/>
+						);
+						continue;
 					}
 					
 					if (opt.field != null) {
@@ -114,7 +119,7 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 								
 							}
 						}
-					} else if (opt.fieldObj != null){
+					} else if (opt.fieldObj != null && opt.fieldObj.field != null){
 						if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.field != null) {
 							if (itemState.items[i][opt.fieldObj.field] != null) {
 								value = itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.field];
@@ -126,13 +131,17 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 				            	}).format(moment(itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldDate]).toDate());
 							}
 						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldBool != null) {
-							if (itemState.items[i][opt.fieldObj.field] != null) {
-								if (itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldBool] == true) {
-									value = "Active";
-								} else {
-									value = "Disabled";
-								}
+							let fieldValue = opt.fieldObj.field;
+							if (typeof opt.fieldObj.field === 'object' && itemState.parentType != null && opt.fieldObj.field[itemState.parentType] != null) {
+								fieldValue = opt.fieldObj.field[itemState.parentType];
 							}
+							if (itemState.items[i][fieldValue] != null) {
+									if (itemState.items[i][fieldValue][opt.fieldObj.fieldChild.fieldBool] == true) {
+										value = "Active";
+									} else {
+										value = "Disabled";
+									}
+								}
 						} else if (opt.fieldObj.fieldChild != null && opt.fieldObj.fieldChild.fieldML != null) {
 							if (itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts != null && itemState.items[i][opt.fieldObj.field][opt.fieldObj.fieldChild.fieldML].langTexts.length > 0){
 								let match = false;
@@ -208,7 +217,7 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 				<div className="x_title">
 					{header}
 					<ul className="navbar-right panel_toolbox">
-						<li><i className="fa fa-plus" title="Add" onClick={() => onOption("MODIFY")}/></li>
+						<li><i className="fa-solid fa-plus thub-1" title="Add" onClick={() => onOption("MODIFY")}/></li>
 					</ul>
 				</div>
 				<div className="x_content">
@@ -236,7 +245,7 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 				<div className="modal-dialog">
 					<div className="modal-content">
 						<div className="modal-header">
-							<button type="button" className="close" data-dismiss="modal" aria-hidden="true"><i className="fa fa-close"/></button>
+							<button type="button" className="close" data-dismiss="modal" aria-hidden="true"><i className="fa-solid fa-xmark thub-1"/></button>
 							<h4 className="modal-title">Modal title</h4>
 						</div>
 						<div className="modal-body">

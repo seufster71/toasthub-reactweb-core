@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from '../../coreView/common/text-input';
 import TextBuilder from '../../coreView/common/text-input-builder';
-import TextAutocompleteBuilder from '../../coreView/common/text-autocomplete-builder';
 import TextAreaBuilder from '../../coreView/common/textarea-input-builder';
 import MultiLangTextInput from '../../coreView/common/multi-lang-text-input';
 import SelectBuilder from '../../coreView/common/select-input-builder';
-import CheckBox from '../../coreView/common/checkBox';
 import Switch from '../../coreView/common/switch';
 import DateBuilder from '../../coreView/common/date-input-builder';
 import SelectMultipleBuilder from '../../coreView/common/select-multiple-builder';
 import utils from '../../core/common/utils';
 import moment from 'moment';
 
-export default function FormBuilder({itemState, formName, formTitle, formGroup, appPrefs, onSave, onCancel, inputChange, onClick}) {
+export default function FormBuilder({itemState, formName, formTitle, formGroup, appPrefs, onSave, onCancel, inputChange, onClick, loadOptions}) {
 	
 		
 	let formTitleDefault = "Form Title";
@@ -205,19 +202,10 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     					</div>);
     			break;
     		case "ASLT":
-    			if (itemState.selectList != null) {
-    				for (let l = 0; l < itemState.selectList.length; l++) {
-    					let desc = itemState.selectList[l].label;
-    					if (itemState.selectList[l] != null && itemState.selectList[l].extra != "") {
-    						desc += " - " + itemState.selectList[l].extra;
-    					}
-    					options.push(<div key={l} onClick={() => inputChange("SELECTCLICK",itemState.prefForms[formName][i],itemState.selectList[l])}>{desc}</div>);
-    				}
-    			}
     			fieldList.push(
     					<div key={i} className="row">
     						<div className="col-sm-4">
-    							<TextAutocompleteBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} options={options} isSelectListOpen={itemState.isSelectListOpen}/>
+    							<SelectBuilder isAsync={true} field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} loadOptions={loadOptions} />
     						</div>
     					</div>);
     			break;
@@ -403,6 +391,7 @@ FormBuilder.propTypes = {
 	onSave: PropTypes.func.isRequired,
 	onCancel: PropTypes.func.isRequired,
 	inputChange: PropTypes.func.isRequired,
-	onClick: PropTypes.func
+	onClick: PropTypes.func,
+	loadOptions: PropTypes.func
 };
 

@@ -16,7 +16,7 @@ const Search = ({name, label, onChange, onClick, onBlur, placeHolder, value, err
 		<div className="col-xs-12 col-md-3">
         	<div className="input-group">
         		<input className="form-control" type="text" id={name} name={name} placeholder={placeHolder} aria-label="Search" onKeyPress={(e) => onChange(name,e)} onChange={(e) => onChange(name,e)}/>
-        		<span key={name} id={name} name={name} value={value} onClick={() => onClick(name)} className={buttonClassName}><i className="fa fa-search" aria-hidden="true"></i></span>
+        		<span key={name} id={name} name={name} value={value} onClick={() => onClick(name)} className={buttonClassName}><i className="fa-solid fa-search thub-1" aria-hidden="true"></i></span>
         	</div>
         </div>
 	);

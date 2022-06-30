@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
 
-const SelectInput = ({name, label, defaultOption, value, errors, warns, successes, rendered, required, inputChange, onBlur, options, wrapperClass}) => {
+const SelectInput = ({name, label, defaultOption, value, errors, warns, successes, rendered, required, inputChange, onBlur, options, loadOptions, wrapperClass, isAsync, isDisabled}) => {
 
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
@@ -46,7 +48,7 @@ const SelectInput = ({name, label, defaultOption, value, errors, warns, successe
 		}
 	}
 	
-	let selectOptions = [];
+/*	let selectOptions = [];
 	for (let i = 0; i < options.length; i++) {
 		let label = "";
 		if (options[i].label == null && options[i].defaultText != null) {
@@ -55,23 +57,47 @@ const SelectInput = ({name, label, defaultOption, value, errors, warns, successe
 			label = options[i].label;
 		}
 		selectOptions.push(<option key={i} value={options[i].value}>{label}</option>);
+	}*/
+	
+	if (typeof loadOptions === "object") {
+		
 	}
 	
 	if (rendered) {
-		return (
-			<div className={wrapperClass}>
-				<label htmlFor={name}>{label}{req}</label>
-				<select name={name} value={value} className="form-control" onChange={(e) => inputChange("SELECT",name,'',e)}>
-					{selectOptions}
-				</select>
-				{errorFeedBack}
-				{errorLabel}
-				{warnFeedBack}
-				{warnLabel}
-				{successFeedBack}
-				{successLabel}
-			</div>
-		);
+		if (isDisabled) {
+			return (
+				<div className={wrapperClass}>
+					<label htmlFor={name}>{label}{req}</label>
+					<div>{value}</div>
+				</div>
+			);
+		} else if(isAsync) {
+			return (
+				<div className={wrapperClass}>
+					<label htmlFor={name}>{label}{req}</label>
+					<AsyncSelect cacheOptions name={name} defaultValue={value} onSelectResetsInput={false} onBlurResetsInput={false} onInputChange={(val) => inputChange("INPUT",name,val)} onChange={(val) => inputChange("SELECT",name,val)} loadOptions={(inputValue,callback) => loadOptions(inputValue,callback,name)} />
+					{errorFeedBack}
+					{errorLabel}
+					{warnFeedBack}
+					{warnLabel}
+					{successFeedBack}
+					{successLabel}
+				</div>
+			);
+		} else {
+			return (
+				<div className={wrapperClass}>
+					<label htmlFor={name}>{label}{req}</label>
+					<Select name={name} defaultValue={value} onChange={(val) => inputChange("SELECT",name,val)} options={options} />
+					{errorFeedBack}
+					{errorLabel}
+					{warnFeedBack}
+					{warnLabel}
+					{successFeedBack}
+					{successLabel}
+				</div>
+			);
+		}
 	} else {
 		return (<div></div>);
 	}
@@ -87,10 +113,13 @@ SelectInput.propTypes = {
 	successes: PropTypes.object,
 	rendered: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
 	required: PropTypes.oneOfType([PropTypes.string,PropTypes.bool]),
+	loadOptions: PropTypes.func,
 	inputChange: PropTypes.func.isRequired,
 	onBlur: PropTypes.func,
 	options: PropTypes.arrayOf(PropTypes.object),
-	wrapperClass: PropTypes.string
+	wrapperClass: PropTypes.string,
+	isAsync: PropTypes.bool,
+	isDisabled: PropTypes.bool
 };
 
 export default SelectInput;
