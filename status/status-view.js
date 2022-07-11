@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 export default function  StatusView() {
- 	const itemState = useSelector((state) => state.pmproduct);
+ 	const itemState = useSelector((state) => state.status);
  	const dispatch = useDispatch();
  	
     const clearStatus = () => {
