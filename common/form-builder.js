@@ -141,7 +141,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     				let optionIds = itemState.inputFields[itemState.prefForms[formName][i].name];
     				for (let l = 0; l < optionIds.length; l++) {
     					for (let o = 0; o < options.length; o++) {
-    						if (optionIds[l] == options[o].value) {
+    						if (optionIds[l].value == options[o].value) {
     							defaultOption.push(options[o]);
     						}
     					}

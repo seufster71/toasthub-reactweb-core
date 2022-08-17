@@ -111,7 +111,13 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 										lockField = itemState.items[i][opt.fieldIcon[j].lock];
 									}
 								}
-								if (lockField == true) {
+								let showField = true;
+								if (opt.fieldIcon[j].fieldShow != null && opt.fieldIcon[j].fieldShow != "") {
+									if(itemState.items[i][opt.fieldIcon[j].fieldShow] != null && itemState.items[i][opt.fieldIcon[j].fieldShow] == false) {
+										showField = false;
+									}
+								}
+								if (lockField == true || showField == false) {
 									// do nothing
 								} else {
 									value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={() => onOption(opt.fieldIcon[j].code,itemState.items[i])} aria-hidden="true"/>);
@@ -166,7 +172,19 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 						if (itemState.items[i][opt.fieldJSON] != null && itemState.items[i][opt.fieldJSON] != "") {
 							let list = JSON.parse(itemState.items[i][opt.fieldJSON]);
 							for (let j = 0; j < list.length; j++) {
-								value.push(<div key={j}>{list[j]}</div>);
+								let label = "";
+								if (opt.fieldLookup != null && itemState[opt.fieldLookup] != null && itemState[opt.fieldLookup] != "") {
+									let options = itemState[opt.fieldLookup];
+									for (let k = 0; k < options.length; k++) {
+										if (options[k].value == list[j].value) {
+											label = options[k].label;
+											continue;
+										}
+									}
+								} else if (list[j].label != null) {
+									label = list[j].label
+								}
+								value.push(<div key={j}>{label}</div>);
 							}
 						}
 					} else if (opt.fieldJoin != null) {
@@ -223,8 +241,7 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 				<div className="x_content">
 					<div className="row">
 						<ShowEntries name={itemState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={itemState.listLimit} onListLimitChange={onListLimitChange}/>
-						{moveSelectedItem != null
-						? <span style={{background:"#FFFFCC"}}>{moveHeader}</span>
+						{moveSelectedItem != null ? <span style={{background:"#FFFFCC"}}>{moveHeader}</span>
 						: <OrderBy itemState={itemState} name={itemState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} onOrderBy={onOrderBy}/>
 						}
 						{moveSelectedItem != null ? <span></span>
