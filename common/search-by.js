@@ -33,12 +33,15 @@ const SearchBy = ({itemState, name, appPrefs, columns, parent, onClick}) => {
 	}
 
 	let value = "";
-
-	return (
-		<div className="col-xs-12 col-md-3">
-			<SelectMultiple itemState={itemState} name={name} label="Search by" options={options} defaultOption={selectedColumns} inputChange={onClick} inline="true"/>
-        </div>
-	);
+	if (onClick != null) {
+		return (
+			<div className="col-xs-12 col-md-3">
+				<SelectMultiple itemState={itemState} name={name} label="Search by" options={options} defaultOption={selectedColumns} inputChange={onClick} inline="true"/>
+	        </div>
+		);
+	} else {
+		return (<div className="col-xs-12 col-md-3"></div>);
+	}
 };
 
 SearchBy.propTypes = {
