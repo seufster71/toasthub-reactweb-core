@@ -35,7 +35,7 @@ export default function  StatusView() {
 		}
 	}
 	if (itemState.error != null || itemState.info != null || itemState.warn != null) {
-		setTimeout(() => {this.clearStatus()},5000);
+		setTimeout(() => {dispatch(actions.clearStatus());},5000);
 	}
     	
 	return (

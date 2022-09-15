@@ -49,12 +49,15 @@ const OrderBy = ({itemState, name, appPrefs, columns, parent, onOrderBy}) => {
 	}
 
 	let value = "";
-
-	return (
-		<div className="col-xs-12 col-md-3">
-			<SelectMultiple itemState={itemState} name={name} label="Order by" options={options} defaultOption={selectedColumns} inputChange={onOrderBy} inline="true" value={value}/>
-        </div>
-	);
+	if (onOrderBy != null) {
+		return (
+			<div className="col-xs-12 col-md-3">
+				<SelectMultiple itemState={itemState} name={name} label="Order by" options={options} defaultOption={selectedColumns} inputChange={onOrderBy} inline="true" value={value}/>
+	        </div>
+		);
+	} else {
+		return(<div className="col-xs-12 col-md-3"></div>);
+	}
 };
 
 OrderBy.propTypes = {
