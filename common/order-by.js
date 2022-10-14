@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SelectMultiple from './select-multiple-input';
 
-const OrderBy = ({itemState, name, appPrefs, columns, parent, onOrderBy}) => {
+const OrderBy = ({itemState, id, appPrefs, columns, parent, onOrderBy}) => {
 
 	let options = [];
 	let tempColumns = [];
@@ -52,7 +52,7 @@ const OrderBy = ({itemState, name, appPrefs, columns, parent, onOrderBy}) => {
 	if (onOrderBy != null) {
 		return (
 			<div className="col-xs-12 col-md-3">
-				<SelectMultiple itemState={itemState} name={name} label="Order by" options={options} defaultOption={selectedColumns} inputChange={onOrderBy} inline="true" value={value}/>
+				<SelectMultiple itemState={itemState} id={id+"-ORDERBY"} label="Order by" options={options} defaultOption={selectedColumns} inputChange={onOrderBy} inline="true" value={value}/>
 	        </div>
 		);
 	} else {
@@ -62,7 +62,7 @@ const OrderBy = ({itemState, name, appPrefs, columns, parent, onOrderBy}) => {
 
 OrderBy.propTypes = {
 	itemState: PropTypes.object,
-	name: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
 	appPrefs: PropTypes.object.isRequired,
 	columns: PropTypes.array.isRequired,
 	parent: PropTypes.string,

@@ -120,7 +120,7 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 								if (lockField == true || showField == false) {
 									// do nothing
 								} else {
-									value.push(<i key={j} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={() => onOption(opt.fieldIcon[j].code,itemState.items[i])} aria-hidden="true"/>);
+									value.push(<i key={j} id={"ITEM-"+itemState.items[i].id+"-"+opt.fieldIcon[j].code} className={opt.fieldIcon[j].classField} title={opt.fieldIcon[j].label.en} onClick={() => onOption(opt.fieldIcon[j].code,itemState.items[i])} aria-hidden="true"/>);
 								}
 								
 							}
@@ -235,20 +235,20 @@ const Table = ({itemState, header, columns, labelGroup, appPrefs, parent, onList
 				<div className="x_title">
 					{header}
 					<ul className="navbar-right panel_toolbox">
-						<li><i className="fa-solid fa-plus thub-1" title="Add" onClick={() => onOption("MODIFY")}/></li>
+						<li><i id={itemState.pageName+"-ADD"} className="fa-solid fa-plus thub-1" title="Add" onClick={() => onOption("MODIFY")}/></li>
 					</ul>
 				</div>
 				<div className="x_content">
 					<div className="row">
 						<ShowEntries name={itemState.pageName+"-LISTLIMIT"} appPrefs={appPrefs} listLimit={itemState.listLimit} onListLimitChange={onListLimitChange}/>
 						{moveSelectedItem != null ? <span style={{background:"#FFFFCC"}}>{moveHeader}</span>
-						: <OrderBy itemState={itemState} name={itemState.pageName+"-ORDERBY"} appPrefs={appPrefs} columns={columns} parent={parent} onOrderBy={onOrderBy}/>
+						: <OrderBy id={itemState.pageName} itemState={itemState} appPrefs={appPrefs} columns={columns} parent={parent} onOrderBy={onOrderBy}/>
 						}
 						{moveSelectedItem != null ? <span></span>
-						:<SearchBy itemState={itemState} name={itemState.pageName+"-SEARCHBY"} appPrefs={appPrefs} columns={columns} parent={parent} onClick={onSearchClick}/>
+						:<SearchBy id={itemState.pageName} itemState={itemState} appPrefs={appPrefs} columns={columns} parent={parent} onClick={onSearchClick}/>
 						}
 						{moveSelectedItem != null ? <span></span>
-						:<Search name={itemState.pageName+"-SEARCH"} onChange={onSearchChange} onClick={onSearchClick} />
+						:<Search id={itemState.pageName} onChange={onSearchChange} onClick={onSearchClick} />
 						}
 					</div>
 					<table className="table table-striped">
