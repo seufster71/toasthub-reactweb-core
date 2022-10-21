@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SelectMultiple from './select-multiple-input';
 
-const SearchBy = ({itemState, name, appPrefs, columns, parent, onClick}) => {
+const SearchBy = ({itemState, id, appPrefs, columns, parent, onClick}) => {
 
 	let options = [];
 	let selectedColumns = [];
@@ -36,7 +36,7 @@ const SearchBy = ({itemState, name, appPrefs, columns, parent, onClick}) => {
 	if (onClick != null) {
 		return (
 			<div className="col-xs-12 col-md-3">
-				<SelectMultiple itemState={itemState} name={name} label="Search by" options={options} defaultOption={selectedColumns} inputChange={onClick} inline="true"/>
+				<SelectMultiple itemState={itemState} id={id+"-SEARCHBY"} label="Search by" options={options} defaultOption={selectedColumns} inputChange={onClick} inline="true"/>
 	        </div>
 		);
 	} else {
@@ -46,7 +46,7 @@ const SearchBy = ({itemState, name, appPrefs, columns, parent, onClick}) => {
 
 SearchBy.propTypes = {
 	itemState: PropTypes.object.isRequired,
-	name: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
 	appPrefs: PropTypes.object.isRequired,
 	columns: PropTypes.array.isRequired,
 	parent: PropTypes.string,

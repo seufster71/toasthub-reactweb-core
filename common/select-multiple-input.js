@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
-const SelectMultipleInput = ({itemState, name, label, defaultOption, value, rendered, required, inputChange, onBlur, options, wrapperClass, inline}) => {
+const SelectMultipleInput = ({itemState, id, label, defaultOption, value, rendered, required, inputChange, onBlur, options, wrapperClass, inline}) => {
 
 	if (wrapperClass == null) {
 		wrapperClass = 'form-group';
@@ -15,18 +15,18 @@ const SelectMultipleInput = ({itemState, name, label, defaultOption, value, rend
 	
 	let errorLabel = '';
 	let errorFeedBack = '';
-	if (itemState != null && itemState.errors != null && itemState.errors[name] != null && itemState.errors[name] != "") {
+	if (itemState != null && itemState.errors != null && itemState.errors[id] != null && itemState.errors[id] != "") {
 		wrapperClass += " " + 'has-error has-feedback';
 		errorFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		errorLabel = <div id={name + "-error"} className="control-label has-error" >{itemState.errors[name]}</div>;
+		errorLabel = <div id={id + "-error"} className="control-label has-error" >{itemState.errors[id]}</div>;
 	}
 	
 	let warnLabel = '';
 	let warnFeedBack = '';
-	if (itemState != null && itemState.warns != null && itemState.warns[name] != null && itemState.warns[name] > 0) {
+	if (itemState != null && itemState.warns != null && itemState.warns[id] != null && itemState.warns[id] > 0) {
 		wrapperClass += " " + 'has-error has-feedback';
 		warnFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		warnLabel = <label id={name + "-warn"} className="control-label has-warn" htmlFor={name}>{itemState.warns[name]}</label>;
+		warnLabel = <label id={id + "-warn"} className="control-label has-warn" htmlFor={id}>{itemState.warns[id]}</label>;
 	}
 			
 	let successLabel = '';
@@ -34,7 +34,7 @@ const SelectMultipleInput = ({itemState, name, label, defaultOption, value, rend
 	if (itemState != null && itemState.successes != null && itemState.successes[name] > 0) {
 		wrapperClass += " " + 'has-error has-feedback';
 		successFeedBack = <span className="glyphicon glyphicon-remove form-control-feedback"/>;
-		successLabel = <label id={name + "-success"} className="control-label has-success" htmlFor={name}>{itemState.successes[name]}</label>;
+		successLabel = <label id={id + "-success"} className="control-label has-success" htmlFor={id}>{itemState.successes[id]}</label>;
 	}
 	
 	let req = "";
@@ -61,7 +61,7 @@ const SelectMultipleInput = ({itemState, name, label, defaultOption, value, rend
 							{label}{req}
 						</div>
 						<div className="col-md-9">
-							<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti onChange={(e) => inputChange("MULTISELECT",name,e)} options={options}/>
+							<Select id={id+"-multiSelect"} name={id+"-multiSelect"} defaultValue={defaultOption} isMulti onChange={(e) => inputChange("MULTISELECT",id,e)} options={options}/>
 						</div>
 					</div>
 					{errorFeedBack}
@@ -76,7 +76,7 @@ const SelectMultipleInput = ({itemState, name, label, defaultOption, value, rend
 			return (
 					<div className={wrapperClass}>
 						<label htmlFor={name}>{label}{req}</label>
-						<Select id="multiSelect" name={name} defaultValue={defaultOption} isMulti onChange={(e) => inputChange("MULTISELECT",name,e)} options={options}/>
+						<Select id={id+"-multiSelect"} name={id+"-multiSelect"} defaultValue={defaultOption} isMulti onChange={(e) => inputChange("MULTISELECT",id,e)} options={options}/>
 						{errorFeedBack}
 						{errorLabel}
 						{warnFeedBack}
@@ -93,7 +93,7 @@ const SelectMultipleInput = ({itemState, name, label, defaultOption, value, rend
 
 SelectMultipleInput.propTypes = {
 	itemState: PropTypes.object.isRequired,
-	name: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	defaultOption: PropTypes.oneOfType([PropTypes.string,PropTypes.array]),
 	value: PropTypes.oneOfType([PropTypes.string,PropTypes.number]),
