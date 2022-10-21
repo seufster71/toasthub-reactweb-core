@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextInput from './text-input';
-import Button from './button';
 
 
-const Search = ({name, label, onChange, onClick, onBlur, placeHolder, value, error, buttonClassName}) => {
+const Search = ({id, label, onChange, onClick, onBlur, placeHolder, value, error, buttonClassName}) => {
 	let wrapperClass = 'form-group';
 	if (buttonClassName == null) {
 		buttonClassName = "input-group-addon";
@@ -15,15 +13,15 @@ const Search = ({name, label, onChange, onClick, onBlur, placeHolder, value, err
 	return (
 		<div className="col-xs-12 col-md-3">
         	<div className="input-group">
-        		<input className="form-control" type="text" id={name} name={name} placeholder={placeHolder} aria-label="Search" onKeyPress={(e) => onChange(name,e)} onChange={(e) => onChange(name,e)}/>
-        		<span key={name} id={name} name={name} value={value} onClick={() => onClick(name)} className={buttonClassName}><i className="fa-solid fa-search thub-1" aria-hidden="true"></i></span>
+        		<input className="form-control" type="text" id={id+"-SEARCH"} name={id+"-SEARCH"} placeholder={placeHolder} aria-label="Search" onKeyPress={(e) => onChange(id+"-SEARCH",e)} onChange={(e) => onChange(id+"-SEARCH",e)}/>
+        		<span key={id} id={id+"-SEARCH-BUTTON"} name={id+"-SEARCH-BUTTON"} value={value} onClick={() => onClick(id+"-SEARCH")} className={buttonClassName}><i className="fa-solid fa-search thub-1" aria-hidden="true"></i></span>
         	</div>
         </div>
 	);
 };
 
 Search.propTypes = {
-	name: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
 	label: PropTypes.string,
 	onChange: PropTypes.func,
 	onClick: PropTypes.func,

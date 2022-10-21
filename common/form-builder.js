@@ -51,7 +51,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     			break;
     		case "TXT":
     			fieldList.push(
-    					<div key={i} className="row">
+    					<div key={i} className="row thub-field">
     						<div className="col-sm-4">
     							<TextBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange}/>
     						</div>
@@ -59,7 +59,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     			break;
     		case "TXTAREA":
     			fieldList.push(
-    					<div key={i} className="row">
+    					<div key={i} className="row thub-field">
     						<div className="col-sm-4">
     							<TextAreaBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange}/>
     						</div>
@@ -67,7 +67,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     			break;
     		case "MTXT":
     			fieldList.push(
-    					<div key={i} className="row">
+    					<div key={i} className="row thub-field">
 							<div className="col-sm-4">
 								<MultiLangTextInput field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} appPrefs={appPrefs}/>		
 							</div>
@@ -75,7 +75,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     			break;
     		case "INT":
     			fieldList.push(
-    					<div key={i} className="row">
+    					<div key={i} className="row thub-field">
     						<div className="col-sm-4">
     							<TextBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange}/>
     						</div>
@@ -112,7 +112,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     				}
     			}
 				fieldList.push(
-    					<div key={i} className="row">
+    					<div key={i} className="row thub-field">
     						<div className="col-sm-4">
     							<SelectBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} options={options}/>
     						</div>
@@ -149,7 +149,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     			}
     			
     			fieldList.push(
-    					<div key={i} className="row">
+    					<div key={i} className="row thub-field">
     						<div className="col-sm-4">
     							<SelectMultipleBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} options={options} defaultOption={defaultOption}/>
     						</div>
@@ -164,7 +164,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     				}
 				}
     			fieldList.push(
-					<div key={i} className="row">
+					<div key={i} className="row thub-field">
 						<div className="col-sm-4">
 							<button type="button" className="btn btn-primary" onClick={() => onClick(defaultCode)}>{itemState.prefForms[formName][i].label}</button>
 						</div>
@@ -187,7 +187,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     				}
     			}
     			fieldList.push(
-    					<div key={i} className="row">
+    					<div key={i} className="row thub-field">
     						<div className="col-sm-4">
     							<Switch field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} options={optionsBLN}/>
     						</div>
@@ -195,7 +195,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     			break;
     		case "DATE":
     			fieldList.push(
-    					<div key={i} className="row">
+    					<div key={i} className="row thub-field">
     						<div className="col-sm-4">
     							<DateBuilder field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange}/>
     						</div>
@@ -203,7 +203,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     			break;
     		case "ASLT":
     			fieldList.push(
-    					<div key={i} className="row">
+    					<div key={i} className="row thub-field">
     						<div className="col-sm-4">
     							<SelectBuilder isAsync={true} field={itemState.prefForms[formName][i]} itemState={itemState} inputChange={inputChange} loadOptions={loadOptions} />
     						</div>
@@ -284,7 +284,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     	    				label = label+" *";
     	    			}
     	    			fieldList.push(
-    	    	    			<div key={key} className="row">
+    	    	    			<div key={key} className="row thub-field">
     	    						<div className="col-sm-4">
     	    			    			<div className="panel panel-default">
     	    			    				<div className="panel-heading"> {label} </div>
@@ -349,7 +349,7 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
     	        		}
         			}
     				fieldList.push(
-    		    			<div key={key} className="row">
+    		    			<div key={key} className="row thub-field">
     							<div className="col-sm-4">
     				    			<div className="panel panel-default">
     				    				<div className="panel-heading"> {subGroupLabel} </div>
@@ -371,10 +371,10 @@ export default function FormBuilder({itemState, formName, formTitle, formGroup, 
 				{created}
 				{modified}
 				{fieldList}
-				<div className="row">
+				<div className="row thub-field">
 					<div className="col-sm-4">
-			  			<button type="button" className="btn btn-primary" onClick={() => onSave()}>Save</button>
-			  			<button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => onCancel()}>Cancel</button>
+			  			<button id={itemState.pageName+"-BUTTON-SAVE"} type="button" className="btn btn-primary" onClick={() => onSave()}>Save</button>
+			  			<button id={itemState.pageName+"-BUTTON-CANCEL"} type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => onCancel()}>Cancel</button>
 			  		</div>
 		  		</div>
 		  	</div>
