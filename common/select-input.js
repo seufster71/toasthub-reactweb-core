@@ -75,7 +75,7 @@ const SelectInput = ({name, label, defaultOption, value, errors, warns, successe
 			return (
 				<div className={wrapperClass}>
 					<label htmlFor={name}>{label}{req}</label>
-					<AsyncSelect cacheOptions name={name} defaultValue={value} onSelectResetsInput={false} onBlurResetsInput={false} onInputChange={(val) => inputChange("INPUT",name,val)} onChange={(val) => inputChange("SELECT",name,val)} loadOptions={(inputValue,callback) => loadOptions(inputValue,callback,name)} />
+					<AsyncSelect cacheOptions id={name} name={name} defaultValue={value} onSelectResetsInput={false} onBlurResetsInput={false} onInputChange={(val) => inputChange("INPUT",name,val)} onChange={(val) => inputChange("SELECT",name,val)} loadOptions={(inputValue,callback) => loadOptions(inputValue,callback,name)} />
 					{errorFeedBack}
 					{errorLabel}
 					{warnFeedBack}
@@ -88,7 +88,7 @@ const SelectInput = ({name, label, defaultOption, value, errors, warns, successe
 			return (
 				<div className={wrapperClass}>
 					<label htmlFor={name}>{label}{req}</label>
-					<Select name={name} defaultValue={value} onChange={(val) => inputChange("SELECT",name,val)} options={options} />
+					<Select id={name} name={name} defaultValue={value} onChange={(val) => inputChange("SELECT",name,val)} options={options} />
 					{errorFeedBack}
 					{errorLabel}
 					{warnFeedBack}
