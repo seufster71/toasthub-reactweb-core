@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CardTile = ({title, pickupDesc, imgSrc, url, urlDesc, data, background}) => {
+const CardTile = ({title, pickupDesc, imgSrc, code, item, urlDesc, onOption, background}) => {
 	
   let tileStyle = {
     display: 'flex',
@@ -30,7 +30,7 @@ const CardTile = ({title, pickupDesc, imgSrc, url, urlDesc, data, background}) =
             </div>
             {/* Product actions */}
             <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div className="text-center"><a className="btn btn-outline-dark mt-auto" href={url}>{urlDesc}</a></div>
+                <div className="text-center"><a className="btn btn-outline-dark mt-auto" onClick={() => onOption(code,item)} >{urlDesc}</a></div>
             </div>
         </div>
     </div>
